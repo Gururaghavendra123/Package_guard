@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Data / models (large; regenerate via training/)
+*.parquet
+src/packageguard/models/*.joblib
+src/packageguard/models/*.pt
+
+# Cache
+.packageguard/
+~/.packageguard/
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

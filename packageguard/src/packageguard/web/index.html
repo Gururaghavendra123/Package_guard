@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PackageGuard · Threat Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="shield">🛡</span>
+      <span class="brand-name">PACKAGE<span class="accent">GUARD</span></span>
+      <span class="brand-sub">// supply-chain threat console</span>
+    </div>
+    <div class="status">
+      <span class="led led-ok"></span> ENGINE
+      <span class="sep">·</span>
+      <span class="led" id="net-led"></span> REGISTRY
+      <span class="sep">·</span>
+      <span class="clock" id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="check">◢ CHECK</button>
+    <button class="tab" data-tab="scan">◢ SCAN</button>
+    <button class="tab" data-tab="graph">◢ GRAPH <span class="lock">SEM 8</span></button>
+  </nav>
+
+  <main>
+    <!-- ================= CHECK ================= -->
+    <section id="check" class="view active">
+      <form class="cmdline" id="check-form" autocomplete="off">
+        <span class="prompt">check&nbsp;&gt;</span>
+        <input id="pkg-input" type="text" placeholder="package name  e.g.  co1ors   or   express@4.18.2" spellcheck="false" />
+        <button type="submit" class="run-btn">RUN ▸</button>
+      </form>
+      <div class="quick">
+        try:
+        <button class="chip" data-pkg="co1ors">co1ors</button>
+        <button class="chip" data-pkg="event-stream@3.3.6">event-stream@3.3.6</button>
+        <button class="chip" data-pkg="express">express</button>
+        <button class="chip" data-pkg="lodash">lodash</button>
+      </div>
+
+      <div id="check-result" class="result hidden">
+        <div class="panel gauge-panel">
+          <div class="panel-tag">RISK INDEX</div>
+          <svg class="gauge" viewBox="0 0 200 118">
+            <defs>
+              <linearGradient id="arcgrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--ok)" />
+                <stop offset="55%" stop-color="var(--warn)" />
+                <stop offset="100%" stop-color="var(--crit)" />
+              </linearGradient>
+            </defs>
+            <path class="arc-bg" d="M20 100 A80 80 0 0 1 180 100" />
+            <path id="arc-fg" d="M20 100 A80 80 0 0 1 180 100" stroke="url(#arcgrad)" />
+            <line id="needle" x1="100" y1="100" x2="100" y2="34" />
+            <circle cx="100" cy="100" r="6" class="hub" />
+          </svg>
+          <div class="score-readout"><span id="score-num">0.00</span></div>
+          <div id="verdict" class="verdict">—</div>
+          <div id="source-badge" class="source-badge"></div>
+        </div>
+
+        <div class="panel bars-panel">
+          <div class="panel-tag">FEATURE ATTRIBUTION <span class="dim">(← safe · risk →)</span></div>
+          <div id="bars"></div>
+          <div class="panel-tag" style="margin-top:18px">SIGNAL FEED</div>
+          <div id="signal-feed" class="feed"></div>
+        </div>
+      </div>
+      <div id="check-error" class="errline hidden"></div>
+    </section>
+
+    <!-- ================= SCAN ================= -->
+    <section id="scan" class="view">
+      <div id="dropzone" class="dropzone">
+        <div class="dz-inner">
+          <div class="dz-icon">🦠</div>
+          <div class="dz-title">DROP <code>package-lock.json</code></div>
+          <div class="dz-sub">or click to select · no code is executed</div>
+          <input id="file-input" type="file" accept=".json,application/json" hidden />
+        </div>
+      </div>
+      <div id="scan-summary" class="scan-summary hidden"></div>
+      <div id="scan-issues"></div>
+    </section>
+
+    <!-- ================= GRAPH (Sem 8) ================= -->
+    <section id="graph" class="view">
+      <div class="panel locked-panel">
+        <div class="panel-tag">DEPENDENCY GRAPH · GNN PROPAGATION</div>
+        <div class="locked-body">
+          <div class="lock-big">⧗</div>
+          <h3>SEMESTER 8 MODULE</h3>
+          <p>Interactive 2-hop dependency graph rendered with <code>cytoscape.js</code>.
+             Malicious nodes pulse red; risk propagates up the chain to the clean parent —
+             visualizing exactly what the GraphSAGE model detects that per-package scoring misses.</p>
+          <p class="dim">Wired to <code>/api/check → graph</code> once the GNN scorer lands.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    heuristic placeholder scorer · trained XGBoost + SHAP replaces it in Sem 7 · GNN in Sem 8
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
