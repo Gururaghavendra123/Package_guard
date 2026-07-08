@@ -54,12 +54,12 @@ def _days_since(iso: str | None) -> int | None:
         return None
 
 
-def fetch_npm(name: str, version: str | None = None, timeout: float = 5.0) -> dict | None:
-    """Return normalised metadata for a package, or ``None`` if unavailable.
+def fetch_raw_doc(name: str, timeout: float = 5.0) -> dict | None:
+    """Return the raw npm registry document (cached), or ``None`` if unavailable.
 
-    Note on ``author_age_days``: the npm registry does not expose maintainer account creation
-    date, so we use the package's *first publish* date as a documented proxy (see plan §Data
-    Landmines). Replace with a real signal if a source becomes available.
+    Shared by ``fetch_npm`` (normalised features) and dataset tooling that needs fields not
+    in the normalised view (repository, description, version history) — e.g. filtering
+    young benign candidates for legitimacy.
     """
     doc = _read_cache(name)
     if doc is None:
@@ -71,6 +71,19 @@ def fetch_npm(name: str, version: str | None = None, timeout: float = 5.0) -> di
             _write_cache(name, doc)
         except (httpx.HTTPError, json.JSONDecodeError):
             return None
+    return doc
+
+
+def fetch_npm(name: str, version: str | None = None, timeout: float = 5.0) -> dict | None:
+    """Return normalised metadata for a package, or ``None`` if unavailable.
+
+    Note on ``author_age_days``: the npm registry does not expose maintainer account creation
+    date, so we use the package's *first publish* date as a documented proxy (see plan §Data
+    Landmines). Replace with a real signal if a source becomes available.
+    """
+    doc = fetch_raw_doc(name, timeout=timeout)
+    if doc is None:
+        return None
 
     versions = doc.get("versions") or {}
     if version and version in versions:

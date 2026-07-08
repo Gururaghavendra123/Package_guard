@@ -70,7 +70,10 @@ def check(spec: str) -> dict:
         "features": [c.to_dict() for c in contribs],
         "signals": signals,
         "graph": None,                            # Sem 8: subgraph for the HUD graph panel
-        "note": "Heuristic placeholder scorer — replaced by trained XGBoost + SHAP in Sem 7.",
+        "scorer": scorer.backend_name(),           # "xgboost" once trained, else "heuristic"
+        "note": (None if scorer.backend_name() == "xgboost"
+                 else "Heuristic placeholder scorer — no trained model found. "
+                      "Run training/build_dataset.py + training/train_xgboost.py."),
     }
 
 

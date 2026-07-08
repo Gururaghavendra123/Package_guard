@@ -1,22 +1,32 @@
-"""Risk scorer — HEURISTIC PLACEHOLDER.
+"""Risk scorer.
 
-This is a transparent linear model in log-odds space. It exists so the whole pipeline (CLI +
-HUD) works end-to-end today. In Sem 7 Weeks 3-4 it is replaced by a trained **XGBoost** model
-with real **SHAP** attributions; the public interface (``score()`` returning a score plus
-per-feature contributions) stays the same so nothing downstream changes.
+Two backends behind one interface (`score()` returns risk in [0,1] + per-feature
+Contributions — nothing downstream, CLI or HUD, needs to change when the backend swaps):
 
-Contributions are reported as deviation from a per-feature benign baseline, mirroring how SHAP
-values read (negative = pushes toward safe/green, positive = pushes toward risky/red).
+1. **Trained XGBoost + SHAP** (`src/packageguard/models/xgboost_model.joblib`) — used
+   automatically when present. Real model trained in `training/train_xgboost.py` on the
+   dataset built by `training/build_dataset.py` (Phase 1/2).
+2. **Heuristic fallback** — a transparent hand-weighted linear model in log-odds space.
+   Used when no trained model exists yet (fresh clone before training) or if loading the
+   model fails for any reason. Never crashes the CLI/HUD for a missing model file.
+
+Contributions are reported as log-odds deviations, mirroring how SHAP values read
+(negative = pushes toward safe/green, positive = pushes toward risky/red) — this is why
+the heuristic and the trained model produce visually consistent output.
 """
 
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
 
-from packageguard.core.features import Feature
+from packageguard.core.features import FEATURE_ORDER, Feature
 
-# log-odds weights (placeholder — learned by XGBoost later)
+MODEL_PATH = Path(__file__).resolve().parent.parent / "models" / "xgboost_model.joblib"
+
+# --- heuristic fallback weights (log-odds space) ---
 WEIGHTS: dict[str, float] = {
     "name_similarity": 3.4,
     "install_script": 3.0,
@@ -24,7 +34,6 @@ WEIGHTS: dict[str, float] = {
     "publish_timing": 0.5,
     "dep_count": 0.7,
 }
-# typical benign value per feature; contributions are measured relative to this
 BENIGN_PRIOR: dict[str, float] = {
     "name_similarity": 0.05,
     "install_script": 0.10,
@@ -57,8 +66,43 @@ def _sigmoid(x: float) -> float:
     return 1.0 / (1.0 + math.exp(-x))
 
 
-def score(features: list[Feature]) -> tuple[float, list[Contribution]]:
-    """Return (risk_score in [0,1], per-feature contributions)."""
+@lru_cache(maxsize=1)
+def _load_ml_backend():
+    """Load the trained model + SHAP explainer once. Returns None if unavailable —
+    caller falls back to the heuristic. Any failure here is non-fatal by design."""
+    if not MODEL_PATH.exists():
+        return None
+    try:
+        import joblib
+
+        from packageguard.core.explainer import ShapExplainer
+
+        model = joblib.load(MODEL_PATH)
+        return model, ShapExplainer(model)
+    except Exception:  # noqa: BLE001 — deliberately broad: never let a bad model file crash scoring
+        return None
+
+
+def backend_name() -> str:
+    """'xgboost' or 'heuristic' — surfaced in CLI/API output so results are never unlabeled."""
+    return "xgboost" if _load_ml_backend() is not None else "heuristic"
+
+
+def _score_ml(features: list[Feature]) -> tuple[float, list[Contribution]]:
+    model, explainer = _load_ml_backend()
+    row = {f.key: f.value for f in features}
+    X = [[row[k] for k in FEATURE_ORDER]]
+    proba = float(model.predict_proba(X)[0, 1])
+    shap_contribs = dict(explainer.explain(row))
+
+    contribs = [
+        Contribution(f.key, f.label, f.value, shap_contribs.get(f.key, 0.0), f.detail)
+        for f in features
+    ]
+    return proba, contribs
+
+
+def _score_heuristic(features: list[Feature]) -> tuple[float, list[Contribution]]:
     logit = BIAS
     contribs: list[Contribution] = []
     for f in features:
@@ -67,6 +111,17 @@ def score(features: list[Feature]) -> tuple[float, list[Contribution]]:
         deviation = w * (f.value - BENIGN_PRIOR.get(f.key, 0.0))
         contribs.append(Contribution(f.key, f.label, f.value, deviation, f.detail))
     return _sigmoid(logit), contribs
+
+
+def score(features: list[Feature]) -> tuple[float, list[Contribution]]:
+    """Return (risk_score in [0,1], per-feature contributions). Prefers the trained
+    model; falls back to the heuristic automatically — see module docstring."""
+    if _load_ml_backend() is not None:
+        try:
+            return _score_ml(features)
+        except Exception:  # noqa: BLE001 — a bad prediction should degrade, not crash
+            pass
+    return _score_heuristic(features)
 
 
 def verdict(score_value: float) -> tuple[str, str]:

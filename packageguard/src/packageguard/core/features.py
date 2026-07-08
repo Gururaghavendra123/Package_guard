@@ -12,11 +12,13 @@ weighting currently lives in `scorer.py` and gets replaced by the trained XGBoos
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
-# A tiny stand-in for "top-1000 npm packages". Weeks 1-2 replaces this with the real list
-# (Levenshtein distance to the actual top-1000 is feature #1).
-TOP_PACKAGES: tuple[str, ...] = (
+# Small embedded fallback, used only if the real list (below) hasn't been built yet or
+# fails to load — keeps the tool usable offline / on a fresh clone before Phase 1 runs.
+_STUB_TOP_PACKAGES: tuple[str, ...] = (
     "react", "lodash", "express", "chalk", "colors", "commander", "axios", "debug",
     "moment", "request", "async", "bluebird", "underscore", "webpack", "babel",
     "typescript", "eslint", "prettier", "jest", "mocha", "vue", "angular", "jquery",
@@ -24,6 +26,25 @@ TOP_PACKAGES: tuple[str, ...] = (
     "node-fetch", "cross-env", "rimraf", "uuid", "glob", "yargs", "semver", "ws",
     "nodemon", "ts-node",
 )
+
+_TOP_PACKAGES_PATH = Path(__file__).resolve().parent.parent / "data" / "top_packages.json"
+
+
+def _load_top_packages() -> tuple[str, ...]:
+    """Real list built by `training/build_top_packages.py` (union of live npm search
+    results seeded with well-known package names — see that script's docstring for why
+    a naive top-1000 scrape doesn't work). Falls back to the tiny embedded stub if the
+    file is missing so the tool still runs before Phase 1 has been executed."""
+    try:
+        names = json.loads(_TOP_PACKAGES_PATH.read_text(encoding="utf-8"))
+        if names:
+            return tuple(names)
+    except (OSError, json.JSONDecodeError):
+        pass
+    return _STUB_TOP_PACKAGES
+
+
+TOP_PACKAGES: tuple[str, ...] = _load_top_packages()
 
 FEATURE_ORDER: tuple[str, ...] = (
     "name_similarity",

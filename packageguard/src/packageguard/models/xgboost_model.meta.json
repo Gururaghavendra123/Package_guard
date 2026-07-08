@@ -1,0 +1,34 @@
+{
+  "trained_at": "2026-07-08T12:29:22.412761+00:00",
+  "dataset_path": "training\\dataset.parquet",
+  "n_total": 295,
+  "n_malicious": 145,
+  "n_benign": 150,
+  "test_size": 0.25,
+  "feature_order": [
+    "name_similarity",
+    "install_script",
+    "author_age",
+    "publish_timing",
+    "dep_count"
+  ],
+  "pr_auc": 0.9871,
+  "feature_importances": {
+    "name_similarity": 0.15209999680519104,
+    "install_script": 0.0,
+    "author_age": 0.6597999930381775,
+    "publish_timing": 0.013899999670684338,
+    "dep_count": 0.17409999668598175
+  },
+  "confusion_matrix": [
+    [
+      37,
+      1
+    ],
+    [
+      1,
+      35
+    ]
+  ],
+  "small_sample_warning": false
+}
