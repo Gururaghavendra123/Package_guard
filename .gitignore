@@ -2,3 +2,4 @@
 *.pdf
 *.lnk
 *.md
++!README.md
