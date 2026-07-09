@@ -1,9 +1,9 @@
 {
-  "trained_at": "2026-07-08T12:29:22.412761+00:00",
+  "trained_at": "2026-07-09T02:56:52.774668+00:00",
   "dataset_path": "training\\dataset.parquet",
-  "n_total": 295,
-  "n_malicious": 145,
-  "n_benign": 150,
+  "n_total": 394,
+  "n_malicious": 194,
+  "n_benign": 200,
   "test_size": 0.25,
   "feature_order": [
     "name_similarity",
@@ -12,22 +12,22 @@
     "publish_timing",
     "dep_count"
   ],
-  "pr_auc": 0.9871,
+  "pr_auc": 0.898,
   "feature_importances": {
-    "name_similarity": 0.15209999680519104,
+    "name_similarity": 0.30640000104904175,
     "install_script": 0.0,
-    "author_age": 0.6597999930381775,
-    "publish_timing": 0.013899999670684338,
-    "dep_count": 0.17409999668598175
+    "author_age": 0.4415000081062317,
+    "publish_timing": 0.08969999849796295,
+    "dep_count": 0.16249999403953552
   },
   "confusion_matrix": [
     [
-      37,
-      1
+      41,
+      9
     ],
     [
-      1,
-      35
+      9,
+      40
     ]
   ],
   "small_sample_warning": false

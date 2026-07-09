@@ -113,15 +113,25 @@ def _score_heuristic(features: list[Feature]) -> tuple[float, list[Contribution]
     return _sigmoid(logit), contribs
 
 
-def score(features: list[Feature]) -> tuple[float, list[Contribution]]:
-    """Return (risk_score in [0,1], per-feature contributions). Prefers the trained
-    model; falls back to the heuristic automatically — see module docstring."""
-    if _load_ml_backend() is not None:
+def score(features: list[Feature], prefer_ml: bool = True) -> tuple[float, list[Contribution]]:
+    """Return (risk_score in [0,1], per-feature contributions).
+
+    ``prefer_ml=True`` uses the trained XGBoost model when available. Set ``prefer_ml=False``
+    when the feature values are the *offline synthetic fallback* (no live npm metadata) — the
+    model was trained on real live features, so feeding it hash-derived offline values is
+    incoherent and gives meaningless scores. In that case the heuristic (which was designed
+    for those fallback values) is the correct backend."""
+    if prefer_ml and _load_ml_backend() is not None:
         try:
             return _score_ml(features)
         except Exception:  # noqa: BLE001 — a bad prediction should degrade, not crash
             pass
     return _score_heuristic(features)
+
+
+def used_ml(prefer_ml: bool) -> bool:
+    """Whether score() with this prefer_ml actually used the trained model."""
+    return prefer_ml and _load_ml_backend() is not None
 
 
 def verdict(score_value: float) -> tuple[str, str]:

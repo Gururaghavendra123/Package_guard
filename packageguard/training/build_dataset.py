@@ -47,31 +47,87 @@ BENIGN_SEARCH_TERMS = [
 ]
 
 
+def _typosquat_name_set() -> set[str]:
+    """Malicious names that are edit-distance-1 from a popular package (real typosquats).
+
+    Empirically only ~44 exist across all 51k malicious names — modern bulk malware is
+    overwhelmingly novel-name 'malicious_intent', not typosquats. Kept as a labelled stratum
+    so the (rare) typosquat case is at least present, but it is NOT the headline signal.
+    """
+    from packageguard.core.features import TOP_PACKAGES
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz0123456789-._"
+    variants: set[str] = set()
+    for w in TOP_PACKAGES:
+        if w.startswith("@") or not (3 <= len(w) <= 15):
+            continue
+        for i in range(len(w)):
+            variants.add(w[:i] + w[i + 1:])
+            for c in alphabet:
+                variants.add(w[:i] + c + w[i + 1:])
+        for i in range(len(w) + 1):
+            for c in alphabet:
+                variants.add(w[:i] + c + w[i:])
+    return variants - set(TOP_PACKAGES)
+
+
 def load_malicious_labels(ecosystem: str = "npm") -> list[dict]:
-    """Merge BKC names + Datadog manifest into one labeled list. Real data only."""
+    """Merge BKC names + Datadog manifest into one labeled list, tagged by attack_type.
+
+    attack_type strata (per Datadog's own taxonomy + a typosquat check):
+      - compromised_lib  : Datadog manifest gave a specific malicious VERSION list
+                           (a real, otherwise-legit package that was hijacked — e.g.
+                           event-stream@3.3.6). Fetched at that malicious version.
+      - typosquat        : name is edit-distance-1 from a popular package.
+      - malicious_intent : everything else — novel throwaway malware packages (the ~96% bulk).
+    """
+    typosquats = _typosquat_name_set()
     labels: dict[str, dict] = {}
 
     bkc = json.loads((RAW_DIR / "bkc_packages.json").read_text(encoding="utf-8"))
     for name in bkc.get(ecosystem, []):
-        labels[name] = {"name": name, "version": None, "source": "bkc"}
+        atype = "typosquat" if name in typosquats else "malicious_intent"
+        labels[name] = {"name": name, "version": None, "source": "bkc", "attack_type": atype}
 
     dd_file = RAW_DIR / f"datadog_{ecosystem}_manifest.json"
     if dd_file.exists():
         manifest = json.loads(dd_file.read_text(encoding="utf-8"))
         for name, versions in manifest.items():
-            version = versions[0] if isinstance(versions, list) and versions else None
-            # Datadog entry wins if both sources list it (has more precise version info)
-            labels[name] = {"name": name, "version": version, "source": "datadog"}
+            if isinstance(versions, list) and versions:
+                atype, version = "compromised_lib", versions[0]
+            else:
+                atype = "typosquat" if name in typosquats else "malicious_intent"
+                version = None
+            labels[name] = {"name": name, "version": version, "source": "datadog",
+                            "attack_type": atype}
 
     values = list(labels.values())
-    # IMPORTANT: source JSON order is NOT random — BKC/Datadog list order clusters by
-    # ingestion batch, not by attack type. Slicing [:limit] without shuffling first
-    # systematically under-samples certain attack types (e.g. typosquats), which is
-    # exactly what happened in the first real run of this pipeline. Shuffle with a
-    # fixed seed so any --malicious-limit gets a representative cross-section, and
-    # results are still reproducible.
+    # Shuffle (fixed seed) so any plain [:limit] slice is a representative cross-section —
+    # source-file order clusters by ingestion batch, which biased an earlier run.
     random.Random(42).shuffle(values)
     return values
+
+
+def stratified_malicious(labels: list[dict], limit: int) -> list[dict]:
+    """Select a malicious sample with deliberate attack-type diversity.
+
+    Bulk data is ~96% malicious_intent, so a random sample contains almost no
+    compromised_lib or typosquat cases — meaning features meant for those (name_similarity)
+    have no positives to learn from. This forces a floor of each rare type into the set so
+    per-attack-type performance can actually be measured. Composition is reported honestly.
+    """
+    by_type: dict[str, list[dict]] = {"compromised_lib": [], "typosquat": [], "malicious_intent": []}
+    for entry in labels:
+        by_type.setdefault(entry["attack_type"], []).append(entry)
+
+    # take as many rare cases as available (capped), fill the rest with bulk malicious_intent
+    picked: list[dict] = []
+    picked += by_type["compromised_lib"][: max(1, limit // 4)]
+    picked += by_type["typosquat"][: max(1, limit // 10)]
+    remaining = limit - len(picked)
+    picked += by_type["malicious_intent"][:remaining]
+    random.Random(7).shuffle(picked)
+    return picked[:limit]
 
 
 def fetch_popular_benign(limit: int, exclude: set[str]) -> list[str]:
@@ -170,8 +226,12 @@ def build_rows(entries: list[dict], label: int, sleep: float) -> tuple[list[dict
             skipped += 1
             continue
         feats = extract_features(name, meta)
-        row = {"name": name, "label": label, "source": entry.get("source", "npm_search")
-               if isinstance(entry, dict) else "npm_search"}
+        row = {
+            "name": name,
+            "label": label,
+            "source": entry.get("source", "npm_search") if isinstance(entry, dict) else "npm_search",
+            "attack_type": entry.get("attack_type", "benign") if isinstance(entry, dict) else "benign",
+        }
         for f in feats:
             row[f.key] = f.value
         rows.append(row)
@@ -196,17 +256,28 @@ def main() -> None:
                          "matched — the honest one.")
     ap.add_argument("--matched-young-frac", type=float, default=0.7,
                     help="Fraction of benign drawn from young/recent packages (matched mode).")
+    ap.add_argument("--stratify", action="store_true", default=True,
+                    help="Force attack-type diversity into the malicious set (default on).")
+    ap.add_argument("--no-stratify", dest="stratify", action="store_false",
+                    help="Plain random malicious sample instead of stratified.")
     args = ap.parse_args()
 
     print("Loading malicious labels (BKC + Datadog manifest)...")
-    malicious = load_malicious_labels("npm")
-    print(f"  {len(malicious)} unique labeled malicious npm package names available")
-    malicious = malicious[: args.malicious_limit]
+    all_malicious = load_malicious_labels("npm")
+    from collections import Counter
+    print(f"  {len(all_malicious)} unique labeled malicious names available; "
+          f"attack-type mix: {dict(Counter(e['attack_type'] for e in all_malicious))}")
+
+    if args.stratify:
+        malicious = stratified_malicious(all_malicious, args.malicious_limit)
+        print(f"  stratified pick: {dict(Counter(e['attack_type'] for e in malicious))}")
+    else:
+        malicious = all_malicious[: args.malicious_limit]
 
     print(f"Fetching real npm metadata for {len(malicious)} malicious packages...")
     mal_rows, mal_skipped = build_rows(malicious, label=1, sleep=args.sleep)
 
-    exclude = {e["name"] for e in load_malicious_labels("npm")}
+    exclude = {e["name"] for e in all_malicious}
     if args.benign_strategy == "popular":
         print("Fetching POPULAR benign candidates (npm search)...")
         benign_names = fetch_popular_benign(args.benign_limit, exclude)

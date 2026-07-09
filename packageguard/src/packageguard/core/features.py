@@ -2,11 +2,13 @@
 
 Each feature is returned as a normalised **risk value in [0, 1]** (higher = more suspicious)
 plus a human-readable detail string. When live npm metadata is available it is used; otherwise
-values fall back to a *deterministic* pseudo-signal derived from the package name so the demo
-is stable and varied offline.
+values fall back to a *deterministic* pseudo-signal derived from the package name so the tool
+still runs offline.
 
-In Sem 7 Weeks 1-2 these become real features backed by the registry + datasets; the risk
-weighting currently lives in `scorer.py` and gets replaced by the trained XGBoost model.
+Empirical note (see training/RESULTS.md): trained on real data, the useful signals are
+`author_age` and `name_similarity`; `install_script` carries ~zero importance because modern
+malware rarely declares lifecycle scripts in its manifest (payload lives in tarball code, not
+here). Deeper behavioral detection would need tarball analysis — out of scope for Sem 7.
 """
 
 from __future__ import annotations

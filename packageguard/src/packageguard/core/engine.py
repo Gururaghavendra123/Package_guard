@@ -39,10 +39,18 @@ def check(spec: str) -> dict:
     resolved_version = (meta or {}).get("version") or version or "latest"
 
     features = extract_features(name, meta)
-    score_value, contribs = scorer.score(features)
+    # Only apply the trained model to REAL (live) features — it was trained on live npm
+    # metadata; offline synthetic fallback features would produce meaningless scores, so
+    # those go to the heuristic instead (see scorer.score docstring).
+    prefer_ml = source == "live"
+    score_value, contribs = scorer.score(features, prefer_ml=prefer_ml)
 
-    # Definitive override: package itself is in the known-malware DB.
-    known_hit = find_issues([Dependency(name, resolved_version, name)])
+    # Definitive override: package itself is in the known-malware DB. Match on the version
+    # the user explicitly asked about if given — a known-malicious version (e.g.
+    # event-stream@3.3.6) may have been purged from npm and thus resolve to a clean latest,
+    # but the user asked about the bad one, so we must still flag it.
+    db_version = version or resolved_version
+    known_hit = find_issues([Dependency(name, db_version, name)])
     signals = [
         {"level": _signal_level(c.value), "text": c.detail, "feature": c.label}
         for c in contribs
@@ -70,10 +78,10 @@ def check(spec: str) -> dict:
         "features": [c.to_dict() for c in contribs],
         "signals": signals,
         "graph": None,                            # Sem 8: subgraph for the HUD graph panel
-        "scorer": scorer.backend_name(),           # "xgboost" once trained, else "heuristic"
-        "note": (None if scorer.backend_name() == "xgboost"
-                 else "Heuristic placeholder scorer — no trained model found. "
-                      "Run training/build_dataset.py + training/train_xgboost.py."),
+        "scorer": "xgboost" if scorer.used_ml(prefer_ml) else "heuristic",
+        "note": (None if scorer.used_ml(prefer_ml)
+                 else "Heuristic scorer used (offline / no live metadata, or no trained "
+                      "model). Trained XGBoost applies only to live-fetched packages."),
     }
 
 

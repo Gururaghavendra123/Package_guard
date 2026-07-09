@@ -27,10 +27,13 @@ def test_popular_package_name_is_clean():
     assert feats["name_similarity"].value < 0.1
 
 
-def test_scorer_orders_risk():
+def test_scorer_orders_risk_heuristic():
+    # extract_features() with no meta = offline synthetic features, which are scored by the
+    # heuristic (prefer_ml=False), not the trained model. This asserts the offline-path
+    # invariant: a typosquat outranks a clean popular package.
     bad = extract_features("co1ors")
     good = extract_features("express")
-    assert scorer.score(bad)[0] > scorer.score(good)[0]
+    assert scorer.score(bad, prefer_ml=False)[0] > scorer.score(good, prefer_ml=False)[0]
 
 
 def test_verdict_bands():
