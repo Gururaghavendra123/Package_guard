@@ -59,6 +59,23 @@ def scan(
 
 
 @app.command()
+def graph(
+    package: str = typer.Argument(..., help="Package to analyse via its dependency graph (GNN)."),
+) -> None:
+    """Analyse a package's dependency graph with the GraphSAGE GNN (Sem 8). Try 'safe-wrapper'."""
+    try:
+        r = engine.analyze_graph(package)
+    except ValueError as e:
+        typer.secho(str(e), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1)
+    typer.echo(_json.dumps({k: v for k, v in r.items() if k not in ("nodes", "edges")}, indent=2))
+    typer.echo(f"nodes: {len(r['nodes'])}, edges: {len(r['edges'])}")
+    if not r["gnn_available"]:
+        typer.secho("GNN model not trained — run training/train_gnn.py for graph scoring.",
+                    fg=typer.colors.YELLOW)
+
+
+@app.command()
 def serve(
     host: str = typer.Option("127.0.0.1", help="Bind host."),
     port: int = typer.Option(8000, help="Bind port."),

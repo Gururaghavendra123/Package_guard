@@ -1,5 +1,13 @@
+# Claude / editor session data
 .claude/
+
+# Reference material and OS junk (not part of the project)
 *.pdf
 *.lnk
-*.md
-+!README.md
+
+# Planning scratch docs (kept local, not published)
+packageguard_v3_final.md
+packageguard_v4_final.md
+
+# Personal presentation prep (kept local — not for the public repo)
+HOW_TO_PRESENT.md

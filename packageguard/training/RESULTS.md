@@ -87,6 +87,34 @@ is visible in the dependency graph / version history, not per-package metadata).
   analysis — deliberately out of scope for Sem 7 (would require downloading live malware source
   to disk). This is the motivation for Sem 8 (graph) + future behavioral work, not a defect.
 
+## Semester 8 — GraphSAGE GNN (dependency-graph scoring)
+
+Motivation is the honest finding above: `compromised_lib` / poisoned-chain attacks are invisible
+to per-package metadata. A 2-layer GraphSAGE (PyTorch Geometric) scores packages using their
+dependency-graph neighbourhood. Node features = the same 5 features, so any gain is from structure.
+
+- **Training graph** (from registry cache, no new API calls): 1,331 nodes, 1,277 edges,
+  562 malicious / 769 benign.
+- **Ablation (held-out nodes):**
+
+  | Model | PR-AUC | ROC-AUC |
+  | ----- | ------ | ------- |
+  | XGBoost (features only) | 0.79 | 0.84 |
+  | GraphSAGE (features + structure) | **0.87** | **0.90** |
+  | Structure delta | **+0.07** | +0.06 |
+
+- **Stacking combiner** in log-odds space (not a weighted average) → honest additive graph
+  attribution.
+- **Poisoned-chain demo** (`safe-wrapper`): per-package XGBoost 0.12 (safe) → GNN flags the
+  malicious dependency at 0.95 → combined 0.61 (RISKY). Visualised live in the HUD GRAPH panel.
+
+**Reproduce:** `training/build_graph_dataset.py` → `training/train_gnn.py`.
+
+**Honest Sem-8 caveats (state them):** the ablation is node-level on a cache-built graph; a
+held-out-unknown protocol + a deterministic-traversal baseline are the next step to prove the GNN
+generalises beyond the known-malware lookup rather than memorising it. The poisoned-chain *demo*
+graph is curated (reproducible on stage); the scoring is the real trained model.
+
 ## Why this is a strong result to present
 
 Not "we hit 0.98." Instead: "we discovered our threat assumptions didn't match current data,

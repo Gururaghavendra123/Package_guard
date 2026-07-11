@@ -121,6 +121,94 @@ def check(spec: str) -> dict:
     }
 
 
+def _demo_poisoned_graph() -> dict:
+    """A curated poisoned-chain example for the HUD graph panel.
+
+    Real dependency graphs of clean packages don't naturally contain known malware (malware is
+    usually leaf packages nothing depends on), so this constructs the canonical scenario the GNN
+    exists for: a clean-looking parent whose transitive dependency is malicious. Feature values
+    are realistic (clean parents look clean; the poisoned leaf carries malware-like features), so
+    the GraphSAGE model flags the leaf and the risk propagates up to the parent.
+    """
+    clean = {"name_similarity": 0.02, "install_script": 0.03, "author_age": 0.0,
+             "publish_timing": 0.1, "dep_count": 0.05}
+    poisoned = {"name_similarity": 1.0, "install_script": 0.95, "author_age": 0.98,
+                "publish_timing": 0.45, "dep_count": 0.0}
+    nodes = [
+        {"id": "safe-wrapper", "depth": 0, "xgb_score": 0.12, "features": clean},
+        {"id": "string-utils", "depth": 1, "xgb_score": 0.08, "features": clean},
+        {"id": "config-loader", "depth": 1, "xgb_score": 0.10, "features": clean},
+        {"id": "helper-utils", "depth": 2, "xgb_score": 0.19, "features": clean},
+        {"id": "event-logger", "depth": 2, "xgb_score": 0.91, "features": poisoned},  # the poison
+    ]
+    edges = [
+        {"source": "safe-wrapper", "target": "string-utils"},
+        {"source": "safe-wrapper", "target": "config-loader"},
+        {"source": "string-utils", "target": "helper-utils"},
+        {"source": "config-loader", "target": "event-logger"},
+    ]
+    return {"root": "safe-wrapper", "nodes": nodes, "edges": edges, "demo": True}
+
+
+def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 60) -> dict:
+    """Build a dependency subgraph, score every node with the GNN, and combine the root's
+    per-package score with the graph signal. Powers the HUD GRAPH panel (Sem 8).
+
+    Special demo trigger: 'safe-wrapper' returns the curated poisoned-chain example above.
+    """
+    from packageguard.core import combiner, subgraph
+    from packageguard.core.gnn_scorer import GnnScorer
+
+    name, version = split_spec(spec or "")
+    if not _valid_package_name(name):
+        raise ValueError(f"'{spec}' is not a valid package name")
+
+    graph = (_demo_poisoned_graph() if name == "safe-wrapper"
+             else subgraph.build_subgraph(name, version, max_depth, max_nodes))
+
+    gnn = GnnScorer()
+    gnn_available = gnn.available() and bool(graph["nodes"])
+    if gnn_available:
+        x, edge_index, _ = subgraph.subgraph_to_arrays(graph)
+        probs = gnn.score_nodes(x, edge_index)
+        for node, p in zip(graph["nodes"], probs):
+            node["gnn_score"] = round(float(p), 3)
+    else:
+        for node in graph["nodes"]:
+            node["gnn_score"] = None
+
+    root = graph["nodes"][0] if graph["nodes"] else None
+    xgb_root = float(root["xgb_score"]) if root else 0.0
+    # graph signal = worst GNN malice among the *dependencies* (not the root itself)
+    neighbour_probs = [n.get("gnn_score") or 0.0 for n in graph["nodes"][1:]]
+    graph_score = max(neighbour_probs) if neighbour_probs else 0.0
+
+    if gnn_available:
+        combined, graph_contribution = combiner.combine(xgb_root, graph_score)
+    else:
+        combined, graph_contribution = xgb_root, 0.0
+
+    verdict_text, level = scorer.verdict(combined)
+    # find the worst dependency for the explanation line
+    worst = max(graph["nodes"][1:], key=lambda n: n.get("gnn_score") or 0.0, default=None) \
+        if len(graph["nodes"]) > 1 else None
+
+    return {
+        "root": name,
+        "xgb_score": round(xgb_root, 4),
+        "graph_score": round(graph_score, 4),
+        "graph_contribution": round(graph_contribution, 4),
+        "combined_score": round(combined, 4),
+        "verdict": verdict_text,
+        "level": level,
+        "gnn_available": gnn_available,
+        "worst_dependency": (worst["id"] if worst else None),
+        "nodes": graph["nodes"],
+        "edges": graph["edges"],
+        "demo": graph.get("demo", False),
+    }
+
+
 def scan(path: str) -> dict:
     """Scan a project directory (or lockfile) for compromised dependencies."""
     deps = parse_lockfile(path)

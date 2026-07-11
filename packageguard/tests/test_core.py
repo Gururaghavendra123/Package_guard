@@ -106,6 +106,16 @@ def test_real_typosquat_still_detected():
     assert _feat("co1ors", "name_similarity") >= 0.5    # ~ colors
 
 
+def test_poisoned_chain_demo_graph():
+    # the curated poisoned-chain demo must return 5 nodes with the poisoned leaf present,
+    # regardless of whether the GNN model is trained (structure is deterministic)
+    r = engine.analyze_graph("safe-wrapper")
+    assert r["root"] == "safe-wrapper"
+    assert len(r["nodes"]) == 5
+    assert any(n["id"] == "event-logger" for n in r["nodes"])
+    assert r["demo"] is True
+
+
 def test_scan_handles_large_lockfile():
     import json
     pkgs = {"": {}}

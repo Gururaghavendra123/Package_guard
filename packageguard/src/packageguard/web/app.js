@@ -26,7 +26,7 @@ fetch("/api/health").then((r) => r.ok ? r.json() : Promise.reject())
 /* ---------- CHECK ---------- */
 const form = $("#check-form");
 form.addEventListener("submit", (e) => { e.preventDefault(); runCheck($("#pkg-input").value.trim()); });
-document.querySelectorAll(".chip").forEach((c) =>
+document.querySelectorAll(".chip[data-pkg]").forEach((c) =>
   c.addEventListener("click", () => { $("#pkg-input").value = c.dataset.pkg; runCheck(c.dataset.pkg); }));
 
 async function runCheck(pkg) {

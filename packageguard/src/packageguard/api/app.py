@@ -34,6 +34,18 @@ def api_check(req: CheckRequest) -> dict:
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@app.post("/api/graph")
+def api_graph(req: CheckRequest) -> dict:
+    """Dependency-graph analysis (Sem 8): per-node GNN scores + combined root score."""
+    package = req.package.strip()
+    if not package:
+        raise HTTPException(status_code=400, detail="package is required")
+    try:
+        return engine.analyze_graph(package)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @app.post("/api/scan")
 async def api_scan(file: UploadFile) -> JSONResponse:
     contents = await file.read()

@@ -97,24 +97,45 @@
 
     <!-- ================= GRAPH (Sem 8) ================= -->
     <section id="graph" class="view">
-      <div class="panel locked-panel">
-        <div class="panel-tag">DEPENDENCY GRAPH · GNN PROPAGATION</div>
-        <div class="locked-body">
-          <div class="lock-big">⧗</div>
-          <h3>SEMESTER 8 MODULE</h3>
-          <p>Interactive 2-hop dependency graph rendered with <code>cytoscape.js</code>.
-             Malicious nodes pulse red; risk propagates up the chain to the clean parent —
-             visualizing exactly what the GraphSAGE model detects that per-package scoring misses.</p>
-          <p class="dim">Wired to <code>/api/check → graph</code> once the GNN scorer lands.</p>
+      <form class="cmdline" id="graph-form" autocomplete="off">
+        <span class="prompt">graph&nbsp;&gt;</span>
+        <input id="graph-input" type="text" placeholder="package name   (try  safe-wrapper  for the poisoned-chain demo,  or  express)" spellcheck="false" />
+        <button type="submit" class="run-btn">MAP ▸</button>
+      </form>
+      <div class="quick">
+        try:
+        <button class="chip" data-graph="safe-wrapper">safe-wrapper (poisoned demo)</button>
+        <button class="chip" data-graph="express">express</button>
+        <button class="chip" data-graph="chalk">chalk</button>
+      </div>
+
+      <div id="graph-result" class="result hidden" style="grid-template-columns: 1fr 300px;">
+        <div class="panel">
+          <div class="panel-tag">DEPENDENCY GRAPH · GNN PROPAGATION <span class="dim" id="graph-mode"></span></div>
+          <svg id="graph-svg" viewBox="0 0 640 460" style="width:100%;height:auto"></svg>
+          <div class="dim" style="font-size:11px;margin-top:6px">
+            node colour = risk (<span style="color:var(--ok)">safe</span> →
+            <span style="color:var(--warn)">watch</span> →
+            <span style="color:var(--crit)">malicious</span>) · edges pulse where risk propagates
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-tag">ROOT ASSESSMENT</div>
+          <div id="graph-verdict" class="verdict" style="font-size:16px">—</div>
+          <div id="graph-scores" class="feed" style="margin-top:12px"></div>
+          <div class="panel-tag" style="margin-top:16px">WHY</div>
+          <div id="graph-why" class="feed"></div>
         </div>
       </div>
+      <div id="graph-error" class="errline hidden"></div>
     </section>
   </main>
 
   <footer class="foot">
-    heuristic placeholder scorer · trained XGBoost + SHAP replaces it in Sem 7 · GNN in Sem 8
+    trained XGBoost + SHAP (per-package) · GraphSAGE GNN (dependency graph) · stacking combiner
   </footer>
 
   <script src="/app.js"></script>
+  <script src="/graph.js"></script>
 </body>
 </html>

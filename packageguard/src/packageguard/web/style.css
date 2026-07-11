@@ -238,3 +238,12 @@ main { max-width: 1080px; margin: 0 auto; padding: 22px; }
 
 .loading { animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: .3 } }
+
+/* dependency-graph node/edge animations */
+.node-pulse { animation: nodepulse 1.3s ease-in-out infinite; transform-origin: center; }
+@keyframes nodepulse {
+  0%, 100% { filter: drop-shadow(0 0 2px var(--crit)); }
+  50% { filter: drop-shadow(0 0 10px var(--crit)); }
+}
+.edge-pulse { stroke-dasharray: 6 4; animation: edgeflow 0.7s linear infinite; }
+@keyframes edgeflow { to { stroke-dashoffset: -20; } }

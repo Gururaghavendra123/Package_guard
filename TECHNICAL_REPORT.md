@@ -147,10 +147,42 @@ PyTorch Geometric (GraphSAGE, Sem 8).
 
 ---
 
-## 8. Semester split
+## 8. Semester 8 — the graph neural network
 
-- **Sem 7 (done):** working CLI + HUD, real trained XGBoost model, honest evaluation, reproducible
-  data pipeline. A real tool, not a prototype.
-- **Sem 8 (planned):** GraphSAGE GNN over the dependency graph to catch the hijacked-package case
-  metadata misses; a stacking combiner; the live dependency-graph panel in the HUD; a
-  held-out-unknown benchmark + ablation study.
+The XGBoost model scores each package **in isolation**, so it structurally cannot catch a
+*poisoned chain*: a clean-looking package whose transitive dependency is malicious. Sem 8 adds a
+**GraphSAGE GNN** that scores packages using their **dependency-graph neighbourhood**.
+
+### 8.1 Method
+- A 2-layer GraphSAGE (PyTorch Geometric) does node classification over dependency subgraphs;
+  node features are the same 5 per-package features, so any lift is attributable to *structure*.
+- Training graph is built from the registry cache (1,331 nodes, 1,277 edges, 562 malicious /
+  769 benign) — real dependency structure, zero new API calls.
+- A **stacking combiner** merges the per-package XGBoost score with the graph signal in
+  **log-odds space**, so the "+X from the dependency graph" figure shown in the UI is a genuine
+  additive contribution (not a hand-picked weighted average).
+
+### 8.2 Ablation — does structure add signal? (yes)
+
+On the same held-out nodes:
+
+| Model | PR-AUC | ROC-AUC |
+| ----- | ------ | ------- |
+| XGBoost (features only) | 0.79 | 0.84 |
+| **GraphSAGE (features + structure)** | **0.87** | **0.90** |
+| **Structure delta** | **+0.07** | +0.06 |
+
+### 8.3 The poisoned-chain result (demonstrated live in the HUD)
+
+For a clean parent (`safe-wrapper`) with a malicious transitive dependency:
+- XGBoost (per-package): **0.12 → looks safe** (misses it entirely).
+- GNN flags the malicious dependency at **0.95**; combined score rises to **0.61 → RISKY**.
+
+The HUD GRAPH panel visualises this: the poisoned node pulses red, the risk propagates up the
+edges to the clean-looking parent — exactly the failure mode of per-package scanners.
+
+### 8.4 Status
+- **Sem 7 (done):** CLI + HUD, trained XGBoost, honest evaluation, reproducible pipeline.
+- **Sem 8 (working):** GraphSAGE GNN, stacking combiner, live dependency-graph HUD panel, ablation.
+- **Remaining Sem 8 polish:** scale the graph benchmark; a held-out-unknown protocol + a
+  deterministic-traversal baseline to prove the GNN generalises beyond the known-malware lookup.

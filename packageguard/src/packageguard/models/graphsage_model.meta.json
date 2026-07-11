@@ -1,0 +1,10 @@
+{
+  "trained_at": "2026-07-11T05:48:16.284710+00:00",
+  "n_nodes": 1331,
+  "n_edges": 1277,
+  "n_malicious": 562,
+  "n_benign": 769,
+  "gnn_pr_auc": 0.867,
+  "gnn_roc_auc": 0.9012,
+  "xgb_pr_auc": 0.793
+}

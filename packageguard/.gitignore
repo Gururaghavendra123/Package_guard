@@ -11,6 +11,7 @@ env/
 
 # Data / models (large; regenerate via training/)
 *.parquet
+*.npz
 src/packageguard/models/*.joblib
 src/packageguard/models/*.pt
 
