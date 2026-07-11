@@ -20,7 +20,7 @@ import math
 from pathlib import Path
 
 COMBINER_PATH = Path(__file__).resolve().parent.parent / "models" / "combiner.joblib"
-_GRAPH_WEIGHT = 0.8   # fallback log-odds weight on the graph signal
+_GRAPH_WEIGHT = 1.0   # fallback log-odds weight on the graph signal
 _EPS = 1e-6
 
 
@@ -56,7 +56,12 @@ def combine(xgb_score: float, graph_score: float) -> tuple[float, float]:
         import numpy as np
         combined = float(model.predict_proba(np.array([[xgb_score, graph_score]]))[0, 1])
     else:
-        combined = _sigmoid(base_logit + _GRAPH_WEIGHT * _logit(graph_score))
+        # The dependency-graph signal is only evidence of DANGER (a poisoned dependency),
+        # never of safety — the absence of a malicious neighbour must not lower a package's
+        # own risk (and must not tank a no-dependency package to ~0). So the graph can only
+        # ADD to the log-odds, never subtract.
+        graph_delta = max(0.0, _GRAPH_WEIGHT * _logit(graph_score))
+        combined = _sigmoid(base_logit + graph_delta)
 
     graph_contribution = _logit(combined) - base_logit
     return combined, graph_contribution

@@ -76,6 +76,35 @@ def graph(
 
 
 @app.command()
+def graph(
+    package: str = typer.Argument(..., help="Package whose dependency graph to analyse (GNN)."),
+    as_json: bool = typer.Option(False, "--json", help="Emit raw JSON."),
+) -> None:
+    """Analyse a package's dependency graph with the GNN (catches poisoned chains)."""
+    try:
+        result = engine.analyze_graph(package)
+    except ValueError as e:
+        typer.secho(str(e), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1)
+    if as_json:
+        typer.echo(_json.dumps(result, indent=2))
+        return
+    typer.secho(f"\n  {result['root']} — {result['verdict']} "
+                f"(combined {result['combined_score']})", bold=True)
+    typer.echo(f"  per-package (XGBoost): {result['xgb_score']}   "
+               f"dependency graph (GNN): {result['graph_score']}")
+    if result["poisoned"]:
+        typer.secho(f"  ⚠ poisoned chain: dependency '{result['worst_dependency']}' "
+                    f"scores {result['worst_score']} — the chain is compromised even though "
+                    f"'{result['root']}' itself looks clean.", fg=typer.colors.RED)
+    elif not result["gnn_available"]:
+        typer.secho("  (GNN model not trained — run training/train_gnn.py)", fg=typer.colors.YELLOW)
+    else:
+        typer.secho("  ✓ no malicious dependencies detected in the neighbourhood.",
+                    fg=typer.colors.GREEN)
+
+
+@app.command()
 def serve(
     host: str = typer.Option("127.0.0.1", help="Bind host."),
     port: int = typer.Option(8000, help="Bind port."),

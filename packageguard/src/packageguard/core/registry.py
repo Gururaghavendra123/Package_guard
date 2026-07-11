@@ -54,6 +54,29 @@ def _days_since(iso: str | None) -> int | None:
         return None
 
 
+def exists(name: str, timeout: float = 4.0) -> bool | None:
+    """Does this package exist on the npm registry?
+
+    Returns True (exists / cached), False (registry says 404 — genuinely not a package), or
+    None (couldn't determine — offline / network error). The tri-state matters: we only want
+    to show 'NOT FOUND' when npm *definitively* 404s, never when the user is simply offline.
+    """
+    if not name or not name.strip():
+        return False
+    if _read_cache(name) is not None:
+        return True
+    try:
+        resp = httpx.get(f"{NPM_BASE}/{name}", timeout=timeout,
+                         headers={"Accept": "application/json"})
+        if resp.status_code == 404:
+            return False
+        if resp.status_code < 400:
+            return True
+        return None
+    except httpx.HTTPError:
+        return None
+
+
 def fetch_raw_doc(name: str, timeout: float = 5.0) -> dict | None:
     """Return the raw npm registry document (cached), or ``None`` if unavailable.
 

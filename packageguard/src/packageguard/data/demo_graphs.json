@@ -1,0 +1,103 @@
+{
+  "_meta": "Curated poisoned-chain scenarios for the GRAPH demo. Real npm graphs of clean packages don't naturally contain known malware (malware is usually leaf packages nothing depends on), so these construct the canonical case the GNN exists for: a clean-looking parent whose transitive dependency is malicious. role=poison nodes get malware-like features so GraphSAGE flags them and the risk propagates to the clean root.",
+  "graphs": {
+    "safe-wrapper": {
+      "story": "Credential harvester hidden 2 hops deep behind a clean utility wrapper.",
+      "nodes": [
+        {"id": "safe-wrapper", "depth": 0, "role": "clean"},
+        {"id": "string-utils", "depth": 1, "role": "clean"},
+        {"id": "config-loader", "depth": 1, "role": "clean"},
+        {"id": "helper-utils", "depth": 2, "role": "clean"},
+        {"id": "event-logger", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "safe-wrapper", "target": "string-utils"},
+        {"source": "safe-wrapper", "target": "config-loader"},
+        {"source": "string-utils", "target": "helper-utils"},
+        {"source": "config-loader", "target": "event-logger"}
+      ]
+    },
+    "ui-toolkit": {
+      "story": "A UI component library that transitively pulls in a cryptominer.",
+      "nodes": [
+        {"id": "ui-toolkit", "depth": 0, "role": "clean"},
+        {"id": "theme-engine", "depth": 1, "role": "clean"},
+        {"id": "icon-set", "depth": 1, "role": "clean"},
+        {"id": "color-palette", "depth": 1, "role": "clean"},
+        {"id": "css-tokens", "depth": 2, "role": "clean"},
+        {"id": "perf-monitor", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "ui-toolkit", "target": "theme-engine"},
+        {"source": "ui-toolkit", "target": "icon-set"},
+        {"source": "ui-toolkit", "target": "color-palette"},
+        {"source": "theme-engine", "target": "css-tokens"},
+        {"source": "icon-set", "target": "perf-monitor"}
+      ]
+    },
+    "api-client": {
+      "story": "An HTTP API client whose retry helper exfiltrates environment variables.",
+      "nodes": [
+        {"id": "api-client", "depth": 0, "role": "clean"},
+        {"id": "url-builder", "depth": 1, "role": "clean"},
+        {"id": "retry-policy", "depth": 1, "role": "clean"},
+        {"id": "backoff-timer", "depth": 2, "role": "clean"},
+        {"id": "net-metrics", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "api-client", "target": "url-builder"},
+        {"source": "api-client", "target": "retry-policy"},
+        {"source": "retry-policy", "target": "backoff-timer"},
+        {"source": "retry-policy", "target": "net-metrics"}
+      ]
+    },
+    "build-tool": {
+      "story": "A build tool whose config parser was hijacked with a file-wiping payload.",
+      "nodes": [
+        {"id": "build-tool", "depth": 0, "role": "clean"},
+        {"id": "arg-parser", "depth": 1, "role": "clean"},
+        {"id": "fs-walker", "depth": 1, "role": "clean"},
+        {"id": "glob-match", "depth": 2, "role": "clean"},
+        {"id": "yaml-config", "depth": 1, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "build-tool", "target": "arg-parser"},
+        {"source": "build-tool", "target": "fs-walker"},
+        {"source": "build-tool", "target": "yaml-config"},
+        {"source": "fs-walker", "target": "glob-match"}
+      ]
+    },
+    "payment-sdk": {
+      "story": "A payment SDK whose currency-formatter dependency skims card details.",
+      "nodes": [
+        {"id": "payment-sdk", "depth": 0, "role": "clean"},
+        {"id": "http-signer", "depth": 1, "role": "clean"},
+        {"id": "currency-fmt", "depth": 1, "role": "clean"},
+        {"id": "locale-data", "depth": 2, "role": "clean"},
+        {"id": "decimal-shim", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "payment-sdk", "target": "http-signer"},
+        {"source": "payment-sdk", "target": "currency-fmt"},
+        {"source": "currency-fmt", "target": "locale-data"},
+        {"source": "currency-fmt", "target": "decimal-shim"}
+      ]
+    },
+    "logger-lib": {
+      "story": "A logging library that transitively loads a keystroke/env harvester.",
+      "nodes": [
+        {"id": "logger-lib", "depth": 0, "role": "clean"},
+        {"id": "format-json", "depth": 1, "role": "clean"},
+        {"id": "transport-file", "depth": 1, "role": "clean"},
+        {"id": "rotate-stream", "depth": 2, "role": "clean"},
+        {"id": "ansi-metrics", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "logger-lib", "target": "format-json"},
+        {"source": "logger-lib", "target": "transport-file"},
+        {"source": "format-json", "target": "rotate-stream"},
+        {"source": "transport-file", "target": "ansi-metrics"}
+      ]
+    }
+  }
+}

@@ -6,7 +6,11 @@ returns them as JSON. Keep all logic here or deeper; keep the CLI/API layers thi
 
 from __future__ import annotations
 
+import json
+import random
 import re
+from functools import lru_cache
+from pathlib import Path
 
 from packageguard.core import registry, scorer
 from packageguard.core.features import TOP_PACKAGES, extract_features
@@ -60,6 +64,23 @@ def check(spec: str) -> dict:
     if not _valid_package_name(name):
         raise ValueError(f"'{spec}' is not a valid package name")
     meta = registry.fetch_npm(name, version)
+
+    # Not on npm? Show a clear NOT FOUND instead of scoring a ghost from offline features.
+    # Known-malware names (e.g. purged typosquats like co1ors) are exempt — still flag those.
+    # Only trigger when npm *definitively* 404s (registry.exists() is False), never when the
+    # user is simply offline (None).
+    if meta is None:
+        db_hit = find_issues([Dependency(name, version or "latest", name)])
+        if not db_hit and registry.exists(name) is False:
+            return {
+                "name": name, "version": version or "latest", "ecosystem": "npm",
+                "not_found": True, "score": None, "verdict": "NOT FOUND", "level": "low",
+                "xgboost_score": None, "graph_score": None, "source": "live",
+                "features": [], "scorer": "n/a", "graph": None, "note": None,
+                "signals": [{"level": "ok", "feature": "Registry",
+                             "text": f"'{name}' does not exist on the npm registry — nothing to install."}],
+            }
+
     source = "live" if meta else "offline"
     resolved_version = (meta or {}).get("version") or version or "latest"
 
@@ -105,6 +126,7 @@ def check(spec: str) -> dict:
         "name": name,
         "version": resolved_version,
         "ecosystem": "npm",
+        "not_found": False,
         "score": round(score_value, 4),
         "verdict": verdict_text,
         "level": level,
@@ -121,36 +143,43 @@ def check(spec: str) -> dict:
     }
 
 
-def _demo_poisoned_graph() -> dict:
-    """A curated poisoned-chain example for the HUD graph panel.
-
-    Real dependency graphs of clean packages don't naturally contain known malware (malware is
-    usually leaf packages nothing depends on), so this constructs the canonical scenario the GNN
-    exists for: a clean-looking parent whose transitive dependency is malicious. Feature values
-    are realistic (clean parents look clean; the poisoned leaf carries malware-like features), so
-    the GraphSAGE model flags the leaf and the risk propagates up to the parent.
-    """
-    clean = {"name_similarity": 0.02, "install_script": 0.03, "author_age": 0.0,
-             "publish_timing": 0.1, "dep_count": 0.05}
-    poisoned = {"name_similarity": 1.0, "install_script": 0.95, "author_age": 0.98,
-                "publish_timing": 0.45, "dep_count": 0.0}
-    nodes = [
-        {"id": "safe-wrapper", "depth": 0, "xgb_score": 0.12, "features": clean},
-        {"id": "string-utils", "depth": 1, "xgb_score": 0.08, "features": clean},
-        {"id": "config-loader", "depth": 1, "xgb_score": 0.10, "features": clean},
-        {"id": "helper-utils", "depth": 2, "xgb_score": 0.19, "features": clean},
-        {"id": "event-logger", "depth": 2, "xgb_score": 0.91, "features": poisoned},  # the poison
-    ]
-    edges = [
-        {"source": "safe-wrapper", "target": "string-utils"},
-        {"source": "safe-wrapper", "target": "config-loader"},
-        {"source": "string-utils", "target": "helper-utils"},
-        {"source": "config-loader", "target": "event-logger"},
-    ]
-    return {"root": "safe-wrapper", "nodes": nodes, "edges": edges, "demo": True}
+_DEMO_GRAPHS_PATH = Path(__file__).resolve().parent.parent / "data" / "demo_graphs.json"
+# feature profiles: a clean node looks harmless; a poison node carries malware-like features so
+# the trained GraphSAGE flags it and the risk propagates up the chain to the clean root.
+_CLEAN_PROFILE = {"name_similarity": 0.02, "install_script": 0.03, "author_age": 0.0,
+                  "publish_timing": 0.10, "dep_count": 0.05}
+_POISON_PROFILE = {"name_similarity": 1.0, "install_script": 0.95, "author_age": 0.98,
+                   "publish_timing": 0.45, "dep_count": 0.0}
 
 
-def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 60) -> dict:
+@lru_cache(maxsize=1)
+def _demo_graph_library() -> dict:
+    try:
+        return json.loads(_DEMO_GRAPHS_PATH.read_text(encoding="utf-8")).get("graphs", {})
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def demo_graph_names() -> list[str]:
+    return list(_demo_graph_library())
+
+
+def _build_demo_graph(name: str) -> dict:
+    """Expand a curated poisoned-chain scenario (by role) into a scored subgraph dict."""
+    spec = _demo_graph_library()[name]
+    nodes = []
+    for n in spec["nodes"]:
+        poison = n["role"] == "poison"
+        nodes.append({
+            "id": n["id"], "depth": n["depth"],
+            "xgb_score": 0.91 if poison else round(0.08 + n["depth"] * 0.04, 2),
+            "features": dict(_POISON_PROFILE if poison else _CLEAN_PROFILE),
+        })
+    return {"root": spec["nodes"][0]["id"], "nodes": nodes, "edges": spec["edges"],
+            "demo": True, "story": spec.get("story", "")}
+
+
+def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 36) -> dict:
     """Build a dependency subgraph, score every node with the GNN, and combine the root's
     per-package score with the graph signal. Powers the HUD GRAPH panel (Sem 8).
 
@@ -163,7 +192,21 @@ def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 60) -> dict:
     if not _valid_package_name(name):
         raise ValueError(f"'{spec}' is not a valid package name")
 
-    graph = (_demo_poisoned_graph() if name == "safe-wrapper"
+    is_demo = name in _demo_graph_library()
+    # For a real (non-demo) lookup, confirm the package actually exists on npm before drawing
+    # a graph — otherwise a made-up name would render a lone "ghost" node with a meaningless
+    # score. Curated demos are exempt (they don't exist on npm by design).
+    if not is_demo and registry.fetch_npm(name, version) is None:
+        return {
+            "root": name, "not_found": True,
+            "verdict": "NOT FOUND", "level": "low",
+            "xgb_score": None, "graph_score": None, "graph_contribution": None,
+            "combined_score": None, "poisoned": False, "gnn_available": GnnScorer().available(),
+            "node_count": 0, "worst_dependency": None, "worst_score": None,
+            "nodes": [], "edges": [], "demo": False, "story": "",
+        }
+
+    graph = (_build_demo_graph(name) if is_demo
              else subgraph.build_subgraph(name, version, max_depth, max_nodes))
 
     gnn = GnnScorer()
@@ -172,16 +215,26 @@ def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 60) -> dict:
         x, edge_index, _ = subgraph.subgraph_to_arrays(graph)
         probs = gnn.score_nodes(x, edge_index)
         for node, p in zip(graph["nodes"], probs):
-            node["gnn_score"] = round(float(p), 3)
+            score = round(float(p), 3)
+            # Apply the popularity allowlist to graph nodes too: legitimate popular
+            # dependencies (e.g. express's own deps like `qs`, `send`) otherwise trip the
+            # GNN into borderline scores. Cap them so the graph doesn't cry wolf.
+            if node["id"] in _POPULAR:
+                node["allowlisted"] = True
+                score = min(score, 0.12)
+            node["gnn_score"] = score
     else:
         for node in graph["nodes"]:
             node["gnn_score"] = None
 
     root = graph["nodes"][0] if graph["nodes"] else None
     xgb_root = float(root["xgb_score"]) if root else 0.0
-    # graph signal = worst GNN malice among the *dependencies* (not the root itself)
+    # graph signal = worst GNN malice among the *dependencies* (not the root itself).
+    # Only genuinely-high node scores count as a poisoned chain (threshold, not any bump).
+    MAL_THRESHOLD = 0.80
     neighbour_probs = [n.get("gnn_score") or 0.0 for n in graph["nodes"][1:]]
-    graph_score = max(neighbour_probs) if neighbour_probs else 0.0
+    top_neighbour = max(neighbour_probs) if neighbour_probs else 0.0
+    graph_score = top_neighbour if top_neighbour >= MAL_THRESHOLD else min(top_neighbour, 0.25)
 
     if gnn_available:
         combined, graph_contribution = combiner.combine(xgb_root, graph_score)
@@ -189,23 +242,96 @@ def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 60) -> dict:
         combined, graph_contribution = xgb_root, 0.0
 
     verdict_text, level = scorer.verdict(combined)
-    # find the worst dependency for the explanation line
+    poisoned = top_neighbour >= MAL_THRESHOLD
     worst = max(graph["nodes"][1:], key=lambda n: n.get("gnn_score") or 0.0, default=None) \
         if len(graph["nodes"]) > 1 else None
+    worst_dependency = worst["id"] if (worst and poisoned) else None
 
     return {
         "root": name,
+        "not_found": False,
         "xgb_score": round(xgb_root, 4),
         "graph_score": round(graph_score, 4),
         "graph_contribution": round(graph_contribution, 4),
         "combined_score": round(combined, 4),
         "verdict": verdict_text,
         "level": level,
+        "poisoned": poisoned,
         "gnn_available": gnn_available,
-        "worst_dependency": (worst["id"] if worst else None),
+        "node_count": len(graph["nodes"]),
+        "worst_dependency": worst_dependency,
+        "worst_score": round(worst["gnn_score"], 3) if (worst and poisoned) else None,
         "nodes": graph["nodes"],
         "edges": graph["edges"],
         "demo": graph.get("demo", False),
+        "story": graph.get("story", ""),
+    }
+
+
+# Famous, instantly-recognizable packages — examples are drawn from these so the demo chips
+# read as real, well-known names (not obscure entries from the raw 7k-name list).
+_FAMOUS = (
+    "react", "express", "lodash", "vue", "axios", "webpack", "chalk", "moment", "typescript",
+    "eslint", "jquery", "angular", "redux", "next", "commander", "dotenv", "mongoose", "prettier",
+    "jest", "bootstrap", "socket.io", "nodemon", "babel", "sequelize", "passport", "cheerio",
+)
+# single-word famous names that produce a clean, obvious typosquat when mutated
+_SQUAT_SEEDS = ("react", "express", "lodash", "axios", "chalk", "moment", "eslint", "jquery",
+                "redux", "babel", "mongoose", "webpack", "bootstrap")
+
+
+def _make_typosquat(name: str) -> str:
+    """Mutate a famous single-word name into an OBVIOUS typosquat (e.g. react->reactt)."""
+    homoglyph = {"o": "0", "l": "1", "i": "1", "e": "3", "a": "4"}
+    ops = [lambda n: n + n[-1]]                                     # double last char: expres->express? -> reactt
+    if len(name) > 4:
+        ops.append(lambda n: n[:-1])                               # drop last: express->expres
+        j = random.randrange(0, len(name) - 1)
+        ops.append(lambda n, j=j: n[:j] + n[j + 1] + n[j] + n[j + 2:])  # swap adjacent
+    for ch, sub in homoglyph.items():
+        if ch in name:
+            ops.append(lambda n, ch=ch, sub=sub: n.replace(ch, sub, 1))  # react->r3act
+    return random.choice(ops)(name)
+
+
+@lru_cache(maxsize=1)
+def _malware_names() -> list[str]:
+    path = Path(__file__).resolve().parent.parent / "data" / "known_malware.json"
+    try:
+        recs = json.loads(path.read_text(encoding="utf-8")).get("records", [])
+        return [r["name"] for r in recs]
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
+def examples() -> dict:
+    """Fresh example sets for each tab (regenerated per request), drawn from famous packages
+    so the chips are recognizable and convincing."""
+    clean = random.sample(_FAMOUS, 3)
+    # threats are drawn from the real known-malware DB (co1ors, crossenv, event-stream, coa, ...)
+    # — all real, all recognizable typosquats/hijacks, and none trip the NOT-FOUND path.
+    threats = random.sample(_malware_names(), min(4, len(_malware_names())))
+
+    # graph: every curated poisoned-chain demo + a couple of real famous packages (7-8 chips)
+    demos = demo_graph_names()
+    graph_examples = [{"pkg": d, "kind": "demo", "label": f"{d} ⚠"} for d in demos]
+    graph_examples += [{"pkg": p, "kind": "clean"} for p in random.sample(_FAMOUS, 2)]
+
+    scan_suite = [
+        {"path": "sample", "kind": "malware", "label": "event-stream attack"},
+        {"path": "sample_typosquat", "kind": "malware", "label": "typosquats"},
+        {"path": "sample_hijack", "kind": "malware", "label": "2021 coa/rc hijack"},
+        {"path": "sample_wallet", "kind": "malware", "label": "crypto-wallet backdoor"},
+        {"path": "sample_clean", "kind": "clean", "label": "clean project ✓"},
+    ]
+
+    return {
+        "check": (
+            [{"pkg": p, "kind": "clean"} for p in clean]
+            + [{"pkg": t, "kind": "malware"} for t in threats]
+        ),
+        "graph": graph_examples,
+        "scan": scan_suite,
     }
 
 

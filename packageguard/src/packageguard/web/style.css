@@ -247,3 +247,212 @@ main { max-width: 1080px; margin: 0 auto; padding: 22px; }
 }
 .edge-pulse { stroke-dasharray: 6 4; animation: edgeflow 0.7s linear infinite; }
 @keyframes edgeflow { to { stroke-dashoffset: -20; } }
+.gnode circle { transition: r .15s, stroke-width .15s; }
+.gnode:hover circle { stroke-width: 4; filter: drop-shadow(0 0 6px var(--cyan)); }
+
+/* dynamic example chips */
+.quick { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.quick-label { color: var(--ink-dim); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+.chips { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.chip.chip-clean { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.chip.chip-bad   { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 45%, var(--line)); }
+.chip.chip-demo  { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, var(--line)); }
+.chip.chip-clean:hover { box-shadow: 0 0 10px color-mix(in srgb, var(--ok) 50%, transparent); }
+.chip.chip-bad:hover   { box-shadow: 0 0 10px color-mix(in srgb, var(--crit) 50%, transparent); }
+.shuffle {
+  background: transparent; color: var(--ink-dim); border: 1px solid var(--line);
+  width: 24px; height: 24px; cursor: pointer; font-size: 13px; line-height: 1;
+  transition: transform .4s, color .15s, border-color .15s;
+}
+.shuffle:hover { color: var(--cyan); border-color: var(--line-hot); transform: rotate(180deg); }
+
+/* graph hover tooltip */
+#graph-result { position: relative; }
+.graph-tip {
+  position: absolute; z-index: 20; pointer-events: none; transform: translate(-50%, -100%);
+  background: var(--bg-2); border: 1px solid var(--line-hot); padding: 6px 10px;
+  font-size: 11px; line-height: 1.5; white-space: nowrap; box-shadow: var(--glow-cyan);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+#graph-svg { background:
+  radial-gradient(circle at 50% 52%, rgba(34,211,238,.05), transparent 62%); }
+
+/* ============ living HUD atmosphere ============ */
+
+/* ===== military boot screen ===== */
+.boot-screen {
+  position: fixed; inset: 0; z-index: 999; background: #05070c;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .6s ease; overflow: hidden;
+}
+.boot-screen.gone { opacity: 0; pointer-events: none; }
+.boot-screen::before {  /* crt scanlines */
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent 0 3px, rgba(0,0,0,.35) 3px 4px);
+  pointer-events: none;
+}
+.boot-inner { width: min(520px, 86vw); text-align: center; position: relative; z-index: 1; }
+.boot-logo {
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 34px; letter-spacing: 5px;
+  color: var(--ink); text-shadow: var(--glow-cyan); animation: bootflick 2.6s steps(1) 1;
+}
+.boot-logo .accent { color: var(--cyan); }
+.boot-sub { color: var(--amber); font-size: 11px; letter-spacing: 3px; margin-top: 6px; }
+@keyframes bootflick { 0%{opacity:.2} 4%{opacity:1} 8%{opacity:.4} 11%{opacity:1} 40%{opacity:1} }
+.boot-reticle { position: relative; height: 64px; margin: 22px auto; width: 64px; }
+.boot-reticle span {
+  position: absolute; inset: 0; border: 1px solid var(--line-hot); border-radius: 50%;
+  animation: reticle 1.6s linear infinite;
+}
+.boot-reticle span:nth-child(2) { inset: 12px; border-color: var(--cyan); animation-direction: reverse; }
+.boot-reticle span:nth-child(3) { inset: 26px; border-style: dashed; border-color: var(--amber); }
+@keyframes reticle { to { transform: rotate(360deg); } }
+.boot-log {
+  font-size: 12px; line-height: 1.85; text-align: left; min-height: 150px; color: var(--ok);
+  font-family: "JetBrains Mono", monospace; margin: 0 auto; max-width: 440px;
+}
+.boot-log .bl-ok { color: var(--cyan); float: right; }
+.boot-log .row { opacity: 0; animation: typein .25s forwards; }
+.boot-bar { height: 8px; background: var(--bg); border: 1px solid var(--line-hot); margin-top: 16px; overflow: hidden; }
+.boot-bar-fill {
+  height: 100%; width: 0;
+  background: repeating-linear-gradient(90deg, var(--cyan) 0 6px, transparent 6px 9px);
+  box-shadow: 0 0 10px var(--cyan); transition: width .2s linear;
+}
+.boot-status { font-size: 11px; letter-spacing: 2px; color: var(--ink-dim); margin-top: 8px; text-align: left; }
+.boot-status #boot-pct { color: var(--cyan); }
+.boot-corner { position: absolute; width: 40px; height: 40px; border: 2px solid var(--line-hot); }
+.boot-corner.tl { top: 24px; left: 24px; border-right: 0; border-bottom: 0; }
+.boot-corner.tr { top: 24px; right: 24px; border-left: 0; border-bottom: 0; }
+.boot-corner.bl { bottom: 24px; left: 24px; border-right: 0; border-top: 0; }
+.boot-corner.br { bottom: 24px; right: 24px; border-left: 0; border-top: 0; }
+
+/* ===== action loading sequence ===== */
+.action-loader {
+  position: fixed; inset: 0; z-index: 800; display: flex; align-items: center; justify-content: center;
+  background: rgba(5,7,12,.82); backdrop-filter: blur(2px);
+}
+.al-box {
+  width: min(440px, 88vw); background: var(--panel); border: 1px solid var(--line-hot);
+  padding: 22px 26px; clip-path: var(--clip); box-shadow: 0 0 40px rgba(34,211,238,.15);
+}
+.al-title { font-family: "Chakra Petch", sans-serif; letter-spacing: 3px; color: var(--cyan); font-size: 15px; text-align: center; }
+.al-radar { width: 96px; height: 96px; margin: 16px auto; border-radius: 50%; position: relative;
+  border: 1px solid var(--line-hot); background:
+    repeating-radial-gradient(circle, transparent 0 15px, rgba(34,211,238,.08) 15px 16px); }
+.al-sweep { position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(var(--cyan), transparent 32%); mask: radial-gradient(circle, transparent 6px, #000 7px);
+  animation: radar 1.4s linear infinite; opacity: .55; }
+@keyframes radar { to { transform: rotate(360deg); } }
+.al-steps { font-size: 12px; line-height: 1.9; font-family: "JetBrains Mono", monospace; min-height: 90px; }
+.lstep { opacity: 0; animation: typein .2s forwards; color: var(--ink); }
+.lstep .lstep-ok { color: var(--ok); float: right; }
+
+/* ===== corner HUD radar (deliberate, not random) ===== */
+.hud-radar {
+  position: fixed; bottom: 18px; left: 18px; width: 92px; height: 92px; z-index: 3;
+  border-radius: 50%; pointer-events: none; opacity: .8;
+}
+.hud-radar-rings {
+  position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--line-hot);
+  background:
+    repeating-radial-gradient(circle, transparent 0 14px, rgba(34,211,238,.10) 14px 15px);
+}
+.hud-radar-rings::after { content: ""; position: absolute; inset: 46% 0 0 46%; width: 8%; height: 8%;
+  border-left: 1px solid rgba(34,211,238,.3); border-top: 1px solid rgba(34,211,238,.3); }
+.hud-radar-sweep {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(35,227,154,.55), transparent 26%);
+  mask: radial-gradient(circle, transparent 4px, #000 5px);
+  animation: radar 4s linear infinite;
+}
+.hud-radar-label { position: absolute; bottom: -14px; left: 0; width: 100%; text-align: center;
+  font-size: 8px; letter-spacing: 2px; color: var(--ink-dim); }
+
+/* ===== system-status widget ===== */
+.hud-sys {
+  position: fixed; bottom: 18px; right: 18px; z-index: 3; width: 150px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(12,21,36,.85), rgba(7,11,18,.7));
+  border: 1px solid var(--line); padding: 10px 12px; clip-path: var(--clip); opacity: .9;
+}
+.hud-sys-row { display: flex; align-items: center; gap: 8px; font-size: 9px; letter-spacing: 1px; color: var(--ink-dim); margin: 4px 0; }
+.hud-sys-row span { width: 26px; }
+.hud-meter { flex: 1; height: 6px; background: var(--bg); border: 1px solid var(--line); position: relative; overflow: hidden; }
+.hud-meter::before { content: ""; position: absolute; inset: 0; width: var(--w, 60%);
+  background: repeating-linear-gradient(90deg, var(--ok) 0 4px, transparent 4px 6px);
+  animation: meterpulse 2.4s ease-in-out infinite; }
+@keyframes meterpulse { 0%,100% { opacity: .7 } 50% { opacity: 1 } }
+.hud-sys-coord { font-size: 8px; color: var(--cyan); letter-spacing: 1px; margin-top: 8px; opacity: .7; }
+
+/* retro corner brackets on main panels */
+.panel::before, .panel::after {
+  content: ""; position: absolute; width: 12px; height: 12px; pointer-events: none;
+  border-color: var(--line-hot); opacity: .6;
+}
+.panel::before { top: 4px; left: 4px; border-left: 1px solid; border-top: 1px solid; }
+.panel::after { bottom: 4px; right: 4px; border-right: 1px solid; border-bottom: 1px solid; }
+@media (max-width: 900px) { .hud-radar, .hud-sys { display: none; } }
+
+/* drifting particles */
+.particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.particles i {
+  position: absolute; bottom: -10px; width: 2px; height: 2px; border-radius: 50%;
+  background: var(--cyan); opacity: 0; box-shadow: 0 0 6px var(--cyan);
+  animation: rise linear infinite;
+}
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: .7; }
+  90% { opacity: .5; }
+  100% { transform: translateY(-102vh); opacity: 0; }
+}
+
+/* topbar metrics */
+.metrics { display: flex; gap: 22px; margin-left: auto; margin-right: 26px; }
+.metric { text-align: right; line-height: 1; }
+.metric-n {
+  display: block; font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 22px;
+  color: var(--cyan); text-shadow: var(--glow-cyan); font-variant-numeric: tabular-nums;
+}
+.metric.threat .metric-n { color: var(--crit); text-shadow: 0 0 12px rgba(255,59,70,.5); }
+.metric-k { font-size: 9px; letter-spacing: 2px; color: var(--ink-dim); }
+.metric.flash .metric-n { animation: metricflash .5s ease; }
+@keyframes metricflash { 0% { transform: scale(1.5); } 100% { transform: scale(1); } }
+#gnn-led { background: var(--ok); color: var(--ok); }
+
+/* scrolling threat-intel ticker */
+.ticker {
+  position: relative; z-index: 2; overflow: hidden; border-bottom: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(255,59,70,.06), transparent 30%, transparent 70%, rgba(34,211,238,.06));
+  height: 26px; display: flex; align-items: center;
+}
+.ticker-track {
+  display: inline-flex; gap: 42px; white-space: nowrap; padding-left: 100%;
+  animation: ticker 42s linear infinite; font-size: 11px; letter-spacing: 1px; color: var(--ink-dim);
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-track b { color: var(--crit); }
+.ticker-track .tk-ok { color: var(--ok); }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* graph story caption */
+.graph-story {
+  margin-top: 10px; padding: 8px 10px; font-size: 12px; font-style: italic; line-height: 1.5;
+  color: var(--amber); border-left: 2px solid var(--amber); background: rgba(245,166,35,.06);
+}
+
+/* boot-up reveal (staggered) */
+main .view.active > * { animation: bootin .5s both; }
+main .view.active > *:nth-child(2) { animation-delay: .06s; }
+main .view.active > *:nth-child(3) { animation-delay: .12s; }
+@keyframes bootin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* verdict gets a heartbeat when dangerous */
+.verdict.critical, .verdict.high { animation: vpulse 1.6s ease-in-out infinite; }
+@keyframes vpulse { 0%,100% { opacity: 1; } 50% { opacity: .72; } }
+
+/* red threat-flash vignette when a danger is detected */
+.threat-vignette { position: fixed; inset: 0; z-index: 500; pointer-events: none; opacity: 0;
+  box-shadow: inset 0 0 140px 24px rgba(255,59,70,.55); }
+.threat-vignette.on { animation: threatflash 1s ease; }
+@keyframes threatflash { 0% { opacity: 0; } 18% { opacity: 1; } 100% { opacity: 0; } }

@@ -10,8 +10,46 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+  <div class="particles" id="particles" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== military boot sequence ===== -->
+  <div id="boot" class="boot-screen">
+    <div class="boot-inner">
+      <div class="boot-logo">🛡 PACKAGE<span class="accent">GUARD</span></div>
+      <div class="boot-sub">TACTICAL SUPPLY-CHAIN DEFENSE SYSTEM · v0.1.0</div>
+      <div class="boot-reticle"><span></span><span></span><span></span></div>
+      <div id="boot-log" class="boot-log"></div>
+      <div class="boot-bar"><div id="boot-bar-fill" class="boot-bar-fill"></div></div>
+      <div class="boot-status"><span id="boot-pct">0</span>% · <span id="boot-msg">POST</span></div>
+    </div>
+    <div class="boot-corner tl"></div><div class="boot-corner tr"></div>
+    <div class="boot-corner bl"></div><div class="boot-corner br"></div>
+  </div>
+
+  <!-- ===== action loading sequence ===== -->
+  <div id="action-loader" class="action-loader hidden">
+    <div class="al-box">
+      <div class="al-title" id="loader-title">PROCESSING</div>
+      <div class="al-radar"><span class="al-sweep"></span></div>
+      <div class="al-steps" id="loader-steps"></div>
+      <div class="boot-bar"><div class="boot-bar-fill" id="al-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== ambient corner HUD widgets ===== -->
+  <div class="hud-radar" aria-hidden="true">
+    <div class="hud-radar-rings"></div>
+    <div class="hud-radar-sweep"></div>
+    <div class="hud-radar-label">SECTOR SCAN</div>
+  </div>
+  <div class="hud-sys" aria-hidden="true">
+    <div class="hud-sys-row"><span>CORE</span><div class="hud-meter" data-v="86"></div></div>
+    <div class="hud-sys-row"><span>NET</span><div class="hud-meter" data-v="72"></div></div>
+    <div class="hud-sys-row"><span>GNN</span><div class="hud-meter" data-v="94"></div></div>
+    <div class="hud-sys-coord" id="hud-coord">37.7749N · 122.4194W</div>
+  </div>
 
   <header class="topbar">
     <div class="brand">
@@ -19,19 +57,29 @@
       <span class="brand-name">PACKAGE<span class="accent">GUARD</span></span>
       <span class="brand-sub">// supply-chain threat console</span>
     </div>
+    <div class="metrics">
+      <div class="metric"><span class="metric-n" id="m-scanned">0</span><span class="metric-k">ANALYZED</span></div>
+      <div class="metric threat"><span class="metric-n" id="m-threats">0</span><span class="metric-k">THREATS</span></div>
+    </div>
     <div class="status">
       <span class="led led-ok"></span> ENGINE
       <span class="sep">·</span>
       <span class="led" id="net-led"></span> REGISTRY
       <span class="sep">·</span>
+      <span class="led led-ok" id="gnn-led"></span> GNN
+      <span class="sep">·</span>
       <span class="clock" id="clock">--:--:--</span>
     </div>
   </header>
 
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
   <nav class="tabs">
     <button class="tab active" data-tab="check">◢ CHECK</button>
     <button class="tab" data-tab="scan">◢ SCAN</button>
-    <button class="tab" data-tab="graph">◢ GRAPH <span class="lock">SEM 8</span></button>
+    <button class="tab" data-tab="graph">◢ GRAPH <span class="lock">GNN</span></button>
   </nav>
 
   <main>
@@ -43,11 +91,9 @@
         <button type="submit" class="run-btn">RUN ▸</button>
       </form>
       <div class="quick">
-        try:
-        <button class="chip" data-pkg="co1ors">co1ors</button>
-        <button class="chip" data-pkg="event-stream@3.3.6">event-stream@3.3.6</button>
-        <button class="chip" data-pkg="express">express</button>
-        <button class="chip" data-pkg="lodash">lodash</button>
+        <span class="quick-label">try</span>
+        <span id="check-chips" class="chips"></span>
+        <button class="shuffle" id="check-shuffle" title="new examples">⟳</button>
       </div>
 
       <div id="check-result" class="result hidden">
@@ -91,6 +137,10 @@
           <input id="file-input" type="file" accept=".json,application/json" hidden />
         </div>
       </div>
+      <div class="quick">
+        <span class="quick-label">or scan a demo project</span>
+        <span id="scan-chips" class="chips"></span>
+      </div>
       <div id="scan-summary" class="scan-summary hidden"></div>
       <div id="scan-issues"></div>
     </section>
@@ -103,10 +153,9 @@
         <button type="submit" class="run-btn">MAP ▸</button>
       </form>
       <div class="quick">
-        try:
-        <button class="chip" data-graph="safe-wrapper">safe-wrapper (poisoned demo)</button>
-        <button class="chip" data-graph="express">express</button>
-        <button class="chip" data-graph="chalk">chalk</button>
+        <span class="quick-label">try</span>
+        <span id="graph-chips" class="chips"></span>
+        <button class="shuffle" id="graph-shuffle" title="new examples">⟳</button>
       </div>
 
       <div id="graph-result" class="result hidden" style="grid-template-columns: 1fr 300px;">
@@ -122,6 +171,7 @@
         <div class="panel">
           <div class="panel-tag">ROOT ASSESSMENT</div>
           <div id="graph-verdict" class="verdict" style="font-size:16px">—</div>
+          <div id="graph-story" class="graph-story hidden"></div>
           <div id="graph-scores" class="feed" style="margin-top:12px"></div>
           <div class="panel-tag" style="margin-top:16px">WHY</div>
           <div id="graph-why" class="feed"></div>
