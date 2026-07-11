@@ -30,7 +30,11 @@ def check(
     as_json: bool = typer.Option(False, "--json", help="Emit raw JSON instead of the pretty view."),
 ) -> None:
     """Score a single package for supply-chain risk."""
-    result = engine.check(package)
+    try:
+        result = engine.check(package)
+    except ValueError as e:
+        typer.secho(str(e), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1)
     if as_json:
         typer.echo(_json.dumps(result, indent=2))
     else:
@@ -45,7 +49,7 @@ def scan(
     """Scan a project's dependencies against the known-malware database."""
     try:
         result = engine.scan(path)
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         typer.secho(str(e), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1)
     if as_json:

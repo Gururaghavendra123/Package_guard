@@ -61,6 +61,8 @@ def fetch_raw_doc(name: str, timeout: float = 5.0) -> dict | None:
     in the normalised view (repository, description, version history) — e.g. filtering
     young benign candidates for legitimacy.
     """
+    if not name or not name.strip():
+        return None
     doc = _read_cache(name)
     if doc is None:
         try:

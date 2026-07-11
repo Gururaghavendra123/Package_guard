@@ -28,7 +28,10 @@ def api_check(req: CheckRequest) -> dict:
     package = req.package.strip()
     if not package:
         raise HTTPException(status_code=400, detail="package is required")
-    return engine.check(package)
+    try:
+        return engine.check(package)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.post("/api/scan")

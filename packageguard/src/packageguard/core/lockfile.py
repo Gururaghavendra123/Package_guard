@@ -66,7 +66,13 @@ def parse_lockfile(path: str | Path) -> list[Dependency]:
     if not target.exists():
         raise FileNotFoundError(f"No package-lock.json or package.json found at {path}")
 
-    data = json.loads(target.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(target.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise ValueError(f"{target.name} is not valid JSON: {e}") from e
+    if not isinstance(data, dict):
+        raise ValueError(f"{target.name} must be a JSON object, got {type(data).__name__}")
+
     root = data.get("name", target.parent.name or "project")
 
     if target.name == "package.json":

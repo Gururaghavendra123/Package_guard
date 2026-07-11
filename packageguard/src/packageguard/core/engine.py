@@ -6,14 +6,34 @@ returns them as JSON. Keep all logic here or deeper; keep the CLI/API layers thi
 
 from __future__ import annotations
 
+import re
+
 from packageguard.core import registry, scorer
-from packageguard.core.features import extract_features
+from packageguard.core.features import TOP_PACKAGES, extract_features
 from packageguard.core.lockfile import Dependency, parse_lockfile
 from packageguard.core.remediation import find_issues
+
+# Verified-popular packages (built from live npm popularity data). Standard practice in real
+# scanners: allowlist widely-used packages to suppress false positives. Membership caps the
+# risk score — BUT the known-malware DB override still runs afterward, so a compromised
+# version of a popular package (event-stream@3.3.6) is still flagged. Newly-compromised
+# popular packages not yet in the DB are the Sem-8 GNN's job, not this allowlist's.
+_POPULAR = set(TOP_PACKAGES)
+_POPULAR_CAP = 0.20
+
+# Practical npm package-name validity: optional @scope/, then name; url-safe chars only.
+# Rejects empty / whitespace / "@" / paths / shell-injection-shaped input before we ever
+# build a registry URL from it.
+_VALID_NAME = re.compile(r"^(@[a-z0-9._~-]+/)?[a-z0-9._~-]+$", re.IGNORECASE)
+
+
+def _valid_package_name(name: str) -> bool:
+    return bool(name) and ".." not in name and bool(_VALID_NAME.match(name))
 
 
 def split_spec(spec: str) -> tuple[str, str | None]:
     """Split 'name@version' into (name, version), respecting npm scopes (@scope/name)."""
+    spec = spec.strip()
     if spec.startswith("@"):
         at = spec.find("@", 1)
         return (spec, None) if at == -1 else (spec[:at], spec[at + 1:])
@@ -32,8 +52,13 @@ def _signal_level(value: float) -> str:
 
 
 def check(spec: str) -> dict:
-    """Score a single package for risk. `spec` is 'name' or 'name@version'."""
-    name, version = split_spec(spec)
+    """Score a single package for risk. `spec` is 'name' or 'name@version'.
+
+    Raises ValueError for empty/malformed names (handled by the CLI/API entry points).
+    """
+    name, version = split_spec(spec or "")
+    if not _valid_package_name(name):
+        raise ValueError(f"'{spec}' is not a valid package name")
     meta = registry.fetch_npm(name, version)
     source = "live" if meta else "offline"
     resolved_version = (meta or {}).get("version") or version or "latest"
@@ -55,6 +80,17 @@ def check(spec: str) -> dict:
         {"level": _signal_level(c.value), "text": c.detail, "feature": c.label}
         for c in contribs
     ]
+
+    # Allowlist: cap risk for verified-popular packages (reduces false positives on legit
+    # packages like @types/node that trip metadata confounders such as "0 dependencies").
+    if name in _POPULAR and score_value > _POPULAR_CAP:
+        score_value = _POPULAR_CAP
+        signals.insert(0, {
+            "level": "ok",
+            "text": "Verified widely-used package (npm popularity allowlist)",
+            "feature": "Established package",
+        })
+
     if known_hit:
         score_value = max(score_value, 0.97)
         signals.insert(0, {

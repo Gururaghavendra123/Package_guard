@@ -106,10 +106,15 @@ def _name_similarity(name: str) -> Feature:
                        "Matches a known popular package exactly")
     best_dist, best_pkg = 99, ""
     for pkg in TOP_PACKAGES:
+        # Only compare against reasonably-long popular names. Short generic names collide
+        # spuriously (e.g. the scope bare-name "core" is 1 edit from "cors", "node" from
+        # "code") and caused false-positive typosquat flags on packages like @babel/core.
+        if len(pkg) < 5:
+            continue
         d = levenshtein(bare, pkg)
         if d < best_dist:
             best_dist, best_pkg = d, pkg
-    if 1 <= best_dist <= 2 and len(bare) >= 4:
+    if 1 <= best_dist <= 2 and len(bare) >= 5:
         value = 1.0 if best_dist == 1 else 0.55
         return Feature("name_similarity", FEATURE_LABELS["name_similarity"], value,
                        f'{best_dist} edit(s) from "{best_pkg}" — possible typosquat')

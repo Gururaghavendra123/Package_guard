@@ -1,5 +1,5 @@
 {
-  "trained_at": "2026-07-09T02:56:52.774668+00:00",
+  "trained_at": "2026-07-10T11:13:31.856767+00:00",
   "dataset_path": "training\\dataset.parquet",
   "n_total": 394,
   "n_malicious": 194,
@@ -12,18 +12,18 @@
     "publish_timing",
     "dep_count"
   ],
-  "pr_auc": 0.898,
+  "pr_auc": 0.9026,
   "feature_importances": {
-    "name_similarity": 0.30640000104904175,
+    "name_similarity": 0.39100000262260437,
     "install_script": 0.0,
-    "author_age": 0.4415000081062317,
-    "publish_timing": 0.08969999849796295,
-    "dep_count": 0.16249999403953552
+    "author_age": 0.412200003862381,
+    "publish_timing": 0.06650000065565109,
+    "dep_count": 0.13030000030994415
   },
   "confusion_matrix": [
     [
-      41,
-      9
+      40,
+      10
     ],
     [
       9,

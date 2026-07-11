@@ -1,6 +1,9 @@
 """Hermetic unit tests for the core engine (no network)."""
 
+import tempfile
 from pathlib import Path
+
+import pytest
 
 from packageguard.core import scorer
 from packageguard.core.features import extract_features, levenshtein
@@ -9,6 +12,10 @@ from packageguard.core.remediation import find_issues
 from packageguard.core import engine
 
 SAMPLE = Path(__file__).resolve().parent.parent / "sample"
+
+
+def _feat(name, key):
+    return {f.key: f for f in extract_features(name)}[key].value
 
 
 def test_levenshtein():
@@ -61,3 +68,50 @@ def test_engine_scan_sample():
     result = engine.scan(str(SAMPLE))
     assert result["issue_count"] >= 3
     assert result["summary"]["critical"] >= 1
+
+
+def test_engine_scan_clean_sample_no_false_alarm():
+    # the clean demo project must report zero issues (proves the scanner doesn't cry wolf)
+    clean = Path(__file__).resolve().parent.parent / "sample_clean"
+    result = engine.scan(str(clean))
+    assert result["issue_count"] == 0
+    assert result["total_dependencies"] > 0
+
+
+# --- edge-case regression tests (Phase 5 hardening) ---
+
+@pytest.mark.parametrize("bad", ["", "   ", "@", "../../etc/passwd", "a; rm -rf /", "packagé"])
+def test_check_rejects_invalid_names(bad):
+    # invalid names raise ValueError BEFORE any network call (hermetic)
+    with pytest.raises(ValueError):
+        engine.check(bad)
+
+
+@pytest.mark.parametrize("content", ["{ broken json", "", "null", "[1,2,3]"])
+def test_scan_rejects_malformed_lockfile(content):
+    with tempfile.TemporaryDirectory() as d:
+        (Path(d) / "package-lock.json").write_text(content, encoding="utf-8")
+        with pytest.raises(ValueError):
+            engine.scan(d)
+
+
+def test_no_typosquat_false_positive_on_short_scope_name():
+    # "@babel/core" -> bare "core" must NOT be flagged as a typosquat of "cors"
+    assert _feat("@babel/core", "name_similarity") < 0.5
+    assert _feat("@types/node", "name_similarity") < 0.5
+
+
+def test_real_typosquat_still_detected():
+    assert _feat("loadash", "name_similarity") >= 0.5   # ~ lodash
+    assert _feat("co1ors", "name_similarity") >= 0.5    # ~ colors
+
+
+def test_scan_handles_large_lockfile():
+    import json
+    pkgs = {"": {}}
+    pkgs.update({f"node_modules/pkg{i}": {"version": "1.0.0"} for i in range(1500)})
+    with tempfile.TemporaryDirectory() as d:
+        (Path(d) / "package-lock.json").write_text(
+            json.dumps({"name": "big", "lockfileVersion": 3, "packages": pkgs}), encoding="utf-8")
+        result = engine.scan(d)
+    assert result["total_dependencies"] == 1500
