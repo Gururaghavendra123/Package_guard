@@ -127,4 +127,6 @@ def fetch_npm(name: str, version: str | None = None, timeout: float = 5.0) -> di
         "dependencies": manifest.get("dependencies") or {},
         "author_age_days": _days_since(created),
         "maintainers": len(doc.get("maintainers") or []),
+        "version_count": len(versions),
+        "description": manifest.get("description") or doc.get("description") or "",
     }

@@ -1,0 +1,274 @@
+{
+  "n_positive": 18,
+  "n_negative": 18,
+  "xgb_alone": {
+    "recall": 0.1111111111111111,
+    "fpr": 0.2222222222222222
+  },
+  "db_traversal": {
+    "recall": 0.0,
+    "fpr": 0.0
+  },
+  "graph_score": {
+    "recall": 0.8888888888888888,
+    "fpr": 0.0
+  },
+  "combined": {
+    "recall": 0.8888888888888888,
+    "fpr": 0.2222222222222222
+  },
+  "rows": [
+    {
+      "case": "fecha",
+      "label": 1,
+      "xgb_alone": 0.20458590984344482,
+      "db_hit": false,
+      "graph_score": 0.3103736340999603
+    },
+    {
+      "case": "css-select",
+      "label": 1,
+      "xgb_alone": 0.1521083414554596,
+      "db_hit": false,
+      "graph_score": 0.9870314002037048
+    },
+    {
+      "case": "@clack/prompts",
+      "label": 1,
+      "xgb_alone": 0.29200825095176697,
+      "db_hit": false,
+      "graph_score": 0.9684011936187744
+    },
+    {
+      "case": "srvx",
+      "label": 1,
+      "xgb_alone": 0.022497111931443214,
+      "db_hit": false,
+      "graph_score": 0.8512186408042908
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.14076194167137146,
+      "db_hit": false,
+      "graph_score": 0.895182728767395
+    },
+    {
+      "case": "@clack/prompts",
+      "label": 1,
+      "xgb_alone": 0.29200825095176697,
+      "db_hit": false,
+      "graph_score": 0.9684011936187744
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.14076194167137146,
+      "db_hit": false,
+      "graph_score": 0.895182728767395
+    },
+    {
+      "case": "object-assign",
+      "label": 1,
+      "xgb_alone": 0.30828556418418884,
+      "db_hit": false,
+      "graph_score": 0.006698866840451956
+    },
+    {
+      "case": "ms",
+      "label": 1,
+      "xgb_alone": 0.27628394961357117,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "once",
+      "label": 1,
+      "xgb_alone": 0.3528338372707367,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "ignore",
+      "label": 1,
+      "xgb_alone": 0.14212346076965332,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "wrappy",
+      "label": 1,
+      "xgb_alone": 0.8115429878234863,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "mime-db",
+      "label": 1,
+      "xgb_alone": 0.10816983878612518,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "cli-cursor",
+      "label": 1,
+      "xgb_alone": 0.3982945382595062,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "mime-types",
+      "label": 1,
+      "xgb_alone": 0.3956587612628937,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "@tybys/wasm-util",
+      "label": 1,
+      "xgb_alone": 0.35068222880363464,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "es-define-property",
+      "label": 1,
+      "xgb_alone": 0.8507987260818481,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "escape-string-regexp",
+      "label": 1,
+      "xgb_alone": 0.3882797956466675,
+      "db_hit": false,
+      "graph_score": 0.986335277557373
+    },
+    {
+      "case": "@teambit/sidebar",
+      "label": 0,
+      "xgb_alone": 0.8933063745498657,
+      "db_hit": false,
+      "graph_score": 0.00010325728362658992
+    },
+    {
+      "case": "@veryfront/ext-llm-anthropic",
+      "label": 0,
+      "xgb_alone": 0.000466452183900401,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@flue/react",
+      "label": 0,
+      "xgb_alone": 0.007587650325149298,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@dbeauyat/user-accounts-utils",
+      "label": 0,
+      "xgb_alone": 0.0008464942802675068,
+      "db_hit": false,
+      "graph_score": 0.006954950746148825
+    },
+    {
+      "case": "@decocms/apps-shopify",
+      "label": 0,
+      "xgb_alone": 0.00859215296804905,
+      "db_hit": false,
+      "graph_score": 1.0674223460682697e-07
+    },
+    {
+      "case": "@teambit/component.testing.mock-components",
+      "label": 0,
+      "xgb_alone": 0.8485304117202759,
+      "db_hit": false,
+      "graph_score": 0.0002539606939535588
+    },
+    {
+      "case": "@mindrian_os/cli",
+      "label": 0,
+      "xgb_alone": 0.009006761014461517,
+      "db_hit": false,
+      "graph_score": 0.06722787022590637
+    },
+    {
+      "case": "@arity-cli/linux-arm64-musl",
+      "label": 0,
+      "xgb_alone": 0.002838872140273452,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@yak-io/prismic",
+      "label": 0,
+      "xgb_alone": 0.0009833050426095724,
+      "db_hit": false,
+      "graph_score": 9.021386358654127e-05
+    },
+    {
+      "case": "@anvia/langfuse",
+      "label": 0,
+      "xgb_alone": 0.019840631633996964,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@nexus-state/form-builder-react",
+      "label": 0,
+      "xgb_alone": 0.13540638983249664,
+      "db_hit": false,
+      "graph_score": 0.15912948548793793
+    },
+    {
+      "case": "@mpgd/adapter-capacitor",
+      "label": 0,
+      "xgb_alone": 0.0004590636526700109,
+      "db_hit": false,
+      "graph_score": 3.5162942367605865e-05
+    },
+    {
+      "case": "@teambit/internalize",
+      "label": 0,
+      "xgb_alone": 0.24484983086585999,
+      "db_hit": false,
+      "graph_score": 0.00010325728362658992
+    },
+    {
+      "case": "next-intl-swc-plugin-extractor",
+      "label": 0,
+      "xgb_alone": 0.14034752547740936,
+      "db_hit": false,
+      "graph_score": 0.001625331467948854
+    },
+    {
+      "case": "proxy-addr",
+      "label": 0,
+      "xgb_alone": 0.1759968250989914,
+      "db_hit": false,
+      "graph_score": 0.39471256732940674
+    },
+    {
+      "case": "date-arithmetic",
+      "label": 0,
+      "xgb_alone": 0.48857933282852173,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@teambit/workspace.ui.workspace-component-card",
+      "label": 0,
+      "xgb_alone": 0.8931252956390381,
+      "db_hit": false,
+      "graph_score": 7.589034822785834e-08
+    },
+    {
+      "case": "loadash",
+      "label": 0,
+      "xgb_alone": 0.7851906418800354,
+      "db_hit": false,
+      "graph_score": 0.0
+    }
+  ]
+}

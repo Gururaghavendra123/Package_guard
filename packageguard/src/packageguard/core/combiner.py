@@ -1,17 +1,25 @@
 """Score combiner (Sem 8): merges the per-package XGBoost score with the graph (GNN) score.
 
-Two honest properties (both were explicit design requirements):
-1. **Stacking, not a hand-picked weighted average.** When a trained meta-learner
-   (`models/combiner.joblib`, a logistic regression over [xgb_score, graph_score]) is present,
-   it is used. Its output is a calibrated probability.
-2. **Logit-space attribution.** The "+X from the dependency graph" number shown in the UI is a
-   genuine additive contribution in log-odds space:
-       logit(combined) = logit(xgb) + graph_delta
-   so reporting `graph_delta` as the graph driver is mathematically valid (this is what the
-   v3 plan got wrong by calling an additive story a "weighted average").
+**Production uses the log-odds fallback formula, not a trained meta-learner** — a real one was
+trained (`training/train_combiner.py`) and deliberately NOT wired in. Finding, kept honest:
+fit on the natural graph-node distribution, the logistic regression learned to essentially
+ignore the graph signal (graph_score coefficient went *negative*), because in that distribution
+most malicious nodes are self-evidently malicious from their own features — the specific
+"clean self / poisoned neighbour" pattern the graph feature exists to catch is rare in randomly
+-sampled cache data (compromised_lib is only ~3.5% of malware, see training/RESULTS.md), so the
+combiner never saw enough of that pattern to learn it. Verified: with that trained combiner
+wired in, all curated poisoned-chain demos silently stopped flagging. The artifact is kept at
+`models/combiner_v1_naive_nodeclf.joblib` as a documented negative result — training a real
+stacking combiner needs deliberate poisoned-chain-labeled examples, not just a sampled graph.
 
-If no meta-learner is trained yet, a transparent logit-space fallback is used with a fixed
-graph weight — same interface, so nothing downstream changes when the real combiner lands.
+Until then, the additive-only fallback below is the correct choice: it is guaranteed to only
+ever ADD risk from a poisoned dependency, never subtract, so it can't accidentally learn to
+ignore the exact signal it exists to surface.
+
+**Logit-space attribution:** the "+X from the dependency graph" number shown in the UI is a
+genuine additive contribution in log-odds space — logit(combined) = logit(xgb) + graph_delta —
+so reporting `graph_delta` as the graph driver is mathematically valid (this is what the v3 plan
+got wrong by calling an additive story a "weighted average").
 """
 
 from __future__ import annotations

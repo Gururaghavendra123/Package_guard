@@ -30,6 +30,18 @@ def _matches(record: dict, dep: Dependency) -> bool:
     return "*" in versions or dep.version in versions
 
 
+def history_for_name(name: str) -> list[dict]:
+    """All DB records for this package name, regardless of version.
+
+    Distinct from `find_issues`: that requires the *specific version* to match, so a package
+    whose bad version was long ago patched (e.g. eslint-scope@3.7.2, 2018) correctly shows as
+    safe when checking the current release. This returns the historical record anyway, so a
+    security tool can still say "this name has a history of compromise" as context — real
+    security information a user should see even when today's version is fine.
+    """
+    return [r for r in _load_db() if r["name"] == name]
+
+
 def find_issues(deps: list[Dependency]) -> list[dict]:
     """Return issues sorted by severity (critical first)."""
     db = _load_db()

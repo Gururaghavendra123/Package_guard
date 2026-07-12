@@ -54,6 +54,9 @@ FEATURE_ORDER: tuple[str, ...] = (
     "author_age",
     "publish_timing",
     "dep_count",
+    "version_count",
+    "description_quality",
+    "maintainer_count",
 )
 
 FEATURE_LABELS: dict[str, str] = {
@@ -62,6 +65,9 @@ FEATURE_LABELS: dict[str, str] = {
     "author_age": "Author account age",
     "publish_timing": "Publish timing",
     "dep_count": "Dependency footprint",
+    "version_count": "Release history",
+    "description_quality": "Description quality",
+    "maintainer_count": "Maintainer count",
 }
 
 
@@ -205,8 +211,54 @@ def _dep_count(name: str, meta: dict | None, seed: list[int]) -> Feature:
                    f"{count} direct dependencies{note}")
 
 
+def _version_count(name: str, meta: dict | None, seed: list[int]) -> Feature:
+    # Phase 1 (real-data validated, AUC 0.81): throwaway malware is published once and
+    # abandoned; legitimate packages accumulate many releases over time. Not selected on by
+    # any of our sampling filters, so this signal is clean (unlike has_repo/has_homepage,
+    # which correlate with our benign-legitimacy filter and were excluded for that reason).
+    count = meta.get("version_count") if meta else None
+    if count is None:
+        count = 1 + seed[5] % 8
+        note = " (offline estimate)"
+    else:
+        note = ""
+    # 1 version -> high risk; decays smoothly, near-zero past ~20 releases
+    value = max(0.0, min(1.0, 1.0 - (count - 1) / 20.0))
+    detail = f"{count} published version(s){note}"
+    return Feature("version_count", FEATURE_LABELS["version_count"], value, detail)
+
+
+def _description_quality(name: str, meta: dict | None, seed: list[int]) -> Feature:
+    # AUC 0.81. Throwaway malware typically ships no/minimal description; real packages
+    # describe themselves so users can find them. Length capped, not content-scored — this
+    # tool doesn't need to understand English, just whether care was taken.
+    if meta is not None:
+        length = len(meta.get("description") or "")
+        note = ""
+    else:
+        length = seed[6] % 90
+        note = " (offline estimate)"
+    value = max(0.0, min(1.0, 1.0 - length / 60.0))
+    detail = (f"{length} char description{note}" if length else f"No description provided{note}")
+    return Feature("description_quality", FEATURE_LABELS["description_quality"], value, detail)
+
+
+def _maintainer_count(name: str, meta: dict | None, seed: list[int]) -> Feature:
+    # AUC 0.75. Solo-maintainer, throwaway-feeling packages skew malicious; established
+    # packages tend to accumulate co-maintainers over time.
+    count = meta.get("maintainers") if meta else None
+    if count is None:
+        count = 1 + seed[7] % 3
+        note = " (offline estimate)"
+    else:
+        note = ""
+    value = 0.55 if count <= 1 else max(0.0, 0.55 - (count - 1) * 0.15)
+    detail = f"{count} maintainer(s){note}"
+    return Feature("maintainer_count", FEATURE_LABELS["maintainer_count"], value, detail)
+
+
 def extract_features(name: str, meta: dict | None = None) -> list[Feature]:
-    """Return the 5 features in canonical order."""
+    """Return the 8 features in canonical order (5 original + 3 Phase-1 additions)."""
     seed = _seed(name)
     return [
         _name_similarity(name),
@@ -214,4 +266,7 @@ def extract_features(name: str, meta: dict | None = None) -> list[Feature]:
         _author_age(name, meta, seed),
         _publish_timing(name, meta, seed),
         _dep_count(name, meta, seed),
+        _version_count(name, meta, seed),
+        _description_quality(name, meta, seed),
+        _maintainer_count(name, meta, seed),
     ]

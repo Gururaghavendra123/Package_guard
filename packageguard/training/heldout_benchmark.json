@@ -1,0 +1,187 @@
+{
+  "positives": [
+    {
+      "parent": "fecha",
+      "malicious_dep": "@antv/f2",
+      "parent_own_xgb": 0.205,
+      "dep_own_xgb": 0.562
+    },
+    {
+      "parent": "css-select",
+      "malicious_dep": "@antv/g-plugin-css-select",
+      "parent_own_xgb": 0.152,
+      "dep_own_xgb": 0.613
+    },
+    {
+      "parent": "@clack/prompts",
+      "malicious_dep": "@asyncapi/cli",
+      "parent_own_xgb": 0.292,
+      "dep_own_xgb": 0.909
+    },
+    {
+      "parent": "srvx",
+      "malicious_dep": "@tanstack/start-plugin-core",
+      "parent_own_xgb": 0.022,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "@uipath/agent.sdk",
+      "parent_own_xgb": 0.141,
+      "dep_own_xgb": 0.862
+    },
+    {
+      "parent": "@clack/prompts",
+      "malicious_dep": "airpilot",
+      "parent_own_xgb": 0.292,
+      "dep_own_xgb": 0.795
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "axios-builder",
+      "parent_own_xgb": 0.141,
+      "dep_own_xgb": 0.758
+    },
+    {
+      "parent": "object-assign",
+      "malicious_dep": "core-ui",
+      "parent_own_xgb": 0.308,
+      "dep_own_xgb": 0.655
+    },
+    {
+      "parent": "ms",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.276,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "once",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.353,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "ignore",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.142,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "wrappy",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.812,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "mime-db",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.108,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "cli-cursor",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.398,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "mime-types",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.396,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "@tybys/wasm-util",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.351,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "es-define-property",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.851,
+      "dep_own_xgb": 0.681
+    },
+    {
+      "parent": "escape-string-regexp",
+      "malicious_dep": "nx",
+      "parent_own_xgb": 0.388,
+      "dep_own_xgb": 0.681
+    }
+  ],
+  "negatives": [
+    {
+      "parent": "@teambit/sidebar",
+      "own_xgb": 0.893
+    },
+    {
+      "parent": "@veryfront/ext-llm-anthropic",
+      "own_xgb": 0.0
+    },
+    {
+      "parent": "@flue/react",
+      "own_xgb": 0.008
+    },
+    {
+      "parent": "@dbeauyat/user-accounts-utils",
+      "own_xgb": 0.001
+    },
+    {
+      "parent": "@decocms/apps-shopify",
+      "own_xgb": 0.009
+    },
+    {
+      "parent": "@teambit/component.testing.mock-components",
+      "own_xgb": 0.849
+    },
+    {
+      "parent": "@mindrian_os/cli",
+      "own_xgb": 0.009
+    },
+    {
+      "parent": "@arity-cli/linux-arm64-musl",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "@yak-io/prismic",
+      "own_xgb": 0.001
+    },
+    {
+      "parent": "@anvia/langfuse",
+      "own_xgb": 0.02
+    },
+    {
+      "parent": "@nexus-state/form-builder-react",
+      "own_xgb": 0.135
+    },
+    {
+      "parent": "@mpgd/adapter-capacitor",
+      "own_xgb": 0.0
+    },
+    {
+      "parent": "@teambit/internalize",
+      "own_xgb": 0.245
+    },
+    {
+      "parent": "next-intl-swc-plugin-extractor",
+      "own_xgb": 0.14
+    },
+    {
+      "parent": "proxy-addr",
+      "own_xgb": 0.176
+    },
+    {
+      "parent": "date-arithmetic",
+      "own_xgb": 0.489
+    },
+    {
+      "parent": "@teambit/workspace.ui.workspace-component-card",
+      "own_xgb": 0.893
+    },
+    {
+      "parent": "loadash",
+      "own_xgb": 0.785
+    }
+  ],
+  "suspicion_threshold": 0.5
+}

@@ -33,6 +33,9 @@ WEIGHTS: dict[str, float] = {
     "author_age": 1.6,
     "publish_timing": 0.5,
     "dep_count": 0.7,
+    "version_count": 1.4,       # Phase 1: real-data AUC 0.81
+    "description_quality": 1.2,  # Phase 1: real-data AUC 0.81
+    "maintainer_count": 0.8,     # Phase 1: real-data AUC 0.75
 }
 BENIGN_PRIOR: dict[str, float] = {
     "name_similarity": 0.05,
@@ -40,6 +43,9 @@ BENIGN_PRIOR: dict[str, float] = {
     "author_age": 0.35,
     "publish_timing": 0.20,
     "dep_count": 0.30,
+    "version_count": 0.20,
+    "description_quality": 0.15,
+    "maintainer_count": 0.20,
 }
 BIAS = -1.7
 

@@ -311,7 +311,10 @@ fetch("/api/health").then((r) => r.json())
     } else {
       clearInterval(iv);
       msg.textContent = "SYSTEM READY";
-      setTimeout(() => { el.classList.add("gone"); setTimeout(() => el.remove(), 700); }, 550);
+      setTimeout(() => {
+        el.classList.add("gone");
+        setTimeout(() => { el.remove(); const inp = document.getElementById("pkg-input"); if (inp) inp.focus(); }, 700);
+      }, 550);
     }
   }, 470);
 })();
@@ -359,3 +362,17 @@ setInterval(() => {
   const c = document.getElementById("hud-coord");
   if (c) c.textContent = `${(Math.random() * 89).toFixed(4)}N · ${(Math.random() * 179).toFixed(4)}W`;
 }, 2600);
+
+// ---------- QoL: keyboard tab shortcuts + auto-focus the active tab's input ----------
+const TAB_INPUT = { check: "#pkg-input", graph: "#graph-input" };
+function focusTab(name) {
+  const sel = TAB_INPUT[name];
+  if (sel) { const el = document.querySelector(sel); if (el) setTimeout(() => el.focus(), 60); }
+}
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => focusTab(t.dataset.tab)));
+document.addEventListener("keydown", (e) => {
+  if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
+  const map = { 1: "check", 2: "scan", 3: "graph" };
+  const target = map[e.key];
+  if (target) { const tab = document.querySelector(`.tab[data-tab="${target}"]`); if (tab) tab.click(); }
+});

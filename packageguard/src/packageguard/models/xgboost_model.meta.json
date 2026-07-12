@@ -1,33 +1,39 @@
 {
-  "trained_at": "2026-07-10T11:13:31.856767+00:00",
+  "trained_at": "2026-07-12T07:22:10.394456+00:00",
   "dataset_path": "training\\dataset.parquet",
-  "n_total": 394,
-  "n_malicious": 194,
-  "n_benign": 200,
+  "n_total": 1531,
+  "n_malicious": 779,
+  "n_benign": 752,
   "test_size": 0.25,
   "feature_order": [
     "name_similarity",
     "install_script",
     "author_age",
     "publish_timing",
-    "dep_count"
+    "dep_count",
+    "version_count",
+    "description_quality",
+    "maintainer_count"
   ],
-  "pr_auc": 0.9026,
+  "pr_auc": 0.9735,
   "feature_importances": {
-    "name_similarity": 0.39100000262260437,
-    "install_script": 0.0,
-    "author_age": 0.412200003862381,
-    "publish_timing": 0.06650000065565109,
-    "dep_count": 0.13030000030994415
+    "name_similarity": 0.04619999974966049,
+    "install_script": 0.020099999383091927,
+    "author_age": 0.12060000002384186,
+    "publish_timing": 0.01759999990463257,
+    "dep_count": 0.01769999973475933,
+    "version_count": 0.6881999969482422,
+    "description_quality": 0.02590000070631504,
+    "maintainer_count": 0.06360000371932983
   },
   "confusion_matrix": [
     [
-      40,
-      10
+      173,
+      15
     ],
     [
-      9,
-      40
+      25,
+      170
     ]
   ],
   "small_sample_warning": false

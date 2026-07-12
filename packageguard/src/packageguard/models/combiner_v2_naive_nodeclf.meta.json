@@ -1,0 +1,10 @@
+{
+  "trained_at": "2026-07-12T08:33:40.297939+00:00",
+  "n_nodes": 2760,
+  "combiner_pr_auc_heldout_nodes": 0.9515,
+  "xgb_only_pr_auc_heldout_nodes": 0.9523,
+  "coef_xgb_score": 5.826,
+  "coef_graph_score": -0.1884,
+  "intercept": -3.1474,
+  "caveat": "Base XGBoost/GNN were fit on this same graph's nodes; this is not a fully independent generalization test, only the best available without a new rate-limited npm pull."
+}
