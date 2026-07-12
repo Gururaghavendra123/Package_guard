@@ -5,9 +5,6 @@
 *.pdf
 *.lnk
 
-# Planning scratch docs (kept local, not published)
-packageguard_v3_final.md
-packageguard_v4_final.md
-
-# Personal presentation prep (kept local — not for the public repo)
-HOW_TO_PRESENT.md
+# Personal review/understanding docs — kept local only, never pushed. Everything you drop in
+# here (report drafts, notes, interview prep, old plan versions) stays out of git automatically.
+review_prep/

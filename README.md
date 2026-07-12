@@ -48,8 +48,7 @@ Two faces, one engine:
   database-lookup baseline catches **0%**. This is the direct answer to "does the graph model
   generalize, or does it just memorize the malware list?"
 - Full confounder-removal methodology, feature-leakage screening, and every honest negative
-  result along the way: [`packageguard/training/RESULTS.md`](packageguard/training/RESULTS.md)
-  and [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md).
+  result along the way: [`packageguard/training/RESULTS.md`](packageguard/training/RESULTS.md).
 
 ## Quick start
 
@@ -72,12 +71,6 @@ packageguard serve                # HUD dashboard at localhost:8000
 > `python training/build_heldout_benchmark.py && python training/evaluate_heldout_benchmark.py`
 > to reproduce the held-out benchmark. Without trained models the tool runs on its heuristic
 > fallback.
-
-## Demo examples
-
-See [`EXAMPLES.md`](EXAMPLES.md) for the full curated example suite (verified inputs for CHECK,
-SCAN, and GRAPH) and [`HOW_TO_PRESENT.md`](HOW_TO_PRESENT.md) for the review/demo script — not
-tracked in git (kept local; regenerate or ask for it if needed).
 
 ## Tech
 
