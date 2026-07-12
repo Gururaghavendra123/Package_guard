@@ -13,10 +13,12 @@ The chips regenerate every load (hit **⟳** for new ones). Three kinds, colour-
 | ---- | -------------- | -------------- | ------ |
 | 🟢 Clean | `express`, `lodash`, `react`, `chalk`, `axios` | Real popular packages score **LIKELY SAFE** | random real npm packages (`data/top_packages.json`) |
 | 🔴 Typosquat | `loadash`, `expres`, `axioss`, `micr0-cors`, `w5-rpc` | The **ML model** flags look-alike names — *generated live*, not hardcoded | `engine._make_typosquat()` mutates a real name |
-| 🔴 Known malware | `event-stream@3.3.6`, `eslint-scope@3.7.2`, `ua-parser-js`, `coa`, `crossenv` | Matches the known-malware database → DO NOT INSTALL | `data/known_malware.json` |
+| 🔴 Known malware | `event-stream@3.3.6`, `coa`, `crossenv` | Matches the known-malware database → DO NOT INSTALL | `data/known_malware.json` |
+| 🟡 Historical incident | `eslint-scope`, `ua-parser-js` (no version = latest) | Current version is safe, but shows an amber note about a past incident — real context without a false alarm | `remediation.history_for_name()` |
 
 Also worth typing live: `@types/node`, `@babel/core` → **SAFE** (proves the popularity allowlist
-stops false positives on legit scoped packages).
+stops false positives on legit scoped packages). And a fake name (`zzznotarealpkg`) → **NOT
+FOUND**, not a random score — proves the tool doesn't fabricate results for garbage input.
 
 ## SCAN tab — scan a whole project
 
@@ -34,22 +36,29 @@ Each issue card shows the dependency path, why it's malicious, and step-by-step 
 
 ## GRAPH tab — dependency-graph analysis (GNN)
 
+6 curated poisoned-chain demos (chips rotate on ⟳, shown with ⚠) + real live packages:
+
 | Chip | What it shows | Source |
 | ---- | ------------- | ------ |
-| `safe-wrapper ⚠` | Credential harvester 2 hops deep — root looks SAFE (XGBoost 0.08) but GNN flags the chain | curated demo (`data/demo_graphs.json`) |
+| `safe-wrapper ⚠` | Credential harvester 2 hops deep — root looks SAFE but GNN flags the chain | curated demo (`data/demo_graphs.json`) |
 | `ui-toolkit ⚠` | UI library transitively pulling a cryptominer | curated demo |
 | `api-client ⚠` | Retry helper that exfiltrates env vars | curated demo |
 | `build-tool ⚠` | Hijacked config parser (file wiper) | curated demo |
+| `payment-sdk ⚠` | Payment SDK's currency formatter skims card details | curated demo |
+| `logger-lib ⚠` | Logging library loads a keystroke/env harvester | curated demo |
 | `express`, real names | Live 2-hop npm graph — all green, no poison | live npm API |
 
 **The money shot:** any curated demo shows the poisoned node pulsing red with the risk chain
 glowing up to the clean root, and the side panel shows *per-package (XGBoost) safe → +graph (GNN)
 → combined RISKY*. That's the exact attack per-package scoring misses.
 
-> Why the demos are curated: real dependency graphs of clean packages don't contain known malware
-> (malware is usually a leaf nothing depends on). The demos construct the poisoned-chain scenario
-> with malware-like features so the **real** GraphSAGE model flags them. Say this openly — it's
-> honest and it's the whole point of the graph model.
+> Why the demos are curated: real dependency graphs of clean packages don't naturally contain
+> known malware (malware is usually a leaf nothing depends on). The demos construct the
+> poisoned-chain scenario with malware-like features so the **real** GraphSAGE model flags them.
+> Say this openly. **The real proof isn't the demo — it's the held-out-unknown benchmark**: 18
+> genuine cases mined from live npm data, none in our own malware database, where the GNN catches
+> 89% of real threats with 0% false alarms while a lookup-table approach catches 0%. That number
+> is what makes the demo credible, not the other way around. See `TECHNICAL_REPORT.md` §8.3.
 
 ---
 
@@ -64,7 +73,11 @@ glowing up to the clean root, and the side panel shows *per-package (XGBoost) sa
 
 ## Talking points (proof it's really trained)
 
-- **5-fold CV PR-AUC 0.94 ± 0.02** for the XGBoost scorer (`training/RESULTS.md`).
-- **GNN 0.87 vs XGBoost 0.79** node-classification ablation — +0.07 from graph structure.
-- Models regenerate from scripts: `training/train_xgboost.py`, `training/train_gnn.py`.
-- Honest confounder-removal story (0.987 inflated → 0.90 real) — see `TECHNICAL_REPORT.md`.
+- **5-fold CV PR-AUC 0.971 ± 0.006** for the XGBoost scorer, 8 features, 1,531 real rows.
+- **Held-out-unknown benchmark (the strongest result): GNN 89% recall / 0% false alarms vs. 0%
+  recall for a deterministic DB lookup** — real npm data, zero-day simulation. See
+  `training/RESULTS.md` §Phase 6.
+- Models regenerate from scripts: `training/train_xgboost.py`, `training/train_gnn.py`,
+  `training/build_heldout_benchmark.py` → `training/evaluate_heldout_benchmark.py`.
+- Honest confounder-removal story (0.987 inflated → 0.90 real, then 0.97 with more/better data)
+  — see `TECHNICAL_REPORT.md`.

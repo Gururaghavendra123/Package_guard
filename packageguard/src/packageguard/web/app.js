@@ -10,14 +10,24 @@ function tickClock() {
 }
 setInterval(tickClock, 1000); tickClock();
 
+function goToTab(name) {
+  const tab = document.querySelector(`.tab[data-tab="${name}"]`);
+  if (tab) tab.click();
+}
+
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach((t) => { t.classList.remove("active"); t.removeAttribute("aria-current"); });
     document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
     tab.classList.add("active");
+    tab.setAttribute("aria-current", "page");
     $("#" + tab.dataset.tab).classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
+
+document.querySelectorAll("[data-goto]").forEach((el) =>
+  el.addEventListener("click", () => goToTab(el.dataset.goto)));
 
 fetch("/api/health").then((r) => r.ok ? r.json() : Promise.reject())
   .then(() => { $("#net-led").className = "led led-ok"; })
@@ -358,6 +368,17 @@ window.flashThreat = function () {
 
 // ---------- ambient widgets: status meters + drifting coords ----------
 document.querySelectorAll(".hud-meter").forEach((m) => m.style.setProperty("--w", (m.dataset.v || 60) + "%"));
+
+// home-page stat readout: count up on load
+document.querySelectorAll(".sr-n[data-count]").forEach((el) => {
+  const target = parseInt(el.dataset.count, 10);
+  const start = performance.now();
+  (function f(now) {
+    const t = Math.min(1, (now - start) / 1300);
+    el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
+    if (t < 1) requestAnimationFrame(f);
+  })(performance.now());
+});
 setInterval(() => {
   const c = document.getElementById("hud-coord");
   if (c) c.textContent = `${(Math.random() * 89).toFixed(4)}N · ${(Math.random() * 179).toFixed(4)}W`;
@@ -372,7 +393,7 @@ function focusTab(name) {
 document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => focusTab(t.dataset.tab)));
 document.addEventListener("keydown", (e) => {
   if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
-  const map = { 1: "check", 2: "scan", 3: "graph" };
+  const map = { 1: "home", 2: "check", 3: "scan", 4: "graph", 5: "awareness" };
   const target = map[e.key];
   if (target) { const tab = document.querySelector(`.tab[data-tab="${target}"]`); if (tab) tab.click(); }
 });

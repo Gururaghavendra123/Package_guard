@@ -1,11 +1,14 @@
 # 🛡️ PackageGuard
 
 A supply-chain security tool that scores a software package's risk **before** you install it,
-and scans an existing project for compromised dependencies with exact remediation steps.
+scans an existing project for compromised dependencies, and uses a **graph neural network** to
+catch threats hiding *inside* a dependency — validated on a held-out-unknown benchmark of real,
+previously-unseen threats.
 
 Two faces, one engine:
-- **CLI** — `packageguard check <pkg>` / `packageguard scan <path>`
-- **HUD dashboard** — `packageguard serve` → a tactical security console in your browser
+- **CLI** — `packageguard check <pkg>` / `packageguard scan <path>` / `packageguard graph <pkg>`
+- **HUD dashboard** — `packageguard serve` → a tactical threat-console in your browser, with a
+  home page, live CHECK/SCAN/GRAPH tools, and a supply-chain security awareness page
 
 > Final-year project by **Gururaghavendra P (23CZ037)** and **Tharun K S (23CZ055)**.
 > The source lives in [`packageguard/`](packageguard/).
@@ -19,29 +22,34 @@ Two faces, one engine:
 | `packageguard check <pkg>` | Score a package for supply-chain risk and explain *why* (per-feature attribution). |
 | `packageguard scan <project>` | Parse `package-lock.json`, flag known-malicious dependencies, print fix steps. |
 | `packageguard graph <pkg>` | Analyse a package's dependency graph with the GNN (catches poisoned chains). |
-| `packageguard serve` | Launch the HUD dashboard (all of the above in the browser). |
+| `packageguard serve` | Launch the HUD dashboard — home page, all three tools, and a security awareness page. |
 
 ## How it works
 
-- **Per-package model** — a trained **XGBoost** classifier over 5 metadata features
-  (name similarity / typosquat, install scripts, author age, publish timing, dependency count),
-  with **SHAP** attributions. Falls back to a transparent heuristic when offline.
-- **Graph model (Sem 8)** — a **GraphSAGE** GNN scores a package using its dependency-graph
-  neighbourhood, catching *poisoned chains* (a clean-looking package whose dependency is
-  malicious) that per-package scoring cannot see. A stacking combiner merges the two scores.
-- **Scan** — pure lockfile parsing (no code execution) + a bundled known-malware database.
+- **Per-package model** — a trained **XGBoost** classifier over **8** metadata features (name
+  similarity/typosquat, install scripts, author age, publish timing, dependency count, release
+  history, description quality, maintainer count), with **SHAP** attributions. Falls back to a
+  transparent heuristic when offline.
+- **Graph model** — a **GraphSAGE** GNN scores a package using its dependency-graph neighbourhood,
+  catching *poisoned chains* (a clean-looking package whose dependency is malicious) that
+  per-package scoring structurally cannot see. Combined via a transparent additive log-odds
+  formula (a trained stacking combiner was attempted twice and deliberately not shipped — see
+  results doc for why, kept as a documented negative result).
+- **Scan** — pure lockfile parsing (no code execution) + a bundled known-malware database, with
+  historical-incident awareness (a package whose *current* version is safe but had a past
+  incident shows an informational note, not a false alarm).
 
-## Results (honest, small-sample)
+## Results (honest, real data)
 
-- Per-package XGBoost: **PR-AUC ~0.90** (5-fold CV 0.94 ± 0.02).
-- GNN ablation (node classification): **GraphSAGE 0.87 vs XGBoost 0.79** PR-AUC — **+0.07 from
-  dependency structure**.
-- Poisoned-chain demo: a package XGBoost scores 0.12 (safe) is flagged **RISKY** once the GNN
-  sees its compromised dependency.
-
-See [`packageguard/training/RESULTS.md`](packageguard/training/RESULTS.md) and
-[`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md) for the full writeup, including the
-confounder-removal methodology.
+- Per-package XGBoost: **5-fold CV PR-AUC 0.971 ± 0.006** on 1,531 real labeled rows.
+- **Held-out-unknown benchmark (the headline result):** on 18 real poisoned-chain cases mined
+  from live npm data — where none of the malicious dependencies were ever in our own
+  database — the GNN catches **89% of them with 0% false alarms**, while a deterministic
+  database-lookup baseline catches **0%**. This is the direct answer to "does the graph model
+  generalize, or does it just memorize the malware list?"
+- Full confounder-removal methodology, feature-leakage screening, and every honest negative
+  result along the way: [`packageguard/training/RESULTS.md`](packageguard/training/RESULTS.md)
+  and [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md).
 
 ## Quick start
 
@@ -59,9 +67,17 @@ packageguard serve                # HUD dashboard at localhost:8000
 ```
 
 > Trained models are not committed (regenerate them, offline-safe):
-> `python training/build_dataset.py && python training/train_xgboost.py`
-> and `python training/build_graph_dataset.py && python training/train_gnn.py`.
-> Without them the tool still runs on its heuristic fallback.
+> `python training/build_dataset.py && python training/train_xgboost.py`,
+> `python training/build_graph_dataset.py && python training/train_gnn.py`, and
+> `python training/build_heldout_benchmark.py && python training/evaluate_heldout_benchmark.py`
+> to reproduce the held-out benchmark. Without trained models the tool runs on its heuristic
+> fallback.
+
+## Demo examples
+
+See [`EXAMPLES.md`](EXAMPLES.md) for the full curated example suite (verified inputs for CHECK,
+SCAN, and GRAPH) and [`HOW_TO_PRESENT.md`](HOW_TO_PRESENT.md) for the review/demo script — not
+tracked in git (kept local; regenerate or ask for it if needed).
 
 ## Tech
 

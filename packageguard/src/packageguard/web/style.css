@@ -234,7 +234,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 22px; }
 .locked-body code { color: var(--cyan); }
 
 /* ---------- footer ---------- */
-.foot { text-align: center; color: var(--ink-dim); font-size: 11px; letter-spacing: 1px; padding: 30px 0 40px; }
+.foot { text-align: center; color: var(--ink-dim); font-size: 11px; letter-spacing: 1px; padding: 30px 0 40px; position: relative; z-index: 2; }
+.foot-keys { color: var(--cyan); opacity: .7; }
 
 .loading { animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: .3 } }
@@ -446,6 +447,249 @@ main .view.active > * { animation: bootin .5s both; }
 main .view.active > *:nth-child(2) { animation-delay: .06s; }
 main .view.active > *:nth-child(3) { animation-delay: .12s; }
 @keyframes bootin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   HOME + AWARENESS — tactical threat-intel briefing
+   ============================================================ */
+#home, #awareness { max-width: 1120px; margin: 0 auto; }
+#home code, #awareness code { color: var(--cyan); }
+#home em, #awareness em { color: var(--amber); font-style: normal; }
+
+/* ---- hero: asymmetric briefing + live reticle ---- */
+.hero2 {
+  display: grid; grid-template-columns: 1.35fr .9fr; gap: 24px; align-items: center;
+  padding: 30px 8px 24px; position: relative;
+}
+.hero2::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-hot), transparent);
+}
+.hero2-eyebrow { color: var(--amber); font-size: 11px; letter-spacing: 3px; margin-bottom: 16px; }
+.hero2-eyebrow .blink { color: var(--cyan); animation: blink 1s steps(2) infinite; }
+.hero2-title {
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: clamp(30px, 4.6vw, 52px);
+  line-height: 1.04; letter-spacing: 1px; margin: 0 0 18px;
+}
+.hero2-title .line { display: block; }
+.hero2-title .accent { color: var(--cyan); text-shadow: var(--glow-cyan); }
+.hero2-title .line { opacity: 0; animation: bootin .5s both; }
+.hero2-title .line:nth-child(2) { animation-delay: .08s; }
+.hero2-title .line:nth-child(3) { animation-delay: .16s; }
+.hero2-title .line:nth-child(4) { animation-delay: .24s; }
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; overflow: hidden;
+}
+.glitch::before { color: var(--crit); animation: glitch1 3.5s infinite steps(2); clip-path: inset(0 0 55% 0); }
+.glitch::after { color: var(--ok); animation: glitch2 4s infinite steps(2); clip-path: inset(58% 0 0 0); }
+@keyframes glitch1 { 0%,92%,100% { transform: none; } 94% { transform: translateX(-3px); } 96% { transform: translateX(2px); } }
+@keyframes glitch2 { 0%,90%,100% { transform: none; } 93% { transform: translateX(3px); } 97% { transform: translateX(-2px); } }
+.hero2-sub { color: var(--ink); opacity: .85; line-height: 1.75; font-size: 14px; max-width: 560px; margin: 0 0 24px; }
+.hero2-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.big-btn {
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; letter-spacing: 2px; font-size: 13px;
+  background: var(--cyan); color: #04121a; border: none; padding: 12px 22px; cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: box-shadow .2s, transform .1s;
+}
+.big-btn:hover { box-shadow: var(--glow-cyan); }
+.big-btn:active { transform: translateY(1px); }
+.ghost-btn {
+  font-family: "JetBrains Mono", monospace; letter-spacing: 1.5px; font-size: 12px;
+  background: transparent; color: var(--ink-dim); border: 1px solid var(--line-hot); padding: 12px 18px;
+  cursor: pointer; transition: color .15s, box-shadow .15s;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.ghost-btn:hover { color: var(--cyan); box-shadow: inset 0 0 20px rgba(34,211,238,.1); }
+
+/* reticle */
+.hero2-right { display: flex; justify-content: center; }
+.reticle-stack { position: relative; width: 260px; height: 260px; }
+.reticle-stack .ret { position: absolute; border-radius: 50%; border: 1px solid var(--line-hot); }
+.ret1 { inset: 0; animation: reticle 14s linear infinite; }
+.ret2 { inset: 26px; border-color: var(--cyan); border-style: dashed; opacity: .6; animation: reticle 10s linear infinite reverse; }
+.ret3 { inset: 62px; border-color: var(--amber); opacity: .5; animation: reticle 7s linear infinite; }
+.ret-cross { position: absolute; background: rgba(34,211,238,.25); }
+.ret-cross.v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
+.ret-cross.h { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
+.ret-sweep {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(34,211,238,.35), transparent 30%);
+  mask: radial-gradient(circle, transparent 30px, #000 31px);
+  animation: reticle 3.5s linear infinite;
+}
+.ret-core {
+  position: absolute; inset: 0; display: grid; place-items: center; font-size: 42px;
+  filter: drop-shadow(var(--glow-cyan)); animation: corepulse 2.4s ease-in-out infinite;
+}
+@keyframes corepulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.ret-tag {
+  position: absolute; font-size: 8.5px; letter-spacing: 2px; color: var(--cyan); background: var(--bg-2);
+  border: 1px solid var(--line-hot); padding: 2px 6px; white-space: nowrap;
+}
+.ret-tag.t1 { top: -6px; left: 50%; transform: translateX(-50%); }
+.ret-tag.t2 { bottom: 40px; right: -18px; color: var(--amber); border-color: var(--amber); }
+.ret-tag.t3 { bottom: 10px; left: -10px; color: var(--ok); border-color: var(--ok); }
+@media (max-width: 780px) { .hero2 { grid-template-columns: 1fr; } .hero2-right { display: none; } }
+
+/* ---- stat readout strip ---- */
+.stat-readout {
+  display: flex; align-items: stretch; gap: 0; margin: 8px auto 12px; padding: 18px 20px;
+  background: linear-gradient(180deg, var(--panel), var(--bg-2)); border: 1px solid var(--line);
+  clip-path: var(--clip);
+  background-image: repeating-linear-gradient(90deg, rgba(34,211,238,.05) 0 1px, transparent 1px 22px);
+}
+.sr-item { flex: 1; display: flex; align-items: baseline; gap: 6px; padding: 0 18px; flex-wrap: wrap; }
+.sr-n { font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 40px; color: var(--cyan); line-height: 1; text-shadow: var(--glow-cyan); font-variant-numeric: tabular-nums; }
+.sr-suffix { font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); }
+.sr-item.hot .sr-n, .sr-item.hot .sr-suffix { color: var(--amber); text-shadow: 0 0 12px rgba(245,166,35,.4); }
+.sr-item.good .sr-n, .sr-item.good .sr-suffix { color: var(--ok); text-shadow: 0 0 12px rgba(35,227,154,.4); }
+.sr-k { flex-basis: 100%; font-size: 10px; letter-spacing: .5px; color: var(--ink-dim); margin-top: 4px; }
+.sr-div { width: 1px; background: var(--line-hot); opacity: .5; }
+@media (max-width: 720px) { .stat-readout { flex-direction: column; gap: 14px; } .sr-div { display: none; } }
+
+/* ---- section header ---- */
+.hsec { padding: 26px 8px 6px; }
+.hsec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.hsec-idx {
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 22px; color: var(--amber);
+  border: 1px solid var(--amber); width: 40px; height: 40px; display: grid; place-items: center;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.hsec-title { font-family: "Chakra Petch", sans-serif; letter-spacing: 3px; font-size: 14px; color: var(--ink); }
+.hsec-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-hot), transparent); }
+
+/* ---- intel dossiers (why) ---- */
+.dossier-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 860px) { .dossier-row { grid-template-columns: 1fr; } }
+.dossier {
+  position: relative; padding: 24px 20px 20px; overflow: hidden;
+  background: linear-gradient(155deg, var(--panel-2), var(--bg-2) 70%); border: 1px solid var(--line);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+  transition: border-color .18s, transform .18s;
+}
+.dossier:hover { border-color: var(--line-hot); transform: translateY(-2px); }
+.dossier::before { content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--line-hot); }
+.dossier-no {
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 46px; color: transparent;
+  -webkit-text-stroke: 1px var(--line-hot); line-height: 1; margin-bottom: 6px; opacity: .55;
+}
+.dossier-stamp {
+  position: absolute; top: 16px; right: 14px; font-size: 8.5px; letter-spacing: 2px; color: var(--crit);
+  border: 1px solid var(--crit); padding: 2px 6px; transform: rotate(4deg); opacity: .85;
+}
+.dossier-stamp.warn { color: var(--amber); border-color: var(--amber); }
+.dossier-stamp.good { color: var(--ok); border-color: var(--ok); }
+.dossier h3 { margin: 0 0 10px; font-family: "Chakra Petch", sans-serif; font-size: 15px; color: var(--ink); letter-spacing: .3px; }
+.dossier p { margin: 0; font-size: 12.5px; line-height: 1.75; color: var(--ink-dim); }
+.dossier p b { color: var(--cyan); }
+
+/* ---- capability launch bays ---- */
+.bay-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 860px) { .bay-row { grid-template-columns: 1fr; } }
+.bay {
+  position: relative; text-align: left; cursor: pointer; font-family: inherit; overflow: hidden;
+  background: linear-gradient(180deg, var(--panel), var(--bg-2)); border: 1px solid var(--line);
+  padding: 0; clip-path: var(--clip); transition: border-color .18s, transform .18s, box-shadow .18s;
+}
+.bay:hover { border-color: var(--cyan); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.4), var(--glow-cyan); }
+.bay-ghost {
+  position: absolute; top: -14px; right: 6px; font-family: "Chakra Petch", sans-serif; font-weight: 700;
+  font-size: 96px; color: rgba(34,211,238,.06); line-height: 1; pointer-events: none;
+}
+.bay-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--cyan), transparent); }
+.bay:hover .bay-bar { background: linear-gradient(180deg, var(--cyan), var(--amber)); }
+.bay-body { position: relative; padding: 22px 20px; }
+.bay-glyph { font-size: 26px; margin-bottom: 10px; }
+.bay h3 { margin: 0 0 8px; font-family: "Chakra Petch", sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--cyan); }
+.bay p { margin: 0 0 16px; font-size: 12.5px; line-height: 1.7; color: var(--ink-dim); }
+.bay p code { color: var(--amber); }
+.bay-go { font-family: "Chakra Petch", sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--ok); }
+.bay:hover .bay-go { color: var(--cyan); }
+
+/* ---- intel feed (facts) ---- */
+.intel-feed {
+  border: 1px solid var(--line); background: linear-gradient(180deg, rgba(12,21,36,.7), var(--bg));
+  clip-path: var(--clip); padding: 6px 0;
+}
+.intel-line {
+  display: flex; align-items: baseline; gap: 12px; padding: 11px 18px; font-size: 12.5px;
+  line-height: 1.6; color: var(--ink-dim); border-bottom: 1px solid rgba(22,40,63,.6);
+  transition: background .15s;
+}
+.intel-line:last-child { border-bottom: none; }
+.intel-line:hover { background: rgba(34,211,238,.05); }
+.intel-line b { color: var(--cyan); font-family: "Chakra Petch", sans-serif; }
+.il-tag {
+  flex-shrink: 0; font-size: 9px; letter-spacing: 1.5px; color: var(--amber); border: 1px solid var(--line-hot);
+  padding: 2px 7px; min-width: 58px; text-align: center;
+}
+
+/* ---- awareness banner ---- */
+.aw-banner {
+  position: relative; overflow: hidden; padding: 40px 24px 34px; margin: 8px 0 6px;
+  background: linear-gradient(135deg, rgba(255,59,70,.08), var(--bg-2) 55%); border: 1px solid var(--line);
+  border-left: 3px solid var(--crit); clip-path: var(--clip);
+}
+.aw-banner-scan {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,59,70,.14), transparent);
+  width: 40%; animation: awscan 4.5s ease-in-out infinite;
+}
+@keyframes awscan { 0% { transform: translateX(-120%); } 100% { transform: translateX(320%); } }
+.aw-banner-tag { position: relative; color: var(--crit); font-size: 11px; letter-spacing: 3px; margin-bottom: 14px; }
+.aw-hero-title { position: relative; font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: clamp(24px, 4vw, 40px); line-height: 1.1; letter-spacing: 1px; margin: 0 0 16px; }
+.aw-hero-title .accent { color: var(--crit); text-shadow: 0 0 18px rgba(255,59,70,.4); }
+.aw-hero-sub { position: relative; color: var(--ink); opacity: .85; line-height: 1.75; font-size: 13.5px; max-width: 700px; }
+.aw-hero-sub b { color: var(--amber); }
+
+/* ---- threat log ---- */
+.threatlog { position: relative; padding-left: 34px; }
+.threatlog::before { content: ""; position: absolute; left: 12px; top: 4px; bottom: 4px; width: 2px; background: var(--line-hot); }
+.tl-beam {
+  position: absolute; left: 6px; width: 14px; height: 60px; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(34,211,238,.5), transparent);
+  filter: blur(1px); animation: tlbeam 5s linear infinite;
+}
+@keyframes tlbeam { 0% { top: 0; } 100% { top: 100%; } }
+.tl2 { position: relative; margin-bottom: 20px; opacity: 0; animation: bootin .5s both; animation-delay: calc(var(--i) * .07s); }
+.tl2-node {
+  position: absolute; left: -28px; top: 5px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--crit); box-shadow: 0 0 10px var(--crit); border: 2px solid var(--bg);
+}
+.tl2-year { font-family: "Chakra Petch", sans-serif; color: var(--amber); font-weight: 700; font-size: 13px; letter-spacing: 1px; }
+.tl2-card {
+  margin-top: 5px; padding: 12px 15px; font-size: 12.5px; line-height: 1.7; color: var(--ink-dim);
+  background: var(--panel); border: 1px solid var(--line); border-left: 2px solid var(--crit);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.tl2-card b { color: var(--ink); }
+.tl2-sev { display: inline-block; font-size: 8.5px; letter-spacing: 1.5px; color: var(--crit); border: 1px solid var(--crit); padding: 1px 6px; margin-right: 8px; vertical-align: middle; }
+.tl2-sev.warn { color: var(--amber); border-color: var(--amber); }
+
+/* ---- defense protocol ---- */
+.protocol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 760px) { .protocol { grid-template-columns: 1fr; } }
+.proto { display: flex; gap: 16px; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); clip-path: var(--clip); transition: border-color .15s; }
+.proto:hover { border-color: var(--line-hot); }
+.proto-num {
+  flex-shrink: 0; font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 26px; color: transparent;
+  -webkit-text-stroke: 1px var(--ok); line-height: 1;
+}
+.proto-body h4 { margin: 0 0 6px; color: var(--ok); font-family: "Chakra Petch", sans-serif; font-size: 13.5px; letter-spacing: .5px; }
+.proto-body p { margin: 0 0 8px; font-size: 12px; line-height: 1.65; color: var(--ink-dim); }
+.proto-body p code { color: var(--amber); }
+.proto-link { font-size: 11px; letter-spacing: .5px; color: var(--cyan); cursor: default; }
+.proto-link[data-goto] { cursor: pointer; }
+.proto-link[data-goto]:hover { text-shadow: var(--glow-cyan); }
+
+/* ---- final transmission ---- */
+.aw-closing2 { position: relative; margin: 26px 8px 34px; padding: 22px 24px; background: linear-gradient(180deg, var(--panel-2), var(--bg)); border: 1px solid var(--line-hot); clip-path: var(--clip); }
+.aw-closing2-tag { font-family: "Chakra Petch", sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--amber); margin-bottom: 12px; }
+.aw-closing2 p { margin: 0; font-size: 13px; line-height: 1.85; color: var(--ink); }
+.aw-closing2 p b { color: var(--cyan); }
+
+/* verdict gets a heartbeat when dangerous */
 
 /* verdict gets a heartbeat when dangerous */
 .verdict.critical, .verdict.high { animation: vpulse 1.6s ease-in-out infinite; }

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PackageGuard · Threat Console</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -77,14 +78,145 @@
   </div>
 
   <nav class="tabs">
-    <button class="tab active" data-tab="check">◢ CHECK</button>
+    <button class="tab active" data-tab="home" aria-current="page">◢ HOME</button>
+    <button class="tab" data-tab="check">◢ CHECK</button>
     <button class="tab" data-tab="scan">◢ SCAN</button>
     <button class="tab" data-tab="graph">◢ GRAPH <span class="lock">GNN</span></button>
+    <button class="tab" data-tab="awareness">◢ AWARENESS</button>
   </nav>
 
   <main>
+    <!-- ================= HOME ================= -->
+    <section id="home" class="view active">
+      <!-- hero: tactical briefing with live reticle -->
+      <div class="hero2">
+        <div class="hero2-left">
+          <div class="hero2-eyebrow"><span class="blink">▮</span> INCOMING BRIEFING · CLEARANCE: FYP SEM 7-8</div>
+          <h1 class="hero2-title">
+            <span class="line">DETECT THE</span>
+            <span class="line accent glitch" data-text="THREAT">THREAT</span>
+            <span class="line">BEFORE YOU</span>
+            <span class="line accent">INSTALL IT.</span>
+          </h1>
+          <p class="hero2-sub">
+            Every <code>npm install</code> pulls in code you've never read, written by people
+            you've never met. PackageGuard scores that risk in real time — with a trained ML
+            model, plus a graph neural network that catches threats hiding
+            <em>inside your dependencies</em>.
+          </p>
+          <div class="hero2-cta">
+            <button class="big-btn" data-goto="check">▸ START SCANNING</button>
+            <button class="ghost-btn" data-goto="awareness">READ THE THREAT BRIEF</button>
+          </div>
+        </div>
+        <div class="hero2-right" aria-hidden="true">
+          <div class="reticle-stack">
+            <span class="ret ret1"></span><span class="ret ret2"></span><span class="ret ret3"></span>
+            <span class="ret-cross v"></span><span class="ret-cross h"></span>
+            <span class="ret-sweep"></span>
+            <span class="ret-core">🛡</span>
+            <span class="ret-tag t1">SCANNING</span>
+            <span class="ret-tag t2">2.7K NODES</span>
+            <span class="ret-tag t3">LIVE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- stat readout strip -->
+      <div class="stat-readout">
+        <div class="sr-item"><div class="sr-n" data-count="450">0</div><div class="sr-suffix">K+</div><div class="sr-k">malicious packages<br/>published last year</div></div>
+        <div class="sr-div"></div>
+        <div class="sr-item hot"><div class="sr-n" data-count="89">0</div><div class="sr-suffix">%</div><div class="sr-k">recall on real,<br/>never-before-seen threats</div></div>
+        <div class="sr-div"></div>
+        <div class="sr-item good"><div class="sr-n" data-count="0">0</div><div class="sr-suffix">%</div><div class="sr-k">false alarms in<br/>that same test</div></div>
+      </div>
+
+      <!-- why: intel dossiers -->
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">01</span><span class="hsec-title">WHY THIS PROJECT</span><span class="hsec-rule"></span></div>
+        <div class="dossier-row">
+          <article class="dossier">
+            <div class="dossier-stamp">THREAT</div>
+            <div class="dossier-no">01</div>
+            <h3>The problem is real &amp; growing</h3>
+            <p><b>event-stream</b> (2018, bitcoin theft), <b>ua-parser-js</b> (2021, cryptominer),
+              the <b>coa/rc</b> hijack (2021), the <b>chalk/debug</b> attack (2025) on packages
+              downloaded billions of times a week. Not hypothetical.</p>
+          </article>
+          <article class="dossier">
+            <div class="dossier-stamp warn">BLIND SPOT</div>
+            <div class="dossier-no">02</div>
+            <h3>Existing tools can't see it</h3>
+            <p><code>npm audit</code> only knows <em>already-disclosed</em> CVEs. It can't flag a
+              brand-new malicious package, and it can't see a threat hiding two dependencies deep.</p>
+          </article>
+          <article class="dossier">
+            <div class="dossier-stamp good">SOLUTION</div>
+            <div class="dossier-no">03</div>
+            <h3>Two AI models, two blind spots</h3>
+            <p><b>XGBoost</b> scores each package on its own metadata. <b>GraphSAGE</b> scores its
+              whole dependency network — catching a clean package whose <em>dependency</em> is
+              compromised.</p>
+          </article>
+        </div>
+      </div>
+
+      <!-- what it does: launch bays -->
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">02</span><span class="hsec-title">CAPABILITIES</span><span class="hsec-rule"></span></div>
+        <div class="bay-row">
+          <button class="bay" data-goto="check">
+            <span class="bay-ghost">01</span>
+            <span class="bay-bar"></span>
+            <div class="bay-body">
+              <div class="bay-glyph">🎯</div>
+              <h3>CHECK</h3>
+              <p>Score any package's install risk with a full explanation of why — before you ever
+                run <code>npm install</code>.</p>
+              <span class="bay-go">DEPLOY ▸</span>
+            </div>
+          </button>
+          <button class="bay" data-goto="scan">
+            <span class="bay-ghost">02</span>
+            <span class="bay-bar"></span>
+            <div class="bay-body">
+              <div class="bay-glyph">🦠</div>
+              <h3>SCAN</h3>
+              <p>Point it at a whole project's <code>package-lock.json</code> — find every
+                compromised dependency already inside, with fix steps.</p>
+              <span class="bay-go">DEPLOY ▸</span>
+            </div>
+          </button>
+          <button class="bay" data-goto="graph">
+            <span class="bay-ghost">03</span>
+            <span class="bay-bar"></span>
+            <div class="bay-body">
+              <div class="bay-glyph">🕸️</div>
+              <h3>GRAPH</h3>
+              <p>Map a package's dependency network live — watch the graph AI catch a threat
+                hiding two hops deep that nothing else can see.</p>
+              <span class="bay-go">DEPLOY ▸</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- fun facts: intel feed terminal -->
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">03</span><span class="hsec-title">DECLASSIFIED · CYBER &amp; ML</span><span class="hsec-rule"></span></div>
+        <div class="intel-feed">
+          <div class="intel-line"><span class="il-tag">STAT</span><b>96.5%</b> of modern npm malware uses a brand-new made-up name, not a typosquat — opposite of what most assume.</div>
+          <div class="intel-line"><span class="il-tag">STAT</span>only <b>1 in 194</b> malicious packages we sampled declared an install script — real payloads hide in the code itself.</div>
+          <div class="intel-line"><span class="il-tag">SCALE</span><b>2M+</b> packages live on npm — more than the number of words in the English language.</div>
+          <div class="intel-line"><span class="il-tag">ML</span><b>2 layers</b> is all a graph neural network needs to "see" a threat 2 hops away in a dependency tree.</div>
+          <div class="intel-line"><span class="il-tag">ORIGIN</span><b>SHAP</b> explanations come from 1950s cooperative game theory — a 70-year-old idea explaining a modern AI.</div>
+          <div class="intel-line"><span class="il-tag">PROOF</span><b>0%</b> recall is what a plain malware-database lookup scores on a threat it's never seen — exactly why the graph model exists.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= CHECK ================= -->
-    <section id="check" class="view active">
+    <section id="check" class="view">
       <form class="cmdline" id="check-form" autocomplete="off">
         <span class="prompt">check&nbsp;&gt;</span>
         <input id="pkg-input" type="text" placeholder="package name  e.g.  co1ors   or   express@4.18.2" spellcheck="false" />
@@ -179,10 +311,111 @@
       </div>
       <div id="graph-error" class="errline hidden"></div>
     </section>
+
+    <!-- ================= AWARENESS ================= -->
+    <section id="awareness" class="view">
+      <div class="aw-banner">
+        <div class="aw-banner-scan" aria-hidden="true"></div>
+        <div class="aw-banner-tag">⚠ THREAT AWARENESS BRIEF</div>
+        <h2 class="aw-hero-title">YOUR DEPENDENCIES<br/><span class="accent">ARE YOUR ATTACK SURFACE.</span></h2>
+        <p class="aw-hero-sub">A typical project pulls in <b>hundreds</b> of transitive
+          dependencies you never chose and never read. Any one of them — or any future update
+          to one — can compromise your entire application.</p>
+      </div>
+
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">◎</span><span class="hsec-title">INCIDENT LOG · REAL ATTACKS</span><span class="hsec-rule"></span></div>
+        <div class="threatlog">
+          <div class="tl-beam" aria-hidden="true"></div>
+          <div class="tl2" style="--i:0">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2018</div>
+            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>event-stream</b> — the maintainer handed control to a stranger, who slipped in a bitcoin-wallet stealer. Ran undetected for <em>months</em>.</div>
+          </div>
+          <div class="tl2" style="--i:1">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2021</div>
+            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>ua-parser-js</b> — account takeover shipped a cryptominer + password stealer to a package pulled <em>7M+ times a week</em>.</div>
+          </div>
+          <div class="tl2" style="--i:2">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2021</div>
+            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>coa &amp; rc</b> — the same attacker hijacked two more maintainer accounts within weeks, shipping credential-stealing versions.</div>
+          </div>
+          <div class="tl2" style="--i:3">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2022</div>
+            <div class="tl2-card"><span class="tl2-sev warn">SABOTAGE</span><b>node-ipc</b> — "protestware": the maintainer added code that <em>wiped files</em> on machines geolocated to certain countries.</div>
+          </div>
+          <div class="tl2" style="--i:4">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2025</div>
+            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>chalk / debug / ansi-styles</b> — one phishing email compromised a cluster of packages with <em>billions</em> of combined weekly downloads.</div>
+          </div>
+          <div class="tl2" style="--i:5">
+            <div class="tl2-node"></div>
+            <div class="tl2-year">2025</div>
+            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>nx</b> — a build-tool attack scanned infected machines for credentials and exfiltrated them straight to GitHub.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">✚</span><span class="hsec-title">DEFENSE PROTOCOL · STAY SAFE</span><span class="hsec-rule"></span></div>
+        <div class="protocol">
+          <div class="proto">
+            <div class="proto-num">01</div>
+            <div class="proto-body"><h4>Check before you install</h4>
+              <p>Inspect download count, publish history and maintainer first — especially for small single-purpose utilities.</p>
+              <span class="proto-link" data-goto="check">▸ CHECK does this automatically</span></div>
+          </div>
+          <div class="proto">
+            <div class="proto-num">02</div>
+            <div class="proto-body"><h4>Always commit your lockfile</h4>
+              <p><code>package-lock.json</code> pins exact versions; without it a routine install can silently pull a compromised update.</p>
+              <span class="proto-link" data-goto="scan">▸ SCAN reads your lockfile</span></div>
+          </div>
+          <div class="proto">
+            <div class="proto-num">03</div>
+            <div class="proto-body"><h4>Watch transitive dependencies</h4>
+              <p>The package you installed is rarely the risk — what <em>it</em> depends on is. Most devs never look past level one.</p>
+              <span class="proto-link" data-goto="graph">▸ GRAPH traces the whole tree</span></div>
+          </div>
+          <div class="proto">
+            <div class="proto-num">04</div>
+            <div class="proto-body"><h4>Rotate credentials after an incident</h4>
+              <p>If a package you use is confirmed compromised, assume every secret on that machine (npm tokens, API/SSH keys) is exposed.</p>
+              <span class="proto-link">→ SCAN results include rotation steps</span></div>
+          </div>
+          <div class="proto">
+            <div class="proto-num">05</div>
+            <div class="proto-body"><h4>Distrust unfamiliar names</h4>
+              <p>Typosquats (<code>loadash</code> vs <code>lodash</code>) still trick people under time pressure — one keystroke, wrong package.</p>
+              <span class="proto-link">→ The ML model catches look-alikes, DB or not</span></div>
+          </div>
+          <div class="proto">
+            <div class="proto-num">06</div>
+            <div class="proto-body"><h4>Minimize what you depend on</h4>
+              <p>Every dependency is code you're trusting. Fewer of them = a smaller attack surface, full stop.</p>
+              <span class="proto-link">→ CHECK flags unusually heavy packages</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aw-closing2">
+        <div class="aw-closing2-tag">// FINAL TRANSMISSION</div>
+        <p>No tool — ours included — catches everything. <code>npm audit</code> knows only
+          disclosed CVEs. A malware database knows only names it's already seen. PackageGuard's
+          graph model is built for what those miss: <b>a threat hiding inside a dependency,
+          before anyone has reported it.</b> Layer your defenses. Stay skeptical of new
+          dependencies. And check before you install.</p>
+      </div>
+    </section>
   </main>
 
   <footer class="foot">
-    trained XGBoost + SHAP (per-package) · GraphSAGE GNN (dependency graph) · stacking combiner
+    trained XGBoost + SHAP (per-package) · GraphSAGE GNN (dependency graph) · held-out-unknown
+    benchmark validated · <span class="foot-keys">1-5 to jump tabs</span>
   </footer>
 
   <script src="/app.js"></script>

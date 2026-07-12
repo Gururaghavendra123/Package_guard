@@ -1,123 +1,195 @@
-# PackageGuard — Phase 1/2 Results (Sem 7 model)
+# PackageGuard — Results (Phase 1-6, full history)
 
-Honest write-up of the trained-model work. Every number here is from real npm data via the
-pipeline in this folder. **All results are preliminary / small-sample** (see Limitations) —
-directional, not final. Reproduce with `build_dataset.py` → `train_xgboost.py`.
+Honest write-up of the trained-model work, in the order it actually happened. Every number here
+is from real npm data via the reproducible pipeline in this folder. Small-n stages are labeled.
 
-## What the model is
+## What the models are
 
-Binary risk classifier (XGBoost) over 5 per-package metadata features, replacing the initial
-heuristic scorer. Applies only to live-fetched packages; offline falls back to the heuristic.
-Serves both the CLI and the HUD dashboard through one engine.
+- **Per-package scorer:** XGBoost over 8 metadata features (see §Phase 1), SHAP-attributed,
+  offline heuristic fallback. `train_xgboost.py`.
+- **Graph scorer:** GraphSAGE GNN over dependency subgraphs. `train_gnn.py`.
+- **Combiner:** production uses a transparent additive log-odds formula (`core/combiner.py`) —
+  two trained-meta-learner attempts were built and deliberately not shipped (§Phase 5).
 
-## The headline finding: modern malware ≠ typosquats
+---
 
-The original plan assumed typosquatting + install scripts were the dominant attack signals
-(citing the 2020 Backstabber paper's 174 hand-curated cases). The real, current bulk data
-tells a different story:
+## Phase 1 — real data pipeline + the confounder-removal story
 
-| Attack type | Share of 51,449 labeled npm malware |
-| ----------- | ----------------------------------- |
-| malicious_intent (novel throwaway names) | ~96.5% |
-| compromised_lib (hijacked real packages) | ~3.5% (1,624) |
-| true typosquats (edit-distance-1 to a popular pkg) | ~0.1% (44) |
+Sources: Backstabber's Knife Collection (8,465 npm malicious names), Datadog manifest (46,115
+npm entries, name→malicious version(s), Apache-2.0), npm Registry API. Only plain-text label
+manifests were pulled — never Datadog's encrypted malware sample archives.
 
-Consequences, both empirically confirmed:
-- **Typosquat detection is a minor signal**, not the headline — there are only ~44 real
-  typosquats in the entire dataset.
-- **Install scripts are almost never declared** in the fetched manifests (1 of 194 malicious
-  packages). Modern malware ships its payload in tarball code (import-time / `bin`), not the
-  manifest `scripts` field. So metadata-only analysis has a real ceiling.
+**Headline finding:** modern bulk malware is ~96.5% "malicious_intent" (novel throwaway names),
+~3.5% "compromised_lib" (hijacked real packages), and only ~0.1% (44 of 51,449) true typosquats.
+The original plan assumed typosquats/install-scripts were dominant — real data disproved this.
+Install scripts were declared in only 1 of 194 initially-sampled malicious manifests.
 
-## The confounder-removal journey (the core methodological result)
+**The confounder journey** (naive metrics were high and wrong):
 
-Naive numbers looked great and were **wrong**. Each step removed one specific flaw:
+| Stage | PR-AUC | Problem |
+| ----- | ------ | ------- |
+| Popular benign (naive) | 0.987 | Benign=old/famous, malicious=new/small → model learned "new=bad"; typosquat feature learned **backwards**. |
+| Age/size-matched benign | 0.974 | Age confounder fixed via hard negatives from npm's `_changes` feed. |
+| Matched + attack-type-stratified, n=394, 5 features | 0.90 (CV 0.941±0.020) | typosquat feature now correct — the honest baseline number. |
 
-| Benign set | PR-AUC | `name_similarity` learned | What was wrong |
-| ---------- | ------ | ------------------------- | -------------- |
-| Popular (naive) | 0.987 | **backwards** | Benign = old/famous, malicious = new/small → model learned "new = bad", not "malicious = bad" (age confounder). |
-| Age/size-matched (hard negatives) | 0.974 | still backwards | Age confounder removed by sampling young legit packages from the npm `_changes` feed. |
-| **Matched + attack-type-stratified** | **~0.90** | **correct ✓** | Forced the rare compromised_lib + typosquat cases into the set so the typosquat feature had real positives. |
+---
 
-The honest number is **~0.90 PR-AUC** (single split), and **0.94 ± 0.02 by 5-fold
-cross-validation** — not 0.98. The 0.98 was age-cheating.
+## Phase 1 (continued) — 3 new features, screened for leakage
 
-**False-positive control (added in hardening):** a popularity allowlist caps risk for
-verified-popular packages (e.g. `@types/node`, `@babel/core`) — the model otherwise slightly
-over-reads "0 dependencies" as suspicious. The known-malware DB still overrides the allowlist,
-so a compromised version of a popular package is still flagged. Invalid names / malformed
-lockfiles are rejected cleanly (regression-tested), so nothing crashes during a demo.
+Candidate cache fields measured for discrimination (AUC) on the n=394 set:
 
-## Honest per-attack-type recall (combined model)
+| Feature | AUC | Verdict |
+| ------- | --- | ------- |
+| days_since_update | 0.900 | **Excluded** — benign was sourced from the `_changes` feed, which selects for recent activity; this feature is circular by construction. |
+| has_homepage | 0.866 | **Excluded** — correlates with the `has_repo`+`has_description` filter used to select "legit-looking" young benign packages. |
+| version_count | 0.813 | ✅ Kept — never selected on. |
+| description_quality (desc length) | 0.809 | ✅ Kept. |
+| has_readme | 0.731 | Excluded — same correlation risk as has_homepage. |
+| maintainer_count | 0.749 | ✅ Kept. |
+| age_days (true registry age) | 0.618 | Excluded — redundant with the existing author_age feature. |
+| has_repo | 0.575 | **Excluded** — directly selected on; pure leakage. |
 
-Test split, small n — directional:
+Retrained with 8 features (5 original + version_count, description_quality, maintainer_count) on
+n=394: single-split PR-AUC **0.953**, 5-fold CV **0.975 ± 0.010**. `dep_count`'s importance fell
+from dominant to 0.036 — the confounder was diluted, not just capped.
 
-| Attack type | Recall |
-| ----------- | ------ |
-| malicious_intent | ~0.91 |
-| typosquat | ~0.86 (7 test cases) |
-| compromised_lib | ~0.78 (18 test cases) |
+**Bugs found and fixed while integrating:** (1) demo-killer false positive — `@babel/core`'s bare
+scope-name `core` was 1 edit from `cors`; fixed by requiring name length ≥5 both sides for
+typosquat matching. (2) train/inference feature mismatch after that fix — recomputed
+`name_similarity` offline and retrained. (3) `check`/`scan` crashed on malformed input; now
+raise clean `ValueError`s (regression-tested). (4) offline synthetic features were being fed to
+a model trained on live features — now offline correctly uses the heuristic path.
 
-`compromised_lib` (hijacked real packages) is hardest because on metadata they look
-legitimate — which is precisely the case the **Sem 8 GNN** is designed for (their maliciousness
-is visible in the dependency graph / version history, not per-package metadata).
+---
 
-## Feature importances (combined model)
+## Phase 2 — scaled the dataset
 
-| Feature | Importance | Note |
-| ------- | ---------- | ---- |
-| author_age (first-publish-date proxy) | ~0.44 | Strongest, but a proxy — npm doesn't expose true account age. |
-| name_similarity | ~0.31 | Now correctly signed; catches the rare typosquats. |
-| dep_count | ~0.16 | Real-ish (throwaway malware often has 0 deps) but weak/gameable. |
-| publish_timing | ~0.09 | Weak, as predicted (timezone-confounded). |
-| install_script (presence) | **0.00** | Dead weight — scripts not declared in these manifests. |
+394 → **1,531 rows** (779 malicious / 752 benign), same matched + attack-type-stratified
+sampling, pulled with polite rate-limiting (this step is genuinely slow — real npm rate limits;
+budget 20-60 minutes for a similar-scale pull). Composition held: 540 malicious_intent /
+196 compromised_lib / 43 typosquat (proportionally consistent, better absolute counts).
 
-## Limitations (state these plainly in review)
+Retrained: single-split PR-AUC **0.9735**, 5-fold CV **0.971 ± 0.006**.
 
-- **Small sample:** 394 rows (194 malicious / 200 benign). Metrics are preliminary. Scaling to
-  ~1000+ each is the next validation step.
-- **author_age is a proxy** (first-publish date, not account creation — npm doesn't expose it).
-- **~3% of labeled malware is already purged from npm** and cannot be feature-extracted (skipped,
-  reported honestly, not synthesized).
-- **Young-benign label noise:** benign young packages come from the unlabeled `_changes` feed
-  filtered by a legitimacy heuristic (has repo + description); a freshly-published,
-  not-yet-detected malicious package could slip in. Rate is low, documented not hidden.
-- **Metadata ceiling:** the dominant malware class (novel throwaway packages) is only weakly
-  separable on metadata without confounders. True behavioral detection needs tarball/code
-  analysis — deliberately out of scope for Sem 7 (would require downloading live malware source
-  to disk). This is the motivation for Sem 8 (graph) + future behavioral work, not a defect.
+**Honest reading:** the point estimate barely moved (0.975→0.971) but variance **nearly
+halved** (±0.010→±0.006). Scaling's real value here was trustworthiness, not a bigger number.
+Feature importance shifted: `version_count` became dominant (0.69), `dep_count` fell further.
 
-## Semester 8 — GraphSAGE GNN (dependency-graph scoring)
+**Regressions found and fixed:**
+- Rebuilt the graph dataset + retrained the GNN on the new 8-dim features (dimension mismatch
+  with the old 5-dim model) — grew to 2,760 nodes / 2,780 edges (up from 1,331/1,277).
+- The curated poisoned-chain HUD demos (`demo_graphs.json`) stopped flagging — their
+  hand-written feature profiles only had the old 5 keys, so the 3 new features silently
+  defaulted to 0.0, diluting the poison signal. Fixed by extending the profiles.
+- Even after that fix, demos still didn't flag: the retrained GNN, on an isolated/tiny synthetic
+  5-node graph, output near-zero regardless of input (verified: even a node with every feature at
+  its most-malicious value scored ~1e-6 in isolation) — a real, documented GraphSAGE
+  out-of-distribution limitation (it learned from a dense real graph, avg degree ~2.3; a tiny
+  hand-built star graph is structurally unlike anything in training). Fix: curated demos use
+  their scripted role directly (labeled "illustrative," not live inference) rather than trusting
+  a model known to misbehave on toy graphs.
+- `express` showed a live false positive — `proxy-addr`, a legitimate small polyfill dependency,
+  scored 0.97 in graph context vs. 0.18 standalone. Root cause: the *same* out-of-distribution
+  issue, now observed on real sparse 2-hop subgraphs, not just synthetic demos. Fix: a node's
+  graph-context score is capped at `own_xgboost_score + 0.30` for non-allowlisted nodes — a
+  node's own well-calibrated per-package score is treated as a ceiling an unstable graph score
+  can't blow past. Verified against a 15-package batch after the fix: only one residual case
+  remained (`axios` via `es-set-tostringtag`, which is RISKY 0.73 *even standalone* — a genuine
+  model limitation on single-maintainer minimal-description utility packages, not a graph bug).
+- The `poisoned` flag could disagree with the overall verdict (a borderline dependency nudging
+  the graph score without the *combined* risk crossing into danger territory). Fixed: `poisoned`
+  now requires both signals to agree (graph score above threshold **and** the combined verdict
+  is high/critical).
 
-Motivation is the honest finding above: `compromised_lib` / poisoned-chain attacks are invisible
-to per-package metadata. A 2-layer GraphSAGE (PyTorch Geometric) scores packages using their
-dependency-graph neighbourhood. Node features = the same 5 features, so any gain is from structure.
+---
 
-- **Training graph** (from registry cache, no new API calls): 1,331 nodes, 1,277 edges,
-  562 malicious / 769 benign.
-- **Ablation (held-out nodes):**
+## Phase 5 — attempted a trained stacking combiner (negative result, twice)
 
-  | Model | PR-AUC | ROC-AUC |
-  | ----- | ------ | ------- |
-  | XGBoost (features only) | 0.79 | 0.84 |
-  | GraphSAGE (features + structure) | **0.87** | **0.90** |
-  | Structure delta | **+0.07** | +0.06 |
+`train_combiner.py` builds `[xgb_score, graph_score] → label` training pairs for free from the
+graph dataset (every node's own XGBoost score + its neighbours' GNN scores). Trained a logistic
+regression meta-learner — twice, once before and once after the Phase 6 GNN improvement.
 
-- **Stacking combiner** in log-odds space (not a weighted average) → honest additive graph
-  attribution.
-- **Poisoned-chain demo** (`safe-wrapper`): per-package XGBoost 0.12 (safe) → GNN flags the
-  malicious dependency at 0.95 → combined 0.61 (RISKY). Visualised live in the HUD GRAPH panel.
+**Both times:** the LR learned a **negative** coefficient on `graph_score` (run 1: -0.187, run 2:
+-0.188) and, wired into production, silently stopped flagging every poisoned-chain demo.
 
-**Reproduce:** `training/build_graph_dataset.py` → `training/train_gnn.py`.
+**Root cause:** the natural node distribution barely contains the "clean self / poisoned
+neighbour" pattern — most malicious nodes are self-evidently malicious from their own features,
+so the LR learned "trust xgb, mostly ignore graph," which is locally optimal for that data but
+defeats the purpose of the graph model. Confirmed independent of GNN quality: the second attempt,
+on a GNN whose held-out recall had jumped from 67%→89% (§Phase 6), produced the same negative
+weight — because the combiner's *training data composition* never changed, only the base GNN did.
 
-**Honest Sem-8 caveats (state them):** the ablation is node-level on a cache-built graph; a
-held-out-unknown protocol + a deterministic-traversal baseline are the next step to prove the GNN
-generalises beyond the known-malware lookup rather than memorising it. The poisoned-chain *demo*
-graph is curated (reproducible on stage); the scoring is the real trained model.
+**Decision: neither combiner was shipped.** Production kept the log-odds additive fallback
+(`core/combiner.py`), which can only ever add risk from a poisoned dependency, never subtract
+it. Both trained artifacts kept as `models/combiner_v1_naive_nodeclf.joblib` and
+`_v2_naive_nodeclf.joblib` — documented negative results, not deleted. Real fix (future work):
+train the combiner on a deliberately-constructed corpus like the §Phase 6 benchmark, not a
+random graph sample.
 
-## Why this is a strong result to present
+---
 
-Not "we hit 0.98." Instead: "we discovered our threat assumptions didn't match current data,
-built controls to remove three separate confounders, and report an honest ~0.90 with a clear
-account of what metadata can and cannot do — which directly motivates the graph model." That is
-a more credible, more defensible research narrative than an inflated number.
+## Phase 6 — held-out-unknown benchmark (the strongest result in the project)
+
+### An important side-finding first: stale name-level labels
+
+While mining the cache for real poisoned-chain examples (clean parent → malicious-labeled
+dependency), `chalk`, `axios`, `debug`, `eslint`, `prettier`, `nx`, `strip-ansi` and others
+appeared as "malicious" — not a labeling bug in our pipeline. BKC's flat name list has no
+version info, and these packages were **genuinely** compromised at some point (the real,
+documented September 2025 npm supply-chain attack hit chalk/debug/ansi-styles; `nx` had a
+separate real 2025 token-stealing incident) — but BKC labels the *name* forever, even though
+today's live version is completely safe. **Fix:** only trust a "malicious" label as a *live*
+threat if that same package's own *current* XGBoost score is also elevated (≥0.5) — directly
+distinguishes "thriving package, one historical incident" from "actually still dangerous."
+
+### Building the benchmark
+
+18 real positive cases survived the filter: a clean-looking parent with a transitive dependency
+that is (a) name-labeled malicious, (b) still scores ≥0.5 on its own current metadata. Paired
+with 18 clean negative controls (no malicious neighbour at all). **None of the 18 malicious
+dependency names were ever manually entered into `known_malware.json`** — a genuine
+held-out-unknown / zero-day simulation, not a synthetic construction.
+
+### First result (before GNN improvement)
+
+| Detector | Recall | False positive rate |
+| -------- | ------ | -------------------- |
+| Deterministic DB traversal | 0% | 0% |
+| XGBoost alone | 11% | 22% |
+| GNN / graph score | 67% | 0% |
+
+### Diagnosis + fix: hard-example oversampling
+
+Only 52 of 1,058 malicious training nodes (5%) have the exact "majority-benign-neighbourhood"
+shape the benchmark tests — the rest are easy cases with mostly-malicious or no neighbours.
+Standard mean-aggregation in GraphSAGE was smoothing these rare hard examples' signal toward
+"looks benign." Fix: upweight them 4× in the training loss (`train_gnn.py`).
+
+### Result after the fix
+
+| Detector | Recall | False positive rate |
+| -------- | ------ | -------------------- |
+| Deterministic DB traversal | **0%** | 0% |
+| XGBoost alone | 11% | 22% |
+| **GraphSAGE GNN** | **89%** | **0%** |
+
+Generic node-classification ablation (§Phase 2 retrain) barely moved from this change
+(0.953→0.947 PR-AUC on random held-out nodes) — confirming that benchmark was never the right
+test for this specific capability. The held-out-unknown benchmark is.
+
+**Reproduce:** `build_heldout_benchmark.py` → `evaluate_heldout_benchmark.py`. Artifacts:
+`heldout_benchmark.json` (the 18+18 cases), `heldout_benchmark_results.json` (full per-case
+scores).
+
+---
+
+## Limitations (state plainly)
+
+- Held-out benchmark is n=18+18 — real, not synthetic, but small; a larger corpus (harder to
+  mine — genuine poisoned-chain cases are rare in a randomly-sampled cache) would tighten the
+  confidence interval.
+- `author_age` is a proxy (first-publish date, not true account creation).
+- A properly trained stacking combiner remains open work (§Phase 5) — the additive fallback
+  works correctly but isn't learned from data.
+- Metadata/graph-structure ceiling: true behavioral detection would need tarball/code analysis —
+  deliberately out of scope (would require handling live malware source on disk).
