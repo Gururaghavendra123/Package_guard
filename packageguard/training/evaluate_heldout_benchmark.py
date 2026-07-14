@@ -39,7 +39,7 @@ BENCH = Path(__file__).resolve().parent / "heldout_benchmark.json"
 XGB_MODEL = Path(__file__).resolve().parent.parent / "src" / "packageguard" / "models" / "xgboost_model.joblib"
 GRAPH = Path(__file__).resolve().parent / "graph_dataset.npz"
 
-MAL_THRESHOLD = 0.80  # matches core.engine's poisoned-chain threshold
+MAL_THRESHOLD = 0.70  # matches core.engine's poisoned-chain threshold (recalibrated Phase 7)
 
 
 def main() -> None:

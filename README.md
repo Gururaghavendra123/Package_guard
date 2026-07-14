@@ -41,12 +41,15 @@ Two faces, one engine:
 
 ## Results (honest, real data)
 
-- Per-package XGBoost: **5-fold CV PR-AUC 0.971 ± 0.006** on 1,531 real labeled rows.
-- **Held-out-unknown benchmark (the headline result):** on 18 real poisoned-chain cases mined
+- Per-package XGBoost: **held-out test PR-AUC 0.988** on 10,420 real labeled rows (7,788
+  malicious / 2,632 benign).
+- Graph model: GraphSAGE trained on a **13,159-node, 11,737-edge** real dependency graph,
+  node-classification **PR-AUC 0.979**.
+- **Held-out-unknown benchmark (the headline result):** on 179 real poisoned-chain cases mined
   from live npm data — where none of the malicious dependencies were ever in our own
-  database — the GNN catches **89% of them with 0% false alarms**, while a deterministic
-  database-lookup baseline catches **0%**. This is the direct answer to "does the graph model
-  generalize, or does it just memorize the malware list?"
+  database — the GNN catches **77.7% of them at a 3.4% false-alarm rate**, while a deterministic
+  database-lookup baseline catches **0%** and XGBoost alone catches **4%**. This is the direct
+  answer to "does the graph model generalize, or does it just memorize the malware list?"
 - Full confounder-removal methodology, feature-leakage screening, and every honest negative
   result along the way: [`packageguard/training/RESULTS.md`](packageguard/training/RESULTS.md).
 

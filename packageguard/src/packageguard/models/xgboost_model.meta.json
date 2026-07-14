@@ -1,9 +1,9 @@
 {
-  "trained_at": "2026-07-12T07:22:10.394456+00:00",
-  "dataset_path": "training\\dataset.parquet",
-  "n_total": 1531,
-  "n_malicious": 779,
-  "n_benign": 752,
+  "trained_at": "2026-07-14T04:00:39.191291+00:00",
+  "dataset_path": "C:\\Users\\pguru\\Desktop\\final_year_project\\packageguard\\training\\dataset.parquet",
+  "n_total": 10420,
+  "n_malicious": 7788,
+  "n_benign": 2632,
   "test_size": 0.25,
   "feature_order": [
     "name_similarity",
@@ -15,25 +15,25 @@
     "description_quality",
     "maintainer_count"
   ],
-  "pr_auc": 0.9735,
+  "pr_auc": 0.9879,
   "feature_importances": {
-    "name_similarity": 0.04619999974966049,
-    "install_script": 0.020099999383091927,
-    "author_age": 0.12060000002384186,
-    "publish_timing": 0.01759999990463257,
-    "dep_count": 0.01769999973475933,
-    "version_count": 0.6881999969482422,
-    "description_quality": 0.02590000070631504,
-    "maintainer_count": 0.06360000371932983
+    "name_similarity": 0.0544000007212162,
+    "install_script": 0.011699999682605267,
+    "author_age": 0.03350000083446503,
+    "publish_timing": 0.008500000461935997,
+    "dep_count": 0.014299999922513962,
+    "version_count": 0.7559000253677368,
+    "description_quality": 0.05689999833703041,
+    "maintainer_count": 0.0649000033736229
   },
   "confusion_matrix": [
     [
-      173,
-      15
+      638,
+      20
     ],
     [
-      25,
-      170
+      296,
+      1651
     ]
   ],
   "small_sample_warning": false

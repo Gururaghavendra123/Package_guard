@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PackageGuard · Threat Console</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -54,7 +53,6 @@
 
   <header class="topbar">
     <div class="brand">
-      <span class="shield">🛡</span>
       <span class="brand-name">PACKAGE<span class="accent">GUARD</span></span>
       <span class="brand-sub">// supply-chain threat console</span>
     </div>
@@ -113,21 +111,32 @@
             <span class="ret ret1"></span><span class="ret ret2"></span><span class="ret ret3"></span>
             <span class="ret-cross v"></span><span class="ret-cross h"></span>
             <span class="ret-sweep"></span>
-            <span class="ret-core">🛡</span>
+            <span class="ret-core"></span>
             <span class="ret-tag t1">SCANNING</span>
-            <span class="ret-tag t2">2.7K NODES</span>
+            <span class="ret-tag t2">25K+ NODES</span>
             <span class="ret-tag t3">LIVE</span>
           </div>
         </div>
+      </div>
+
+      <!-- live micro-scan: try the real model right here, no tab switch needed -->
+      <div class="qscan">
+        <div class="qscan-label"><span class="qscan-dot"></span>LIVE MICRO-SCAN · try it before you commit to a tab</div>
+        <form id="qscan-form" autocomplete="off">
+          <span class="qscan-prompt">$</span>
+          <input id="qscan-input" type="text" placeholder="type any real npm package name and hit enter…" spellcheck="false" />
+          <button type="submit">SCAN ▸</button>
+        </form>
+        <div id="qscan-result" class="qscan-result hidden"></div>
       </div>
 
       <!-- stat readout strip -->
       <div class="stat-readout">
         <div class="sr-item"><div class="sr-n" data-count="450">0</div><div class="sr-suffix">K+</div><div class="sr-k">malicious packages<br/>published last year</div></div>
         <div class="sr-div"></div>
-        <div class="sr-item hot"><div class="sr-n" data-count="89">0</div><div class="sr-suffix">%</div><div class="sr-k">recall on real,<br/>never-before-seen threats</div></div>
+        <div class="sr-item hot"><div class="sr-n" data-count="78">0</div><div class="sr-suffix">%</div><div class="sr-k">recall on real,<br/>never-before-seen threats</div></div>
         <div class="sr-div"></div>
-        <div class="sr-item good"><div class="sr-n" data-count="0">0</div><div class="sr-suffix">%</div><div class="sr-k">false alarms in<br/>that same test</div></div>
+        <div class="sr-item good"><div class="sr-n" data-count="3">0</div><div class="sr-suffix">%</div><div class="sr-k">false alarms in<br/>that same test</div></div>
       </div>
 
       <!-- why: intel dossiers -->
@@ -289,6 +298,7 @@
         <button class="shuffle" id="graph-shuffle" title="new examples">⟳</button>
       </div>
 
+
       <div id="graph-result" class="result hidden" style="grid-template-columns: 1fr 300px;">
         <div class="panel">
           <div class="panel-tag">DEPENDENCY GRAPH · GNN PROPAGATION <span class="dim" id="graph-mode"></span></div>
@@ -315,89 +325,235 @@
     <section id="awareness" class="view">
       <div class="aw-banner">
         <div class="aw-banner-scan" aria-hidden="true"></div>
+        <div class="aw-banner-grid" aria-hidden="true"></div>
         <div class="aw-banner-tag">⚠ THREAT AWARENESS BRIEF</div>
         <h2 class="aw-hero-title">YOUR DEPENDENCIES<br/><span class="accent">ARE YOUR ATTACK SURFACE.</span></h2>
         <p class="aw-hero-sub">A typical project pulls in <b>hundreds</b> of transitive
           dependencies you never chose and never read. Any one of them — or any future update
           to one — can compromise your entire application.</p>
+        <div class="aw-ticker" aria-hidden="true">
+          <div class="aw-ticker-track" id="aw-ticker-track"></div>
+        </div>
       </div>
 
       <div class="hsec">
-        <div class="hsec-head"><span class="hsec-idx">◎</span><span class="hsec-title">INCIDENT LOG · REAL ATTACKS</span><span class="hsec-rule"></span></div>
-        <div class="threatlog">
+        <div class="hsec-head"><span class="hsec-idx">◎</span><span class="hsec-title">INCIDENT LOG · REAL ATTACKS</span><span class="hsec-rule"></span><span class="hsec-hint">TAP TO EXPAND</span></div>
+        <div class="threatlog" id="threatlog">
           <div class="tl-beam" aria-hidden="true"></div>
-          <div class="tl2" style="--i:0">
+
+          <button type="button" class="tl2" style="--i:0" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2018</div>
-            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>event-stream</b> — the maintainer handed control to a stranger, who slipped in a bitcoin-wallet stealer. Ran undetected for <em>months</em>.</div>
-          </div>
-          <div class="tl2" style="--i:1">
+            <div class="tl2-head">
+              <div class="tl2-year">2018</div>
+              <div class="tl2-title"><span class="tl2-sev crit">CRITICAL</span><b>event-stream</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">The maintainer handed control to a stranger, who slipped in a bitcoin-wallet stealer. Ran undetected for <em>months</em>.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> a volunteer maintainer, burned out and unpaid, gave publish
+                rights to someone who offered to help — no vetting, no second opinion. The new
+                "maintainer" quietly added <code>flatmap-stream</code> as a dependency, which
+                targeted one specific downstream wallet app and stole private keys.</p>
+              <p class="tl2-lesson">▸ LESSON: trust is transferable on npm, and nobody audits the
+                handoff. A dependency's <em>history</em> of maintainers matters as much as its code.</p>
+            </div>
+          </button>
+
+          <button type="button" class="tl2" style="--i:1" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2021</div>
-            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>ua-parser-js</b> — account takeover shipped a cryptominer + password stealer to a package pulled <em>7M+ times a week</em>.</div>
-          </div>
-          <div class="tl2" style="--i:2">
+            <div class="tl2-head">
+              <div class="tl2-year">2021</div>
+              <div class="tl2-title"><span class="tl2-sev crit">CRITICAL</span><b>ua-parser-js</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">Account takeover shipped a cryptominer + password stealer to a package pulled <em>7M+ times a week</em>.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> attackers compromised the maintainer's npm account
+                (credential reuse / phishing) and pushed three malicious versions directly —
+                no code review, no PR, just a publish. Anyone auto-updating on install got hit
+                within hours.</p>
+              <p class="tl2-lesson">▸ LESSON: popularity is not a safety signal. The bigger the
+                install base, the bigger the payoff for compromising <em>one</em> account.</p>
+            </div>
+          </button>
+
+          <button type="button" class="tl2" style="--i:2" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2021</div>
-            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>coa &amp; rc</b> — the same attacker hijacked two more maintainer accounts within weeks, shipping credential-stealing versions.</div>
-          </div>
-          <div class="tl2" style="--i:3">
+            <div class="tl2-head">
+              <div class="tl2-year">2021</div>
+              <div class="tl2-title"><span class="tl2-sev crit">CRITICAL</span><b>coa &amp; rc</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">The same attacker hijacked two more maintainer accounts within weeks, shipping credential-stealing versions.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> days after ua-parser-js, the same group struck again —
+                twice. Same playbook: account takeover, silent malicious publish, no signal to
+                users beyond a version bump they'd auto-install.</p>
+              <p class="tl2-lesson">▸ LESSON: this wasn't a one-off. Coordinated, repeatable
+                account-takeover attacks are a real, recurring attack pattern — not a fluke.</p>
+            </div>
+          </button>
+
+          <button type="button" class="tl2" style="--i:3" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2022</div>
-            <div class="tl2-card"><span class="tl2-sev warn">SABOTAGE</span><b>node-ipc</b> — "protestware": the maintainer added code that <em>wiped files</em> on machines geolocated to certain countries.</div>
-          </div>
-          <div class="tl2" style="--i:4">
+            <div class="tl2-head">
+              <div class="tl2-year">2022</div>
+              <div class="tl2-title"><span class="tl2-sev warn">SABOTAGE</span><b>node-ipc</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">"Protestware": the maintainer added code that <em>wiped files</em> on machines geolocated to certain countries.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> no account was stolen here — the <em>legitimate</em>
+                maintainer shipped the payload themselves, as a political protest, straight
+                into a dependency used by Vue CLI and thousands of other projects.</p>
+              <p class="tl2-lesson">▸ LESSON: the threat isn't always external. A trusted
+                maintainer going rogue is a risk no malware database can predict.</p>
+            </div>
+          </button>
+
+          <button type="button" class="tl2" style="--i:4" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2025</div>
-            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>chalk / debug / ansi-styles</b> — one phishing email compromised a cluster of packages with <em>billions</em> of combined weekly downloads.</div>
-          </div>
-          <div class="tl2" style="--i:5">
+            <div class="tl2-head">
+              <div class="tl2-year">2025</div>
+              <div class="tl2-title"><span class="tl2-sev crit">CRITICAL</span><b>chalk / debug / ansi-styles</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">One phishing email compromised a cluster of packages with <em>billions</em> of combined weekly downloads.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> a single well-crafted phishing email to one maintainer
+                gave attackers publish access to a whole cluster of foundational packages —
+                the kind sitting three levels deep in almost every JS project's dependency
+                tree, invisible to anyone who only checks their own <code>package.json</code>.</p>
+              <p class="tl2-lesson">▸ LESSON: this is the exact "poisoned chain" scenario our
+                GNN targets — the compromised package is never the one you installed directly.</p>
+            </div>
+          </button>
+
+          <button type="button" class="tl2" style="--i:5" data-open="false">
             <div class="tl2-node"></div>
-            <div class="tl2-year">2025</div>
-            <div class="tl2-card"><span class="tl2-sev crit">CRITICAL</span><b>nx</b> — a build-tool attack scanned infected machines for credentials and exfiltrated them straight to GitHub.</div>
+            <div class="tl2-head">
+              <div class="tl2-year">2025</div>
+              <div class="tl2-title"><span class="tl2-sev crit">CRITICAL</span><b>nx</b></div>
+              <div class="tl2-chevron">▾</div>
+            </div>
+            <div class="tl2-summary">A build-tool attack scanned infected machines for credentials and exfiltrated them straight to GitHub.</div>
+            <div class="tl2-detail">
+              <p><b>What happened:</b> malicious postinstall scripts scanned developer machines
+                for SSH keys, npm tokens and crypto wallets, then used the victim's <em>own</em>
+                GitHub token to publish the stolen data into public repos — turning the target
+                into the exfiltration channel.</p>
+              <p class="tl2-lesson">▸ LESSON: lifecycle scripts (<code>postinstall</code>) run
+                arbitrary code the instant you <code>npm install</code> — before you've even
+                looked at what you pulled in.</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="hsec">
+        <div class="hsec-head"><span class="hsec-idx">◈</span><span class="hsec-title">FIELD TEST · SPOT THE TYPOSQUAT</span><span class="hsec-rule"></span></div>
+        <div class="tsq-wrap">
+          <p class="tsq-intro">Four real package-name pairs, mined from our own malware database.
+            One is the genuine, widely-used package. One is a real attack that shipped to npm
+            under a name built to be misread at a glance. Pick the real one.</p>
+          <div class="tsq-game" id="tsq-game">
+            <div class="tsq-hud">
+              <span class="tsq-round">ROUND <b id="tsq-round-n">1</b>/4</span>
+              <span class="tsq-score">SCORE <b id="tsq-score">0</b></span>
+            </div>
+            <div class="tsq-pair" id="tsq-pair"></div>
+            <div class="tsq-feedback" id="tsq-feedback"></div>
           </div>
         </div>
       </div>
 
       <div class="hsec">
-        <div class="hsec-head"><span class="hsec-idx">✚</span><span class="hsec-title">DEFENSE PROTOCOL · STAY SAFE</span><span class="hsec-rule"></span></div>
-        <div class="protocol">
-          <div class="proto">
-            <div class="proto-num">01</div>
-            <div class="proto-body"><h4>Check before you install</h4>
-              <p>Inspect download count, publish history and maintainer first — especially for small single-purpose utilities.</p>
-              <span class="proto-link" data-goto="check">▸ CHECK does this automatically</span></div>
-          </div>
-          <div class="proto">
-            <div class="proto-num">02</div>
-            <div class="proto-body"><h4>Always commit your lockfile</h4>
-              <p><code>package-lock.json</code> pins exact versions; without it a routine install can silently pull a compromised update.</p>
-              <span class="proto-link" data-goto="scan">▸ SCAN reads your lockfile</span></div>
-          </div>
-          <div class="proto">
-            <div class="proto-num">03</div>
-            <div class="proto-body"><h4>Watch transitive dependencies</h4>
-              <p>The package you installed is rarely the risk — what <em>it</em> depends on is. Most devs never look past level one.</p>
-              <span class="proto-link" data-goto="graph">▸ GRAPH traces the whole tree</span></div>
-          </div>
-          <div class="proto">
-            <div class="proto-num">04</div>
-            <div class="proto-body"><h4>Rotate credentials after an incident</h4>
-              <p>If a package you use is confirmed compromised, assume every secret on that machine (npm tokens, API/SSH keys) is exposed.</p>
-              <span class="proto-link">→ SCAN results include rotation steps</span></div>
-          </div>
-          <div class="proto">
-            <div class="proto-num">05</div>
-            <div class="proto-body"><h4>Distrust unfamiliar names</h4>
-              <p>Typosquats (<code>loadash</code> vs <code>lodash</code>) still trick people under time pressure — one keystroke, wrong package.</p>
-              <span class="proto-link">→ The ML model catches look-alikes, DB or not</span></div>
-          </div>
-          <div class="proto">
-            <div class="proto-num">06</div>
-            <div class="proto-body"><h4>Minimize what you depend on</h4>
-              <p>Every dependency is code you're trusting. Fewer of them = a smaller attack surface, full stop.</p>
-              <span class="proto-link">→ CHECK flags unusually heavy packages</span></div>
-          </div>
+        <div class="hsec-head"><span class="hsec-idx">✚</span><span class="hsec-title">DEFENSE PROTOCOL · STAY SAFE</span><span class="hsec-rule"></span><span class="hsec-hint">TAP TO FLIP</span></div>
+        <div class="protocol" id="protocol">
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">01</div>
+                <div class="proto-icon">⌖</div>
+                <h4>Check before you install</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p>Inspect download count, publish history and maintainer first — especially for small single-purpose utilities.</p>
+                <span class="proto-link" data-goto="check">▸ CHECK does this automatically</span>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">02</div>
+                <div class="proto-icon">⚿</div>
+                <h4>Always commit your lockfile</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p><code>package-lock.json</code> pins exact versions; without it a routine install can silently pull a compromised update.</p>
+                <span class="proto-link" data-goto="scan">▸ SCAN reads your lockfile</span>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">03</div>
+                <div class="proto-icon">⬡</div>
+                <h4>Watch transitive dependencies</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p>The package you installed is rarely the risk — what <em>it</em> depends on is. Most devs never look past level one.</p>
+                <span class="proto-link" data-goto="graph">▸ GRAPH traces the whole tree</span>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">04</div>
+                <div class="proto-icon">⏻</div>
+                <h4>Rotate credentials after an incident</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p>If a package you use is confirmed compromised, assume every secret on that machine (npm tokens, API/SSH keys) is exposed.</p>
+                <span class="proto-link">→ SCAN results include rotation steps</span>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">05</div>
+                <div class="proto-icon">◎</div>
+                <h4>Distrust unfamiliar names</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p>Typosquats (<code>loadash</code> vs <code>lodash</code>) still trick people under time pressure — one keystroke, wrong package.</p>
+                <span class="proto-link">→ The ML model catches look-alikes, DB or not</span>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="proto" data-flip="false">
+            <div class="proto-inner">
+              <div class="proto-face proto-front">
+                <div class="proto-num">06</div>
+                <div class="proto-icon">⌘</div>
+                <h4>Minimize what you depend on</h4>
+                <span class="proto-flip-hint">flip ⟳</span>
+              </div>
+              <div class="proto-face proto-back">
+                <p>Every dependency is code you're trusting. Fewer of them = a smaller attack surface, full stop.</p>
+                <span class="proto-link">→ CHECK flags unusually heavy packages</span>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
 
@@ -419,5 +575,6 @@
 
   <script src="/app.js"></script>
   <script src="/graph.js"></script>
+  <script src="/awareness.js"></script>
 </body>
 </html>

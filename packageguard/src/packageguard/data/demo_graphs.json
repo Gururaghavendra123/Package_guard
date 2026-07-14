@@ -98,6 +98,70 @@
         {"source": "format-json", "target": "rotate-stream"},
         {"source": "transport-file", "target": "ansi-metrics"}
       ]
+    },
+    "mobile-sdk-core": {
+      "story": "Mobile analytics SDK — a maintainer-account-takeover style compromise, mirroring the real event-stream incident.",
+      "nodes": [
+        {"id": "mobile-sdk-core", "depth": 0, "role": "clean"},
+        {"id": "device-info", "depth": 1, "role": "clean"},
+        {"id": "session-tracker", "depth": 1, "role": "clean"},
+        {"id": "queue-batcher", "depth": 2, "role": "clean"},
+        {"id": "flatmap-secure", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "mobile-sdk-core", "target": "device-info"},
+        {"source": "mobile-sdk-core", "target": "session-tracker"},
+        {"source": "session-tracker", "target": "queue-batcher"},
+        {"source": "session-tracker", "target": "flatmap-secure"}
+      ]
+    },
+    "cli-scaffold": {
+      "story": "Project scaffolding CLI whose template-fetch dependency runs a postinstall backdoor on install.",
+      "nodes": [
+        {"id": "cli-scaffold", "depth": 0, "role": "clean"},
+        {"id": "prompt-wizard", "depth": 1, "role": "clean"},
+        {"id": "template-fetch", "depth": 1, "role": "clean"},
+        {"id": "tar-extract", "depth": 2, "role": "clean"},
+        {"id": "postinstall-hook", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "cli-scaffold", "target": "prompt-wizard"},
+        {"source": "cli-scaffold", "target": "template-fetch"},
+        {"source": "template-fetch", "target": "tar-extract"},
+        {"source": "template-fetch", "target": "postinstall-hook"}
+      ]
+    },
+    "state-manager": {
+      "story": "Redux-style state library — its deep-clone helper was swapped for a wallet-address-hijacking payload (clipboard poisoning).",
+      "nodes": [
+        {"id": "state-manager", "depth": 0, "role": "clean"},
+        {"id": "reducer-combine", "depth": 1, "role": "clean"},
+        {"id": "middleware-chain", "depth": 1, "role": "clean"},
+        {"id": "immer-lite", "depth": 2, "role": "clean"},
+        {"id": "deep-clone-fast", "depth": 2, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "state-manager", "target": "reducer-combine"},
+        {"source": "state-manager", "target": "middleware-chain"},
+        {"source": "reducer-combine", "target": "immer-lite"},
+        {"source": "middleware-chain", "target": "deep-clone-fast"}
+      ]
+    },
+    "test-runner-plugin": {
+      "story": "Test-runner reporter plugin — a protestware-style logic bomb that wipes files on a schedule, mirroring the real colors.js/node-ipc incidents.",
+      "nodes": [
+        {"id": "test-runner-plugin", "depth": 0, "role": "clean"},
+        {"id": "reporter-json", "depth": 1, "role": "clean"},
+        {"id": "coverage-collect", "depth": 1, "role": "clean"},
+        {"id": "diff-render", "depth": 2, "role": "clean"},
+        {"id": "ansi-styles-ext", "depth": 1, "role": "poison"}
+      ],
+      "edges": [
+        {"source": "test-runner-plugin", "target": "reporter-json"},
+        {"source": "test-runner-plugin", "target": "coverage-collect"},
+        {"source": "test-runner-plugin", "target": "ansi-styles-ext"},
+        {"source": "reporter-json", "target": "diff-render"}
+      ]
     }
   }
 }

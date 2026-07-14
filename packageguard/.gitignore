@@ -19,6 +19,9 @@ src/packageguard/models/*.pt
 .packageguard/
 ~/.packageguard/
 
+# Scratch run logs (from long-running training jobs, e.g. overnight scale-ups)
+training/*.log
+
 # Tooling
 .pytest_cache/
 .ruff_cache/

@@ -1,0 +1,22 @@
+[
+  {
+    "parent": "mastracode",
+    "malicious_dep": "@mastra/duckdb",
+    "graph_score": 0.982
+  },
+  {
+    "parent": "@mui/x-date-pickers",
+    "malicious_dep": "@base-ui/utils",
+    "graph_score": 0.926
+  },
+  {
+    "parent": "@mastra/next",
+    "malicious_dep": "@mastra/hono",
+    "graph_score": 0.783
+  },
+  {
+    "parent": "@clack/prompts",
+    "malicious_dep": "fast-wrap-ansi",
+    "graph_score": 0.745
+  }
+]

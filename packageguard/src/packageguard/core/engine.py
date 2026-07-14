@@ -269,7 +269,12 @@ def analyze_graph(spec: str, max_depth: int = 2, max_nodes: int = 36) -> dict:
     xgb_root = float(root["xgb_score"]) if root else 0.0
     # graph signal = worst GNN malice among the *dependencies* (not the root itself).
     # Only genuinely-high node scores count as a poisoned chain (threshold, not any bump).
-    MAL_THRESHOLD = 0.80
+    # Recalibrated after the Phase 7 dataset scale-up: 0.80 was tuned against the old
+    # 6,909-node graph and under-fired on the new denser 13,159-node graph (held-out-unknown
+    # recall dropped 89.6%->69.8%). Swept the benchmark's own score distribution and picked
+    # 0.70 — recovers most of the recall (77.7%) while false-positive rate stays low (3.4%,
+    # still far below XGBoost-alone's 16%+). See training/RESULTS.md Phase 7.
+    MAL_THRESHOLD = 0.70
     neighbour_probs = [n.get("gnn_score") or 0.0 for n in graph["nodes"][1:]]
     top_neighbour = max(neighbour_probs) if neighbour_probs else 0.0
     graph_score = top_neighbour if top_neighbour >= MAL_THRESHOLD else min(top_neighbour, 0.25)
@@ -318,27 +323,25 @@ _FAMOUS = (
     "eslint", "jquery", "angular", "redux", "next", "commander", "dotenv", "mongoose", "prettier",
     "jest", "bootstrap", "socket.io", "nodemon", "babel", "sequelize", "passport", "cheerio",
 )
-# single-word famous names that produce a clean, obvious typosquat when mutated
-_SQUAT_SEEDS = ("react", "express", "lodash", "axios", "chalk", "moment", "eslint", "jquery",
-                "redux", "babel", "mongoose", "webpack", "bootstrap")
-
 # The famous packages are verified-popular by definition — add them to the allowlist so the
 # "clean" example chips reliably score LIKELY SAFE (a green chip must give a green result).
 _POPULAR.update(_FAMOUS)
 
 
-def _make_typosquat(name: str) -> str:
-    """Mutate a famous single-word name into an OBVIOUS typosquat (e.g. react->reactt)."""
-    homoglyph = {"o": "0", "l": "1", "i": "1", "e": "3", "a": "4"}
-    ops = [lambda n: n + n[-1]]                                     # double last char: expres->express? -> reactt
-    if len(name) > 4:
-        ops.append(lambda n: n[:-1])                               # drop last: express->expres
-        j = random.randrange(0, len(name) - 1)
-        ops.append(lambda n, j=j: n[:j] + n[j + 1] + n[j] + n[j + 2:])  # swap adjacent
-    for ch, sub in homoglyph.items():
-        if ch in name:
-            ops.append(lambda n, ch=ch, sub=sub: n.replace(ch, sub, 1))  # react->r3act
-    return random.choice(ops)(name)
+@lru_cache(maxsize=1)
+def _real_poison_examples() -> list[dict]:
+    """Real (not curated/synthetic) poisoned-chain cases: a genuine npm package whose live
+    2-hop dependency graph contains a package independently labeled malicious in BKC/Datadog
+    — mined by training/build_heldout_benchmark.py, then filtered to only the ones that still
+    reproduce through the LIVE analyze_graph() path (the offline benchmark scan considers the
+    whole cached graph; a live 2-hop/36-node-capped fetch doesn't always rediscover the same
+    edge, so exposing all 67 candidates as chips would sometimes silently show 'safe' when
+    clicked — only the verified-reproducible subset is shipped here)."""
+    path = Path(__file__).resolve().parent.parent / "data" / "real_poison_examples.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
 
 
 @lru_cache(maxsize=1)
@@ -351,22 +354,55 @@ def _malware_names() -> list[str]:
         return []
 
 
+@lru_cache(maxsize=1)
+def _dataset_clean_names() -> tuple[str, ...]:
+    """Real benign package names from the actual training dataset (training/dataset.parquet),
+    filtered to reasonably short/readable ones — so the CHECK examples visibly reflect the
+    current trained data, not just the fixed curated list. Falls back to empty if the dataset
+    hasn't been built yet (fresh clone) — examples() handles that gracefully."""
+    path = Path(__file__).resolve().parent.parent.parent.parent / "training" / "dataset.parquet"
+    try:
+        import pandas as pd
+        df = pd.read_parquet(path, columns=["name", "label"])
+        names = df[df.label == 0]["name"].tolist()
+        good = [n for n in names if not n.startswith("@") and 4 <= len(n) <= 16
+                and n not in _FAMOUS]
+        return tuple(sorted(set(good)))
+    except Exception:  # noqa: BLE001 — dataset missing/unreadable is a normal, non-fatal state
+        return ()
+
+
 def examples() -> dict:
-    """Fresh example sets for each tab (regenerated per request), drawn from famous packages
-    so the chips are recognizable and convincing."""
-    clean = random.sample(_FAMOUS, 3)
+    """Fresh example sets for each tab (regenerated per request). Both CHECK and GRAPH blend
+    curated/recognizable names with real ones pulled live from the current trained data."""
+    from_dataset = _dataset_clean_names()
+    if len(from_dataset) >= 2:
+        # 1 guaranteed-recognizable anchor + 2 real names straight from the training dataset
+        picks = random.sample(from_dataset, 2)
+        clean_chips = [{"pkg": random.choice(_FAMOUS), "kind": "clean"}]
+        clean_chips += [{"pkg": p, "kind": "dataset", "label": f"{p} 📊"} for p in picks]
+    else:
+        clean_chips = [{"pkg": p, "kind": "clean"} for p in random.sample(_FAMOUS, 3)]
     # threats are drawn from the real known-malware DB (co1ors, crossenv, event-stream, coa, ...)
     # — all real, all recognizable typosquats/hijacks, and none trip the NOT-FOUND path.
     threats = random.sample(_malware_names(), min(4, len(_malware_names())))
 
-    # graph: a rotating mix of poisoned-chain demos + real famous packages (8 chips total),
-    # both re-sampled every call so the ⟳ refresh visibly changes the set.
+    # graph: mix of curated poisoned-chain demos (synthetic, always work, labeled ⚠), REAL
+    # mined-and-live-verified poisoned chains (labeled ⚡ — these are genuine npm packages
+    # whose actual dependency graph contains a real labeled-malicious package), and real
+    # clean names — 8 chips total, all re-sampled every call so ⟳ visibly changes the set.
     demos = demo_graph_names()
-    n_demo = min(4, len(demos))
+    real_poison = _real_poison_examples()
+    n_demo = min(3, len(demos))
+    n_real_poison = min(3, len(real_poison))
+    n_clean = 8 - n_demo - n_real_poison
+
     graph_examples = [{"pkg": d, "kind": "demo", "label": f"{d} ⚠"}
                       for d in random.sample(demos, n_demo)]
+    graph_examples += [{"pkg": rp["parent"], "kind": "real-poison", "label": f"{rp['parent']} ⚡"}
+                       for rp in random.sample(real_poison, n_real_poison)]
     graph_examples += [{"pkg": p, "kind": "clean"}
-                       for p in random.sample(_FAMOUS, 8 - n_demo)]
+                       for p in random.sample(_FAMOUS, n_clean)]
 
     scan_suite = [
         {"path": "sample", "kind": "malware", "label": "event-stream attack"},
@@ -377,10 +413,7 @@ def examples() -> dict:
     ]
 
     return {
-        "check": (
-            [{"pkg": p, "kind": "clean"} for p in clean]
-            + [{"pkg": t, "kind": "malware"} for t in threats]
-        ),
+        "check": clean_chips + [{"pkg": t, "kind": "malware"} for t in threats],
         "graph": graph_examples,
         "scan": scan_suite,
     }

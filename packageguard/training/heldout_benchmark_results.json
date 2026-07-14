@@ -1,274 +1,2528 @@
 {
-  "n_positive": 18,
-  "n_negative": 18,
+  "n_positive": 179,
+  "n_negative": 179,
   "xgb_alone": {
-    "recall": 0.1111111111111111,
-    "fpr": 0.2222222222222222
+    "recall": 0.03910614525139665,
+    "fpr": 0.16759776536312848
   },
   "db_traversal": {
     "recall": 0.0,
     "fpr": 0.0
   },
   "graph_score": {
-    "recall": 0.8888888888888888,
-    "fpr": 0.0
+    "recall": 0.776536312849162,
+    "fpr": 0.0335195530726257
   },
   "combined": {
-    "recall": 0.8888888888888888,
-    "fpr": 0.2222222222222222
+    "recall": 0.8100558659217877,
+    "fpr": 0.2011173184357542
   },
   "rows": [
     {
-      "case": "fecha",
+      "case": "yargs",
       "label": 1,
-      "xgb_alone": 0.20458590984344482,
+      "xgb_alone": 0.31408610939979553,
       "db_hit": false,
-      "graph_score": 0.3103736340999603
+      "graph_score": 0.9774938821792603
     },
     {
-      "case": "css-select",
+      "case": "fast-deep-equal",
       "label": 1,
-      "xgb_alone": 0.1521083414554596,
+      "xgb_alone": 0.08306452631950378,
       "db_hit": false,
-      "graph_score": 0.9870314002037048
-    },
-    {
-      "case": "@clack/prompts",
-      "label": 1,
-      "xgb_alone": 0.29200825095176697,
-      "db_hit": false,
-      "graph_score": 0.9684011936187744
-    },
-    {
-      "case": "srvx",
-      "label": 1,
-      "xgb_alone": 0.022497111931443214,
-      "db_hit": false,
-      "graph_score": 0.8512186408042908
+      "graph_score": 0.9264392256736755
     },
     {
       "case": "date-fns",
       "label": 1,
-      "xgb_alone": 0.14076194167137146,
+      "xgb_alone": 0.0559590607881546,
       "db_hit": false,
-      "graph_score": 0.895182728767395
+      "graph_score": 0.881303608417511
     },
     {
-      "case": "@clack/prompts",
+      "case": "canvas",
       "label": 1,
-      "xgb_alone": 0.29200825095176697,
+      "xgb_alone": 0.21089999377727509,
       "db_hit": false,
-      "graph_score": 0.9684011936187744
-    },
-    {
-      "case": "date-fns",
-      "label": 1,
-      "xgb_alone": 0.14076194167137146,
-      "db_hit": false,
-      "graph_score": 0.895182728767395
-    },
-    {
-      "case": "object-assign",
-      "label": 1,
-      "xgb_alone": 0.30828556418418884,
-      "db_hit": false,
-      "graph_score": 0.006698866840451956
-    },
-    {
-      "case": "ms",
-      "label": 1,
-      "xgb_alone": 0.27628394961357117,
-      "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.8962215781211853
     },
     {
       "case": "once",
       "label": 1,
-      "xgb_alone": 0.3528338372707367,
+      "xgb_alone": 0.2218548059463501,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9202486872673035
     },
     {
-      "case": "ignore",
+      "case": "zod",
       "label": 1,
-      "xgb_alone": 0.14212346076965332,
+      "xgb_alone": 0.061292245984077454,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9758609533309937
     },
     {
-      "case": "wrappy",
+      "case": "rc",
       "label": 1,
-      "xgb_alone": 0.8115429878234863,
+      "xgb_alone": 0.24519507586956024,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9165171980857849
     },
     {
-      "case": "mime-db",
+      "case": "registry-auth-token",
       "label": 1,
-      "xgb_alone": 0.10816983878612518,
+      "xgb_alone": 0.2899617850780487,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9165171980857849
     },
     {
-      "case": "cli-cursor",
+      "case": "finalhandler",
       "label": 1,
-      "xgb_alone": 0.3982945382595062,
+      "xgb_alone": 0.14850033819675446,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9454039335250854
+    },
+    {
+      "case": "serve-static",
+      "label": 1,
+      "xgb_alone": 0.22282856702804565,
+      "db_hit": false,
+      "graph_score": 0.9454039335250854
+    },
+    {
+      "case": "source-map-support",
+      "label": 1,
+      "xgb_alone": 0.16471529006958008,
+      "db_hit": false,
+      "graph_score": 0.9454039335250854
+    },
+    {
+      "case": "d3-path",
+      "label": 1,
+      "xgb_alone": 0.06470184773206711,
+      "db_hit": false,
+      "graph_score": 0.9446389079093933
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
     },
     {
       "case": "mime-types",
       "label": 1,
-      "xgb_alone": 0.3956587612628937,
+      "xgb_alone": 0.33660292625427246,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.9774938821792603
     },
     {
-      "case": "@tybys/wasm-util",
+      "case": "canvas",
       "label": 1,
-      "xgb_alone": 0.35068222880363464,
+      "xgb_alone": 0.21089999377727509,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.8962215781211853
     },
     {
-      "case": "es-define-property",
+      "case": "tailwindcss",
       "label": 1,
-      "xgb_alone": 0.8507987260818481,
+      "xgb_alone": 0.1403898000717163,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.8865540623664856
     },
     {
-      "case": "escape-string-regexp",
+      "case": "ajv",
       "label": 1,
-      "xgb_alone": 0.3882797956466675,
+      "xgb_alone": 0.08207545429468155,
       "db_hit": false,
-      "graph_score": 0.986335277557373
+      "graph_score": 0.8617281317710876
     },
     {
-      "case": "@teambit/sidebar",
-      "label": 0,
-      "xgb_alone": 0.8933063745498657,
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
       "db_hit": false,
-      "graph_score": 0.00010325728362658992
+      "graph_score": 0.9758609533309937
     },
     {
-      "case": "@veryfront/ext-llm-anthropic",
+      "case": "@ai-sdk/anthropic",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "yaml",
+      "label": 1,
+      "xgb_alone": 0.057748112827539444,
+      "db_hit": false,
+      "graph_score": 0.8750067353248596
+    },
+    {
+      "case": "winston",
+      "label": 1,
+      "xgb_alone": 0.27757763862609863,
+      "db_hit": false,
+      "graph_score": 0.8608632683753967
+    },
+    {
+      "case": "@babel/parser",
+      "label": 1,
+      "xgb_alone": 0.11415219306945801,
+      "db_hit": false,
+      "graph_score": 0.6251677870750427
+    },
+    {
+      "case": "http-proxy-agent",
+      "label": 1,
+      "xgb_alone": 0.18191833794116974,
+      "db_hit": false,
+      "graph_score": 0.5483345985412598
+    },
+    {
+      "case": "https-proxy-agent",
+      "label": 1,
+      "xgb_alone": 0.14311058819293976,
+      "db_hit": false,
+      "graph_score": 0.7792263031005859
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "mime-types",
+      "label": 1,
+      "xgb_alone": 0.33660292625427246,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "start-server-and-test",
+      "label": 1,
+      "xgb_alone": 0.12603048980236053,
+      "db_hit": false,
+      "graph_score": 0.9423651099205017
+    },
+    {
+      "case": "strip-json-comments",
+      "label": 1,
+      "xgb_alone": 0.10783656686544418,
+      "db_hit": false,
+      "graph_score": 0.7901144027709961
+    },
+    {
+      "case": "@tanstack/react-query",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9687495827674866
+    },
+    {
+      "case": "@tanstack/react-query",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9687495827674866
+    },
+    {
+      "case": "@tanstack/react-query",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9687495827674866
+    },
+    {
+      "case": "@tanstack/react-query",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9687495827674866
+    },
+    {
+      "case": "ignore",
+      "label": 1,
+      "xgb_alone": 0.05626775696873665,
+      "db_hit": false,
+      "graph_score": 0.8409285545349121
+    },
+    {
+      "case": "@ai-sdk/openai",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.8750067353248596
+    },
+    {
+      "case": "@ai-sdk/anthropic",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "ajv",
+      "label": 1,
+      "xgb_alone": 0.08207545429468155,
+      "db_hit": false,
+      "graph_score": 0.8617281317710876
+    },
+    {
+      "case": "ignore",
+      "label": 1,
+      "xgb_alone": 0.05626775696873665,
+      "db_hit": false,
+      "graph_score": 0.8409285545349121
+    },
+    {
+      "case": "tokenx",
+      "label": 1,
+      "xgb_alone": 0.2506260871887207,
+      "db_hit": false,
+      "graph_score": 0.5997093915939331
+    },
+    {
+      "case": "@standard-schema/spec",
+      "label": 1,
+      "xgb_alone": 0.17247430980205536,
+      "db_hit": false,
+      "graph_score": 0.5997093915939331
+    },
+    {
+      "case": "strip-json-comments",
+      "label": 1,
+      "xgb_alone": 0.10783656686544418,
+      "db_hit": false,
+      "graph_score": 0.7901144027709961
+    },
+    {
+      "case": "dockerode",
+      "label": 1,
+      "xgb_alone": 0.08832313120365143,
+      "db_hit": false,
+      "graph_score": 0.633246660232544
+    },
+    {
+      "case": "pg",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.8361937403678894
+    },
+    {
+      "case": "@aws-sdk/types",
+      "label": 1,
+      "xgb_alone": 0.08009078353643417,
+      "db_hit": false,
+      "graph_score": 0.42240485548973083
+    },
+    {
+      "case": "pg",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.8361937403678894
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "drizzle-orm",
+      "label": 1,
+      "xgb_alone": 0.111753910779953,
+      "db_hit": false,
+      "graph_score": 0.5421378016471863
+    },
+    {
+      "case": "@date-fns/utc",
+      "label": 1,
+      "xgb_alone": 0.06450244039297104,
+      "db_hit": false,
+      "graph_score": 0.4574779272079468
+    },
+    {
+      "case": "fast-deep-equal",
+      "label": 1,
+      "xgb_alone": 0.08306452631950378,
+      "db_hit": false,
+      "graph_score": 0.9264392256736755
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "tokenx",
+      "label": 1,
+      "xgb_alone": 0.2506260871887207,
+      "db_hit": false,
+      "graph_score": 0.5997093915939331
+    },
+    {
+      "case": "@mastra/next",
+      "label": 1,
+      "xgb_alone": 0.23006747663021088,
+      "db_hit": false,
+      "graph_score": 0.6944605112075806
+    },
+    {
+      "case": "sonner",
+      "label": 1,
+      "xgb_alone": 0.06842964142560959,
+      "db_hit": false,
+      "graph_score": 0.6624543070793152
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "tailwind-merge",
+      "label": 1,
+      "xgb_alone": 0.09536034613847733,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "@aws-sdk/client-s3",
+      "label": 1,
+      "xgb_alone": 0.10714693367481232,
+      "db_hit": false,
+      "graph_score": 0.7126423716545105
+    },
+    {
+      "case": "@mastra/tanstack-start",
+      "label": 1,
+      "xgb_alone": 0.0886794775724411,
+      "db_hit": false,
+      "graph_score": 0.6944605112075806
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "yaml",
+      "label": 1,
+      "xgb_alone": 0.057748112827539444,
+      "db_hit": false,
+      "graph_score": 0.8750067353248596
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "@ai-sdk/openai",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.8750067353248596
+    },
+    {
+      "case": "@ai-sdk/anthropic",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "node-addon-api",
+      "label": 1,
+      "xgb_alone": 0.3766928017139435,
+      "db_hit": false,
+      "graph_score": 0.7679319977760315
+    },
+    {
+      "case": "prebuild-install",
+      "label": 1,
+      "xgb_alone": 0.2770817279815674,
+      "db_hit": false,
+      "graph_score": 0.8786755204200745
+    },
+    {
+      "case": "iconv-lite",
+      "label": 1,
+      "xgb_alone": 0.16471529006958008,
+      "db_hit": false,
+      "graph_score": 0.9338666796684265
+    },
+    {
+      "case": "mime-types",
+      "label": 1,
+      "xgb_alone": 0.33660292625427246,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "http-reasons",
+      "label": 1,
+      "xgb_alone": 0.4950474202632904,
+      "db_hit": false,
+      "graph_score": 0.9338666796684265
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "p-limit",
+      "label": 1,
+      "xgb_alone": 0.11883184313774109,
+      "db_hit": false,
+      "graph_score": 0.7902098894119263
+    },
+    {
+      "case": "winston",
+      "label": 1,
+      "xgb_alone": 0.27757763862609863,
+      "db_hit": false,
+      "graph_score": 0.8608632683753967
+    },
+    {
+      "case": "p-limit",
+      "label": 1,
+      "xgb_alone": 0.11883184313774109,
+      "db_hit": false,
+      "graph_score": 0.7902098894119263
+    },
+    {
+      "case": "winston",
+      "label": 1,
+      "xgb_alone": 0.27757763862609863,
+      "db_hit": false,
+      "graph_score": 0.8608632683753967
+    },
+    {
+      "case": "ajv",
+      "label": 1,
+      "xgb_alone": 0.08207545429468155,
+      "db_hit": false,
+      "graph_score": 0.8617281317710876
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "yaml",
+      "label": 1,
+      "xgb_alone": 0.057748112827539444,
+      "db_hit": false,
+      "graph_score": 0.8750067353248596
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "clsx",
+      "label": 1,
+      "xgb_alone": 0.17347612977027893,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "tailwind-merge",
+      "label": 1,
+      "xgb_alone": 0.09536034613847733,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "@dnd-kit/core",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.5905345678329468
+    },
+    {
+      "case": "@dnd-kit/modifiers",
+      "label": 1,
+      "xgb_alone": 0.10113690793514252,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@dnd-kit/sortable",
+      "label": 1,
+      "xgb_alone": 0.09973840415477753,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "qs",
+      "label": 1,
+      "xgb_alone": 0.0919853150844574,
+      "db_hit": false,
+      "graph_score": 0.6909597516059875
+    },
+    {
+      "case": "@dnd-kit/utilities",
+      "label": 1,
+      "xgb_alone": 0.10113690793514252,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "@swc/helpers",
+      "label": 1,
+      "xgb_alone": 0.08690211176872253,
+      "db_hit": false,
+      "graph_score": 0.7145727872848511
+    },
+    {
+      "case": "@dnd-kit/core",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.5905345678329468
+    },
+    {
+      "case": "@dnd-kit/sortable",
+      "label": 1,
+      "xgb_alone": 0.09973840415477753,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@dnd-kit/utilities",
+      "label": 1,
+      "xgb_alone": 0.10113690793514252,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@mui/x-date-pickers",
+      "label": 1,
+      "xgb_alone": 0.2931237816810608,
+      "db_hit": false,
+      "graph_score": 0.7702507972717285
+    },
+    {
+      "case": "d3-zoom",
+      "label": 1,
+      "xgb_alone": 0.11288426071405411,
+      "db_hit": false,
+      "graph_score": 0.07465134561061859
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "luxon",
+      "label": 1,
+      "xgb_alone": 0.05294942483305931,
+      "db_hit": false,
+      "graph_score": 0.6743292212486267
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "@dnd-kit/core",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.5905345678329468
+    },
+    {
+      "case": "@dnd-kit/modifiers",
+      "label": 1,
+      "xgb_alone": 0.10113690793514252,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@dnd-kit/sortable",
+      "label": 1,
+      "xgb_alone": 0.09973840415477753,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@dnd-kit/utilities",
+      "label": 1,
+      "xgb_alone": 0.10113690793514252,
+      "db_hit": false,
+      "graph_score": 0.5647041201591492
+    },
+    {
+      "case": "@hookform/resolvers",
+      "label": 1,
+      "xgb_alone": 0.22834768891334534,
+      "db_hit": false,
+      "graph_score": 0.6529293656349182
+    },
+    {
+      "case": "@tanstack/react-table",
+      "label": 1,
+      "xgb_alone": 0.1806611567735672,
+      "db_hit": false,
+      "graph_score": 0.4136199355125427
+    },
+    {
+      "case": "class-variance-authority",
+      "label": 1,
+      "xgb_alone": 0.08780010044574738,
+      "db_hit": false,
+      "graph_score": 0.7854359149932861
+    },
+    {
+      "case": "clsx",
+      "label": 1,
+      "xgb_alone": 0.17347612977027893,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "next-themes",
+      "label": 1,
+      "xgb_alone": 0.05471326410770416,
+      "db_hit": false,
+      "graph_score": 0.6529293656349182
+    },
+    {
+      "case": "sonner",
+      "label": 1,
+      "xgb_alone": 0.06842964142560959,
+      "db_hit": false,
+      "graph_score": 0.6624543070793152
+    },
+    {
+      "case": "tailwind-merge",
+      "label": 1,
+      "xgb_alone": 0.09536034613847733,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "tailwindcss",
+      "label": 1,
+      "xgb_alone": 0.1403898000717163,
+      "db_hit": false,
+      "graph_score": 0.8865540623664856
+    },
+    {
+      "case": "vaul",
+      "label": 1,
+      "xgb_alone": 0.10480295866727829,
+      "db_hit": false,
+      "graph_score": 0.2089291661977768
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "form-data",
+      "label": 1,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "pump",
+      "label": 1,
+      "xgb_alone": 0.10004366934299469,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "split2",
+      "label": 1,
+      "xgb_alone": 0.07243844866752625,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "readable-stream",
+      "label": 1,
+      "xgb_alone": 0.21581131219863892,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "strip-json-comments",
+      "label": 1,
+      "xgb_alone": 0.10783656686544418,
+      "db_hit": false,
+      "graph_score": 0.7901144027709961
+    },
+    {
+      "case": "minimist",
+      "label": 1,
+      "xgb_alone": 0.11721238493919373,
+      "db_hit": false,
+      "graph_score": 0.8046152591705322
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "@tanstack/react-query",
+      "label": 1,
+      "xgb_alone": 0.17971721291542053,
+      "db_hit": false,
+      "graph_score": 0.9687495827674866
+    },
+    {
+      "case": "get-stream",
+      "label": 1,
+      "xgb_alone": 0.10752294212579727,
+      "db_hit": false,
+      "graph_score": 0.732504665851593
+    },
+    {
+      "case": "json-schema-traverse",
+      "label": 1,
+      "xgb_alone": 0.20564259588718414,
+      "db_hit": false,
+      "graph_score": 0.6585444808006287
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "pg",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.8361937403678894
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "pg",
+      "label": 1,
+      "xgb_alone": 0.12383154034614563,
+      "db_hit": false,
+      "graph_score": 0.8361937403678894
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "object-assign",
+      "label": 1,
+      "xgb_alone": 0.23019126057624817,
+      "db_hit": false,
+      "graph_score": 0.8642839789390564
+    },
+    {
+      "case": "vary",
+      "label": 1,
+      "xgb_alone": 0.5020939707756042,
+      "db_hit": false,
+      "graph_score": 0.8642839789390564
+    },
+    {
+      "case": "jest-util",
+      "label": 1,
+      "xgb_alone": 0.9481108784675598,
+      "db_hit": false,
+      "graph_score": 0.4866793751716614
+    },
+    {
+      "case": "jest-runner",
+      "label": 1,
+      "xgb_alone": 0.9828296303749084,
+      "db_hit": false,
+      "graph_score": 0.4866793751716614
+    },
+    {
+      "case": "jest-resolve",
+      "label": 1,
+      "xgb_alone": 0.9522616267204285,
+      "db_hit": false,
+      "graph_score": 0.4866793751716614
+    },
+    {
+      "case": "jest-runtime",
+      "label": 1,
+      "xgb_alone": 0.79185950756073,
+      "db_hit": false,
+      "graph_score": 0.4866793751716614
+    },
+    {
+      "case": "jest-haste-map",
+      "label": 1,
+      "xgb_alone": 0.9699541926383972,
+      "db_hit": false,
+      "graph_score": 0.584104061126709
+    },
+    {
+      "case": "jest-message-util",
+      "label": 1,
+      "xgb_alone": 0.9517796635627747,
+      "db_hit": false,
+      "graph_score": 0.4866793751716614
+    },
+    {
+      "case": "acorn",
+      "label": 1,
+      "xgb_alone": 0.06954187154769897,
+      "db_hit": false,
+      "graph_score": 0.5713728070259094
+    },
+    {
+      "case": "undici-types",
+      "label": 1,
+      "xgb_alone": 0.04567695036530495,
+      "db_hit": false,
+      "graph_score": 0.5713728070259094
+    },
+    {
+      "case": "@aws-sdk/client-s3",
+      "label": 1,
+      "xgb_alone": 0.10714693367481232,
+      "db_hit": false,
+      "graph_score": 0.7126423716545105
+    },
+    {
+      "case": "@aws-sdk/client-dynamodb",
+      "label": 1,
+      "xgb_alone": 0.11877894401550293,
+      "db_hit": false,
+      "graph_score": 0.7126423716545105
+    },
+    {
+      "case": "mongodb",
+      "label": 1,
+      "xgb_alone": 0.08024279028177261,
+      "db_hit": false,
+      "graph_score": 0.9503847360610962
+    },
+    {
+      "case": "oracledb",
+      "label": 1,
+      "xgb_alone": 0.11893770843744278,
+      "db_hit": false,
+      "graph_score": 0.9017127156257629
+    },
+    {
+      "case": "pump",
+      "label": 1,
+      "xgb_alone": 0.10004366934299469,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "split2",
+      "label": 1,
+      "xgb_alone": 0.07243844866752625,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "readable-stream",
+      "label": 1,
+      "xgb_alone": 0.21581131219863892,
+      "db_hit": false,
+      "graph_score": 0.8434929251670837
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "mastracode",
+      "label": 1,
+      "xgb_alone": 0.30953729152679443,
+      "db_hit": false,
+      "graph_score": 0.9669539928436279
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "date-fns",
+      "label": 1,
+      "xgb_alone": 0.0559590607881546,
+      "db_hit": false,
+      "graph_score": 0.881303608417511
+    },
+    {
+      "case": "@planetscale/database",
+      "label": 1,
+      "xgb_alone": 0.4827480614185333,
+      "db_hit": false,
+      "graph_score": 0.8578709363937378
+    },
+    {
+      "case": "clsx",
+      "label": 1,
+      "xgb_alone": 0.17347612977027893,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "tailwind-merge",
+      "label": 1,
+      "xgb_alone": 0.09536034613847733,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "ignore",
+      "label": 1,
+      "xgb_alone": 0.05626775696873665,
+      "db_hit": false,
+      "graph_score": 0.8409285545349121
+    },
+    {
+      "case": "find-up",
+      "label": 1,
+      "xgb_alone": 0.21390634775161743,
+      "db_hit": false,
+      "graph_score": 0.8409104943275452
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "clsx",
+      "label": 1,
+      "xgb_alone": 0.17347612977027893,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "tailwind-merge",
+      "label": 1,
+      "xgb_alone": 0.09536034613847733,
+      "db_hit": false,
+      "graph_score": 0.9292371869087219
+    },
+    {
+      "case": "yargs",
+      "label": 1,
+      "xgb_alone": 0.31408610939979553,
+      "db_hit": false,
+      "graph_score": 0.9774938821792603
+    },
+    {
+      "case": "zod",
+      "label": 1,
+      "xgb_alone": 0.061292245984077454,
+      "db_hit": false,
+      "graph_score": 0.9758609533309937
+    },
+    {
+      "case": "jsonc-parser",
+      "label": 1,
+      "xgb_alone": 0.3352598547935486,
+      "db_hit": false,
+      "graph_score": 0.9414969682693481
+    },
+    {
+      "case": "@clack/prompts",
+      "label": 1,
+      "xgb_alone": 0.29893597960472107,
+      "db_hit": false,
+      "graph_score": 0.9414969682693481
+    },
+    {
+      "case": "iconv-lite",
+      "label": 1,
+      "xgb_alone": 0.16471529006958008,
+      "db_hit": false,
+      "graph_score": 0.9338666796684265
+    },
+    {
+      "case": "cli-table",
+      "label": 1,
+      "xgb_alone": 0.20675933361053467,
+      "db_hit": false,
+      "graph_score": 0.9731590747833252
+    },
+    {
+      "case": "@intentius/chant-lexicon-aws",
       "label": 0,
-      "xgb_alone": 0.000466452183900401,
+      "xgb_alone": 0.04553123563528061,
       "db_hit": false,
       "graph_score": 0.0
     },
     {
-      "case": "@flue/react",
+      "case": "@cs7player/react-lib",
       "label": 0,
-      "xgb_alone": 0.007587650325149298,
+      "xgb_alone": 0.0014901991235092282,
       "db_hit": false,
       "graph_score": 0.0
     },
     {
-      "case": "@dbeauyat/user-accounts-utils",
+      "case": "@teambit/scope.models.scope-model",
       "label": 0,
-      "xgb_alone": 0.0008464942802675068,
+      "xgb_alone": 0.8851110339164734,
       "db_hit": false,
-      "graph_score": 0.006954950746148825
+      "graph_score": 0.02091318368911743
     },
     {
-      "case": "@decocms/apps-shopify",
+      "case": "@ampcode/cli",
       "label": 0,
-      "xgb_alone": 0.00859215296804905,
+      "xgb_alone": 0.8554657101631165,
       "db_hit": false,
-      "graph_score": 1.0674223460682697e-07
+      "graph_score": 0.017987903207540512
     },
     {
-      "case": "@teambit/component.testing.mock-components",
+      "case": "@node-rs/bcrypt-win32-x64-msvc",
       "label": 0,
-      "xgb_alone": 0.8485304117202759,
-      "db_hit": false,
-      "graph_score": 0.0002539606939535588
-    },
-    {
-      "case": "@mindrian_os/cli",
-      "label": 0,
-      "xgb_alone": 0.009006761014461517,
-      "db_hit": false,
-      "graph_score": 0.06722787022590637
-    },
-    {
-      "case": "@arity-cli/linux-arm64-musl",
-      "label": 0,
-      "xgb_alone": 0.002838872140273452,
+      "xgb_alone": 0.03187467157840729,
       "db_hit": false,
       "graph_score": 0.0
     },
     {
-      "case": "@yak-io/prismic",
+      "case": "@antadesign/anta",
       "label": 0,
-      "xgb_alone": 0.0009833050426095724,
+      "xgb_alone": 0.2493511587381363,
       "db_hit": false,
-      "graph_score": 9.021386358654127e-05
+      "graph_score": 0.2474186271429062
     },
     {
-      "case": "@anvia/langfuse",
+      "case": "openapi-sdkgen",
       "label": 0,
-      "xgb_alone": 0.019840631633996964,
+      "xgb_alone": 0.006743111182004213,
       "db_hit": false,
       "graph_score": 0.0
     },
     {
-      "case": "@nexus-state/form-builder-react",
+      "case": "@trading-gateway/contracts",
       "label": 0,
-      "xgb_alone": 0.13540638983249664,
+      "xgb_alone": 0.0034258379600942135,
       "db_hit": false,
-      "graph_score": 0.15912948548793793
+      "graph_score": 0.14522068202495575
     },
     {
-      "case": "@mpgd/adapter-capacitor",
+      "case": "@opencrvs/toolkit",
       "label": 0,
-      "xgb_alone": 0.0004590636526700109,
+      "xgb_alone": 0.3157314956188202,
       "db_hit": false,
-      "graph_score": 3.5162942367605865e-05
+      "graph_score": 0.26946860551834106
     },
     {
-      "case": "@teambit/internalize",
+      "case": "@jupiter-cloud/sdk",
       "label": 0,
-      "xgb_alone": 0.24484983086585999,
+      "xgb_alone": 0.0022999350912868977,
       "db_hit": false,
-      "graph_score": 0.00010325728362658992
+      "graph_score": 0.0002631218812894076
+    },
+    {
+      "case": "@mailwoman/annotations",
+      "label": 0,
+      "xgb_alone": 0.0030934512615203857,
+      "db_hit": false,
+      "graph_score": 0.42395535111427307
+    },
+    {
+      "case": "@everymatrix/bonus-pagination-limits",
+      "label": 0,
+      "xgb_alone": 0.8680791258811951,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/casino-tournaments-ingame-list",
+      "label": 0,
+      "xgb_alone": 0.9704407453536987,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@happyvertical/smrt-app-cli",
+      "label": 0,
+      "xgb_alone": 0.00188876548781991,
+      "db_hit": false,
+      "graph_score": 0.0011667662765830755
+    },
+    {
+      "case": "@gdwhisper/fork-it",
+      "label": 0,
+      "xgb_alone": 0.0022562837693840265,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@napi-rs/canvas-darwin-arm64",
+      "label": 0,
+      "xgb_alone": 0.05156403034925461,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@arcgis/map-components",
+      "label": 0,
+      "xgb_alone": 0.21377378702163696,
+      "db_hit": false,
+      "graph_score": 0.5243932008743286
+    },
+    {
+      "case": "@hasna/identities",
+      "label": 0,
+      "xgb_alone": 0.016012776643037796,
+      "db_hit": false,
+      "graph_score": 0.3229951560497284
+    },
+    {
+      "case": "@arcgis/map-components-react",
+      "label": 0,
+      "xgb_alone": 0.33505165576934814,
+      "db_hit": false,
+      "graph_score": 0.5911436676979065
+    },
+    {
+      "case": "@kiwa-lab/mcp",
+      "label": 0,
+      "xgb_alone": 0.00206910097040236,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@featureflip/js",
+      "label": 0,
+      "xgb_alone": 0.16865478456020355,
+      "db_hit": false,
+      "graph_score": 0.001972081372514367
+    },
+    {
+      "case": "@everymatrix/casino-tournaments-filter-controller",
+      "label": 0,
+      "xgb_alone": 0.8708673715591431,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@hackolade/keytar-darwin-arm64",
+      "label": 0,
+      "xgb_alone": 0.13472600281238556,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@gpsoftware/jquery-event-calendar",
+      "label": 0,
+      "xgb_alone": 0.0015179428737610579,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "notifyme-csm-mcp",
+      "label": 0,
+      "xgb_alone": 0.09383327513933182,
+      "db_hit": false,
+      "graph_score": 0.14522068202495575
+    },
+    {
+      "case": "@rebon/cli-win32-x64",
+      "label": 0,
+      "xgb_alone": 0.003293300047516823,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@sdsrs/code-graph-linux-x64",
+      "label": 0,
+      "xgb_alone": 0.02363918535411358,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@bundle-stats/plugin-webpack-validate",
+      "label": 0,
+      "xgb_alone": 0.14189815521240234,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "ai-stream-utils",
+      "label": 0,
+      "xgb_alone": 0.6034208536148071,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "hytrax",
+      "label": 0,
+      "xgb_alone": 0.001920881331898272,
+      "db_hit": false,
+      "graph_score": 0.23931884765625
+    },
+    {
+      "case": "@everymatrix/player-gaming-history",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "opencode-plugin-flow",
+      "label": 0,
+      "xgb_alone": 0.024333970621228218,
+      "db_hit": false,
+      "graph_score": 0.14522068202495575
+    },
+    {
+      "case": "@everymatrix/player-profile-info",
+      "label": 0,
+      "xgb_alone": 0.8708673715591431,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@middy/input-output-logger",
+      "label": 0,
+      "xgb_alone": 0.20565475523471832,
+      "db_hit": false,
+      "graph_score": 0.27170535922050476
+    },
+    {
+      "case": "@datahive/util-indexdb-caching",
+      "label": 0,
+      "xgb_alone": 0.47297272086143494,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "@bacnh85/pi-plan",
+      "label": 0,
+      "xgb_alone": 0.0022016188595443964,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "postinstall-browserify",
+      "label": 0,
+      "xgb_alone": 0.3715097904205322,
+      "db_hit": false,
+      "graph_score": 0.3912507891654968
+    },
+    {
+      "case": "@vscode/test-electron",
+      "label": 0,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.27803394198417664
+    },
+    {
+      "case": "@o3r/eslint-plugin",
+      "label": 0,
+      "xgb_alone": 0.2889733910560608,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "@theia/ai-core-ui",
+      "label": 0,
+      "xgb_alone": 0.28408053517341614,
+      "db_hit": false,
+      "graph_score": 0.4907669723033905
+    },
+    {
+      "case": "@ethersproject/logger",
+      "label": 0,
+      "xgb_alone": 0.05443425476551056,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@arity-cli/win32-x64",
+      "label": 0,
+      "xgb_alone": 0.028971008956432343,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@threenative/ir",
+      "label": 0,
+      "xgb_alone": 0.23516404628753662,
+      "db_hit": false,
+      "graph_score": 1.050729792950733e-06
+    },
+    {
+      "case": "@datadog/openfeature-node-server",
+      "label": 0,
+      "xgb_alone": 0.20407001674175262,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "pi-subagent-bridge",
+      "label": 0,
+      "xgb_alone": 0.009175182320177555,
+      "db_hit": false,
+      "graph_score": 0.14522068202495575
+    },
+    {
+      "case": "wp-mcp-router",
+      "label": 0,
+      "xgb_alone": 0.0017896710196509957,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/player-elevate-points-history",
+      "label": 0,
+      "xgb_alone": 0.8680791258811951,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@oh-my-pi/pi-tui",
+      "label": 0,
+      "xgb_alone": 0.12248978018760681,
+      "db_hit": false,
+      "graph_score": 0.6431424021720886
+    },
+    {
+      "case": "@vibecuting/video-project-helper",
+      "label": 0,
+      "xgb_alone": 0.011798889376223087,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@m4l-jweb/surface",
+      "label": 0,
+      "xgb_alone": 0.002056094352155924,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@happyvertical/smrt-vitest",
+      "label": 0,
+      "xgb_alone": 0.0019737572874873877,
+      "db_hit": false,
+      "graph_score": 0.28390324115753174
+    },
+    {
+      "case": "@img/sharp-libvips-linux-s390x",
+      "label": 0,
+      "xgb_alone": 0.061991188675165176,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "http-response-object",
+      "label": 0,
+      "xgb_alone": 0.19999046623706818,
+      "db_hit": false,
+      "graph_score": 0.21789629757404327
+    },
+    {
+      "case": "@elementor/editor-documents",
+      "label": 0,
+      "xgb_alone": 0.29893597960472107,
+      "db_hit": false,
+      "graph_score": 0.6580735445022583
+    },
+    {
+      "case": "eslint-plugin-i18next",
+      "label": 0,
+      "xgb_alone": 0.004033209290355444,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@types/react-test-renderer",
+      "label": 0,
+      "xgb_alone": 0.003662694012746215,
+      "db_hit": false,
+      "graph_score": 0.16272883117198944
+    },
+    {
+      "case": "@img/sharp-libvips-darwin-arm64",
+      "label": 0,
+      "xgb_alone": 0.061991188675165176,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@threenative/ui",
+      "label": 0,
+      "xgb_alone": 0.21730178594589233,
+      "db_hit": false,
+      "graph_score": 8.717406103642134e-07
+    },
+    {
+      "case": "@happyvertical/smrt-affiliates",
+      "label": 0,
+      "xgb_alone": 0.0035122944973409176,
+      "db_hit": false,
+      "graph_score": 0.0012606123927980661
+    },
+    {
+      "case": "@zeerke/ascet-copilot-ui",
+      "label": 0,
+      "xgb_alone": 0.0018319730879738927,
+      "db_hit": false,
+      "graph_score": 2.8749664124916308e-05
+    },
+    {
+      "case": "@atlisp/mcp",
+      "label": 0,
+      "xgb_alone": 0.04989727959036827,
+      "db_hit": false,
+      "graph_score": 0.44456014037132263
+    },
+    {
+      "case": "webpack-merge",
+      "label": 0,
+      "xgb_alone": 0.02642335370182991,
+      "db_hit": false,
+      "graph_score": 0.29658353328704834
+    },
+    {
+      "case": "@djangocfg/typescript-config",
+      "label": 0,
+      "xgb_alone": 0.1253087967634201,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "winston-transport",
+      "label": 0,
+      "xgb_alone": 0.3152262270450592,
+      "db_hit": false,
+      "graph_score": 0.8608632683753967
+    },
+    {
+      "case": "pkg-ops-query-moppy-mewls-mahoe-mased",
+      "label": 0,
+      "xgb_alone": 0.9910174608230591,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@xnetjs/react",
+      "label": 0,
+      "xgb_alone": 0.05000485107302666,
+      "db_hit": false,
+      "graph_score": 0.3164744973182678
+    },
+    {
+      "case": "@astryxdesign/vega",
+      "label": 0,
+      "xgb_alone": 0.06330576539039612,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@eslint/object-schema",
+      "label": 0,
+      "xgb_alone": 0.24067415297031403,
+      "db_hit": false,
+      "graph_score": 0.17477697134017944
+    },
+    {
+      "case": "@br-validators/zod",
+      "label": 0,
+      "xgb_alone": 0.0030758639331907034,
+      "db_hit": false,
+      "graph_score": 0.0011918684467673302
+    },
+    {
+      "case": "vinta-ai-workflows",
+      "label": 0,
+      "xgb_alone": 0.058911532163619995,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@pixi/canvas-graphics",
+      "label": 0,
+      "xgb_alone": 0.051877424120903015,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@betalyx/facturacion-ec",
+      "label": 0,
+      "xgb_alone": 0.0032535011414438486,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@rudderjs/hash",
+      "label": 0,
+      "xgb_alone": 0.8710302114486694,
+      "db_hit": false,
+      "graph_score": 0.2776031196117401
+    },
+    {
+      "case": "date-format",
+      "label": 0,
+      "xgb_alone": 0.055044688284397125,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@happyvertical/smrt-commerce",
+      "label": 0,
+      "xgb_alone": 0.001809595967642963,
+      "db_hit": false,
+      "graph_score": 0.0019111260771751404
+    },
+    {
+      "case": "cybara",
+      "label": 0,
+      "xgb_alone": 0.0021004145964980125,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@strangeape/ffmpeg-audio-wasm",
+      "label": 0,
+      "xgb_alone": 0.24496565759181976,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@fluentui/react-tag-picker",
+      "label": 0,
+      "xgb_alone": 0.23702150583267212,
+      "db_hit": false,
+      "graph_score": 0.10797933489084244
+    },
+    {
+      "case": "@elementor/extract-i18n-wordpress-expressions-webpack-plugin",
+      "label": 0,
+      "xgb_alone": 0.32442885637283325,
+      "db_hit": false,
+      "graph_score": 0.25938305258750916
+    },
+    {
+      "case": "@everymatrix/player-account-self-exclusion-nd",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@argusjs/hash-bcrypt",
+      "label": 0,
+      "xgb_alone": 0.29599541425704956,
+      "db_hit": false,
+      "graph_score": 0.19216394424438477
+    },
+    {
+      "case": "oci-database",
+      "label": 0,
+      "xgb_alone": 0.14684170484542847,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/cashier-transaction-history",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/casino-footer-v2",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@eleboucher/pi-memini",
+      "label": 0,
+      "xgb_alone": 0.00188876548781991,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@arcgis/eslint-config",
+      "label": 0,
+      "xgb_alone": 0.202873095870018,
+      "db_hit": false,
+      "graph_score": 0.3826231360435486
+    },
+    {
+      "case": "@config-plugins/react-native-pdf",
+      "label": 0,
+      "xgb_alone": 0.42642807960510254,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@mpen/react-external-store",
+      "label": 0,
+      "xgb_alone": 0.22785934805870056,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "codex-copilot-dx",
+      "label": 0,
+      "xgb_alone": 0.05702086538076401,
+      "db_hit": false,
+      "graph_score": 0.20978444814682007
+    },
+    {
+      "case": "cjs-module-lexer",
+      "label": 0,
+      "xgb_alone": 0.17977887392044067,
+      "db_hit": false,
+      "graph_score": 0.24523954093456268
+    },
+    {
+      "case": "mapbox-gl-rain-layer",
+      "label": 0,
+      "xgb_alone": 0.16036981344223022,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@ama-mcp/otter",
+      "label": 0,
+      "xgb_alone": 0.44978630542755127,
+      "db_hit": false,
+      "graph_score": 0.7475429773330688
+    },
+    {
+      "case": "fisis-mcp",
+      "label": 0,
+      "xgb_alone": 0.0032430875580757856,
+      "db_hit": false,
+      "graph_score": 0.14522068202495575
+    },
+    {
+      "case": "uncrypto",
+      "label": 0,
+      "xgb_alone": 0.21349377930164337,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/casino-game-page",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@web/test-runner-playwright",
+      "label": 0,
+      "xgb_alone": 0.2891480028629303,
+      "db_hit": false,
+      "graph_score": 0.6883535981178284
+    },
+    {
+      "case": "@actual-app/core",
+      "label": 0,
+      "xgb_alone": 0.7069310545921326,
+      "db_hit": false,
+      "graph_score": 0.26181522011756897
+    },
+    {
+      "case": "sharp-bmp",
+      "label": 0,
+      "xgb_alone": 0.013494530692696571,
+      "db_hit": false,
+      "graph_score": 0.20978444814682007
+    },
+    {
+      "case": "romdevtools",
+      "label": 0,
+      "xgb_alone": 0.03882165625691414,
+      "db_hit": false,
+      "graph_score": 0.19094552099704742
+    },
+    {
+      "case": "@luigi-project/testing-utilities",
+      "label": 0,
+      "xgb_alone": 0.13962040841579437,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@sdsrs/code-graph",
+      "label": 0,
+      "xgb_alone": 0.03155626356601715,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@cluion/sigil-store-json",
+      "label": 0,
+      "xgb_alone": 0.001670076628215611,
+      "db_hit": false,
+      "graph_score": 0.000462354306364432
+    },
+    {
+      "case": "@wyreup/cli",
+      "label": 0,
+      "xgb_alone": 0.2921760082244873,
+      "db_hit": false,
+      "graph_score": 0.3557018041610718
+    },
+    {
+      "case": "@billkit/core",
+      "label": 0,
+      "xgb_alone": 0.006669243797659874,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "opentel-mcp",
+      "label": 0,
+      "xgb_alone": 0.002115627983585,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@mesadev/mesafs-napi-darwin-arm64",
+      "label": 0,
+      "xgb_alone": 0.21918469667434692,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@phantomchain/core-database",
+      "label": 0,
+      "xgb_alone": 0.20751315355300903,
+      "db_hit": false,
+      "graph_score": 0.15266145765781403
+    },
+    {
+      "case": "triple-beam",
+      "label": 0,
+      "xgb_alone": 0.21899735927581787,
+      "db_hit": false,
+      "graph_score": 0.8608632683753967
+    },
+    {
+      "case": "@happyvertical/smrt-reports",
+      "label": 0,
+      "xgb_alone": 0.002091360045596957,
+      "db_hit": false,
+      "graph_score": 0.0016215498326346278
+    },
+    {
+      "case": "merge-stream",
+      "label": 0,
+      "xgb_alone": 0.24073174595832825,
+      "db_hit": false,
+      "graph_score": 0.6810443997383118
+    },
+    {
+      "case": "node-opcua-local-discovery-server",
+      "label": 0,
+      "xgb_alone": 0.17918512225151062,
+      "db_hit": false,
+      "graph_score": 0.3514249324798584
+    },
+    {
+      "case": "object-inspect",
+      "label": 0,
+      "xgb_alone": 0.06868785619735718,
+      "db_hit": false,
+      "graph_score": 0.5117169618606567
+    },
+    {
+      "case": "@fluentui/react-tags",
+      "label": 0,
+      "xgb_alone": 0.19521138072013855,
+      "db_hit": false,
+      "graph_score": 0.15514901280403137
+    },
+    {
+      "case": "@mustafaj/oxlint",
+      "label": 0,
+      "xgb_alone": 0.14279434084892273,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@config-plugins/react-native-webrtc",
+      "label": 0,
+      "xgb_alone": 0.37173402309417725,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "pause",
+      "label": 0,
+      "xgb_alone": 0.6309219002723694,
+      "db_hit": false,
+      "graph_score": 0.20122750103473663
+    },
+    {
+      "case": "@everymatrix/player-account-review-frequency",
+      "label": 0,
+      "xgb_alone": 0.8956068754196167,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@ama-sdk/swagger-builder",
+      "label": 0,
+      "xgb_alone": 0.2358473241329193,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "@everymatrix/pam-account-balance-modal",
+      "label": 0,
+      "xgb_alone": 0.8708673715591431,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@miaopan/code-windows-x64-baseline",
+      "label": 0,
+      "xgb_alone": 0.15573689341545105,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@aws-sdk/credential-provider-sso",
+      "label": 0,
+      "xgb_alone": 0.14181551337242126,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "@teambit/dev-files",
+      "label": 0,
+      "xgb_alone": 0.9699541926383972,
+      "db_hit": false,
+      "graph_score": 0.24790965020656586
+    },
+    {
+      "case": "@aws/create-nx-workspace",
+      "label": 0,
+      "xgb_alone": 0.09919119626283646,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@node-rs/bcrypt-freebsd-x64",
+      "label": 0,
+      "xgb_alone": 0.03224967420101166,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@oh-my-pi/pi-natives-win32-x64",
+      "label": 0,
+      "xgb_alone": 0.02100704237818718,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@talismn/crypto",
+      "label": 0,
+      "xgb_alone": 0.7765868902206421,
+      "db_hit": false,
+      "graph_score": 0.18340401351451874
+    },
+    {
+      "case": "@100xprompt/cli-linux-x64-baseline-musl",
+      "label": 0,
+      "xgb_alone": 0.021276943385601044,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/casino-engagement-suite-jackpots-list",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@o3r/components",
+      "label": 0,
+      "xgb_alone": 0.2720344364643097,
+      "db_hit": false,
+      "graph_score": 0.485443651676178
+    },
+    {
+      "case": "@ashley-shrok/viewmodel-shell",
+      "label": 0,
+      "xgb_alone": 0.042741451412439346,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "tabby-paste-image",
+      "label": 0,
+      "xgb_alone": 0.0014894860796630383,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@estebanivar/vqa-mcp",
+      "label": 0,
+      "xgb_alone": 0.0017896710196509957,
+      "db_hit": false,
+      "graph_score": 0.14522068202495575
+    },
+    {
+      "case": "@mnemonik/shared",
+      "label": 0,
+      "xgb_alone": 0.15400871634483337,
+      "db_hit": false,
+      "graph_score": 0.2160094529390335
+    },
+    {
+      "case": "@keystrokehq/keystroke",
+      "label": 0,
+      "xgb_alone": 0.017442313954234123,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@miaopan/code-linux-x64-musl",
+      "label": 0,
+      "xgb_alone": 0.15573689341545105,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/prize-engine-history",
+      "label": 0,
+      "xgb_alone": 0.9704407453536987,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@o3r/pipeline",
+      "label": 0,
+      "xgb_alone": 0.431022584438324,
+      "db_hit": false,
+      "graph_score": 0.485443651676178
+    },
+    {
+      "case": "@strapi/plugin-documentation",
+      "label": 0,
+      "xgb_alone": 0.1792222410440445,
+      "db_hit": false,
+      "graph_score": 0.412984162569046
+    },
+    {
+      "case": "s3proxy",
+      "label": 0,
+      "xgb_alone": 0.10343010723590851,
+      "db_hit": false,
+      "graph_score": 0.4097215533256531
+    },
+    {
+      "case": "@vue/reactivity",
+      "label": 0,
+      "xgb_alone": 0.06656643003225327,
+      "db_hit": false,
+      "graph_score": 0.09029203653335571
+    },
+    {
+      "case": "@config-plugins/react-native-adjust",
+      "label": 0,
+      "xgb_alone": 0.4056359827518463,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "forwarded",
+      "label": 0,
+      "xgb_alone": 0.3132496774196625,
+      "db_hit": false,
+      "graph_score": 0.211307555437088
+    },
+    {
+      "case": "@stylistic/eslint-plugin-js",
+      "label": 0,
+      "xgb_alone": 0.1066199392080307,
+      "db_hit": false,
+      "graph_score": 0.10476412624120712
+    },
+    {
+      "case": "@veryfront/ext-parser-babel",
+      "label": 0,
+      "xgb_alone": 0.001430179108865559,
+      "db_hit": false,
+      "graph_score": 0.5074488520622253
+    },
+    {
+      "case": "@everymatrix/cashier-spinner",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/general-navigation-bar",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "turbine-orm",
+      "label": 0,
+      "xgb_alone": 0.09463678300380707,
+      "db_hit": false,
+      "graph_score": 0.3229951560497284
+    },
+    {
+      "case": "@teambit/multi-compiler",
+      "label": 0,
+      "xgb_alone": 0.9522616267204285,
+      "db_hit": false,
+      "graph_score": 0.03566460683941841
+    },
+    {
+      "case": "@ng-zen/cli",
+      "label": 0,
+      "xgb_alone": 0.12707138061523438,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "livedesk",
+      "label": 0,
+      "xgb_alone": 0.0013138802023604512,
+      "db_hit": false,
+      "graph_score": 0.44456014037132263
+    },
+    {
+      "case": "@puddle/storefront",
+      "label": 0,
+      "xgb_alone": 0.0018586675869300961,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@everymatrix/mini-games-lobby",
+      "label": 0,
+      "xgb_alone": 0.867952287197113,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@astryxdesign/lab",
+      "label": 0,
+      "xgb_alone": 0.06330576539039612,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@umacloud/cli-linux-arm64",
+      "label": 0,
+      "xgb_alone": 0.0019922659266740084,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "napi-build-utils",
+      "label": 0,
+      "xgb_alone": 0.24740388989448547,
+      "db_hit": false,
+      "graph_score": 0.7729167938232422
+    },
+    {
+      "case": "@putitoutthere/piot-fixture-zzz-js-bundled",
+      "label": 0,
+      "xgb_alone": 0.02940691076219082,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@dbml/parse",
+      "label": 0,
+      "xgb_alone": 0.283618688583374,
+      "db_hit": false,
+      "graph_score": 0.368299275636673
+    },
+    {
+      "case": "@7n/mt-darwin-arm64",
+      "label": 0,
+      "xgb_alone": 0.0032155474182218313,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "date-format-parse",
+      "label": 0,
+      "xgb_alone": 0.23084616661071777,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@regixo/scanner",
+      "label": 0,
+      "xgb_alone": 0.002810860052704811,
+      "db_hit": false,
+      "graph_score": 0.004367073532193899
+    },
+    {
+      "case": "js-serialize",
+      "label": 0,
+      "xgb_alone": 0.1408035159111023,
+      "db_hit": false,
+      "graph_score": 0.21213145554065704
+    },
+    {
+      "case": "@fluentui/react-slider",
+      "label": 0,
+      "xgb_alone": 0.20894202589988708,
+      "db_hit": false,
+      "graph_score": 0.10269840806722641
+    },
+    {
+      "case": "@everymatrix/casino-engagement-suite-progress-bar",
+      "label": 0,
+      "xgb_alone": 0.505232572555542,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "welkincss",
+      "label": 0,
+      "xgb_alone": 0.001607945072464645,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@deepstrike/core-linux-x64-musl",
+      "label": 0,
+      "xgb_alone": 0.017577681690454483,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@zolbooo/dummy-postinstall",
+      "label": 0,
+      "xgb_alone": 0.20481808483600616,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@theia/ai-ide",
+      "label": 0,
+      "xgb_alone": 0.23725569248199463,
+      "db_hit": false,
+      "graph_score": 0.4907669723033905
+    },
+    {
+      "case": "@everymatrix/player-account-gaming-limits-history-2-nd",
+      "label": 0,
+      "xgb_alone": 0.8838295340538025,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@ama-mcp/github",
+      "label": 0,
+      "xgb_alone": 0.44978630542755127,
+      "db_hit": false,
+      "graph_score": 0.7475429773330688
+    },
+    {
+      "case": "@sbb-esta/lyne-react-dev",
+      "label": 0,
+      "xgb_alone": 0.07152438908815384,
+      "db_hit": false,
+      "graph_score": 0.36757993698120117
+    },
+    {
+      "case": "umap-web",
+      "label": 0,
+      "xgb_alone": 0.0025779427960515022,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@djangocfg/crypto",
+      "label": 0,
+      "xgb_alone": 0.06337157636880875,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "@xnetjs/storage",
+      "label": 0,
+      "xgb_alone": 0.13552506268024445,
+      "db_hit": false,
+      "graph_score": 0.3164744973182678
+    },
+    {
+      "case": "zerostarter",
+      "label": 0,
+      "xgb_alone": 0.06265811622142792,
+      "db_hit": false,
+      "graph_score": 0.0
+    },
+    {
+      "case": "pkg-oidc-rev-begum-seifs-cutty-horme",
+      "label": 0,
+      "xgb_alone": 0.9904845952987671,
+      "db_hit": false,
+      "graph_score": 0.0
     },
     {
       "case": "next-intl-swc-plugin-extractor",
       "label": 0,
-      "xgb_alone": 0.14034752547740936,
+      "xgb_alone": 0.21756277978420258,
       "db_hit": false,
-      "graph_score": 0.001625331467948854
+      "graph_score": 0.1274069994688034
+    },
+    {
+      "case": "one-time",
+      "label": 0,
+      "xgb_alone": 0.2873593270778656,
+      "db_hit": false,
+      "graph_score": 0.8810433149337769
+    },
+    {
+      "case": "@happyvertical/smrt-config",
+      "label": 0,
+      "xgb_alone": 0.0029787803068757057,
+      "db_hit": false,
+      "graph_score": 0.0027470053173601627
     },
     {
       "case": "proxy-addr",
       "label": 0,
-      "xgb_alone": 0.1759968250989914,
+      "xgb_alone": 0.06934450566768646,
       "db_hit": false,
-      "graph_score": 0.39471256732940674
-    },
-    {
-      "case": "date-arithmetic",
-      "label": 0,
-      "xgb_alone": 0.48857933282852173,
-      "db_hit": false,
-      "graph_score": 0.0
-    },
-    {
-      "case": "@teambit/workspace.ui.workspace-component-card",
-      "label": 0,
-      "xgb_alone": 0.8931252956390381,
-      "db_hit": false,
-      "graph_score": 7.589034822785834e-08
-    },
-    {
-      "case": "loadash",
-      "label": 0,
-      "xgb_alone": 0.7851906418800354,
-      "db_hit": false,
-      "graph_score": 0.0
+      "graph_score": 0.44456014037132263
     }
   ]
 }

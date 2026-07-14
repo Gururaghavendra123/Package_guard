@@ -1,10 +1,10 @@
 {
-  "trained_at": "2026-07-12T08:32:41.165722+00:00",
-  "n_nodes": 2760,
-  "n_edges": 2780,
-  "n_malicious": 1058,
-  "n_benign": 1702,
-  "gnn_pr_auc": 0.9471,
-  "gnn_roc_auc": 0.9578,
-  "xgb_pr_auc": 0.9478
+  "trained_at": "2026-07-14T03:59:49.010290+00:00",
+  "n_nodes": 13159,
+  "n_edges": 11737,
+  "n_malicious": 8037,
+  "n_benign": 5122,
+  "gnn_pr_auc": 0.9788,
+  "gnn_roc_auc": 0.9621,
+  "xgb_pr_auc": 0.9682
 }

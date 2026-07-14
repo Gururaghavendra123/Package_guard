@@ -1,186 +1,1796 @@
 {
   "positives": [
     {
-      "parent": "fecha",
-      "malicious_dep": "@antv/f2",
-      "parent_own_xgb": 0.205,
-      "dep_own_xgb": 0.562
+      "parent": "yargs",
+      "malicious_dep": "@antstackio/shelbysam",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.58
     },
     {
-      "parent": "css-select",
-      "malicious_dep": "@antv/g-plugin-css-select",
-      "parent_own_xgb": 0.152,
-      "dep_own_xgb": 0.613
+      "parent": "fast-deep-equal",
+      "malicious_dep": "@antv/dipper-map",
+      "parent_own_xgb": 0.083,
+      "dep_own_xgb": 0.796
     },
     {
-      "parent": "@clack/prompts",
-      "malicious_dep": "@asyncapi/cli",
-      "parent_own_xgb": 0.292,
-      "dep_own_xgb": 0.909
+      "parent": "date-fns",
+      "malicious_dep": "@antv/dw-random",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.964
     },
     {
-      "parent": "srvx",
-      "malicious_dep": "@tanstack/start-plugin-core",
-      "parent_own_xgb": 0.022,
-      "dep_own_xgb": 0.691
+      "parent": "canvas",
+      "malicious_dep": "@antv/g2-ssr",
+      "parent_own_xgb": 0.211,
+      "dep_own_xgb": 0.643
+    },
+    {
+      "parent": "once",
+      "malicious_dep": "@antv/istanbul",
+      "parent_own_xgb": 0.222,
+      "dep_own_xgb": 0.728
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@antv/mcp-server-antv",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.705
+    },
+    {
+      "parent": "rc",
+      "malicious_dep": "@antv/semantic-release-pnpm",
+      "parent_own_xgb": 0.245,
+      "dep_own_xgb": 0.762
+    },
+    {
+      "parent": "registry-auth-token",
+      "malicious_dep": "@antv/semantic-release-pnpm",
+      "parent_own_xgb": 0.29,
+      "dep_own_xgb": 0.762
+    },
+    {
+      "parent": "finalhandler",
+      "malicious_dep": "@antv/torch",
+      "parent_own_xgb": 0.149,
+      "dep_own_xgb": 0.832
+    },
+    {
+      "parent": "serve-static",
+      "malicious_dep": "@antv/torch",
+      "parent_own_xgb": 0.223,
+      "dep_own_xgb": 0.832
+    },
+    {
+      "parent": "source-map-support",
+      "malicious_dep": "@antv/torch",
+      "parent_own_xgb": 0.165,
+      "dep_own_xgb": 0.832
+    },
+    {
+      "parent": "d3-path",
+      "malicious_dep": "@antv/vendor",
+      "parent_own_xgb": 0.065,
+      "dep_own_xgb": 0.811
+    },
+    {
+      "parent": "yargs",
+      "malicious_dep": "@art-ws/web-app",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.74
+    },
+    {
+      "parent": "mime-types",
+      "malicious_dep": "@art-ws/web-app",
+      "parent_own_xgb": 0.337,
+      "dep_own_xgb": 0.74
+    },
+    {
+      "parent": "canvas",
+      "malicious_dep": "@asyncapi/edavisualiser",
+      "parent_own_xgb": 0.211,
+      "dep_own_xgb": 0.773
+    },
+    {
+      "parent": "tailwindcss",
+      "malicious_dep": "@asyncapi/edavisualiser",
+      "parent_own_xgb": 0.14,
+      "dep_own_xgb": 0.773
+    },
+    {
+      "parent": "ajv",
+      "malicious_dep": "@asyncapi/keeper",
+      "parent_own_xgb": 0.082,
+      "dep_own_xgb": 0.572
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@browserbasehq/director-ai",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.646
+    },
+    {
+      "parent": "@ai-sdk/anthropic",
+      "malicious_dep": "@browserbasehq/director-ai",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.646
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@browserbasehq/mcp",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.632
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@browserbasehq/sdk-functions",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.892
+    },
+    {
+      "parent": "yaml",
+      "malicious_dep": "@dev-blinq/cucumber_client",
+      "parent_own_xgb": 0.058,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "winston",
+      "malicious_dep": "@dev-blinq/cucumber_client",
+      "parent_own_xgb": 0.278,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "@babel/parser",
+      "malicious_dep": "@dev-blinq/cucumber_client",
+      "parent_own_xgb": 0.114,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "http-proxy-agent",
+      "malicious_dep": "@dev-blinq/cucumber_client",
+      "parent_own_xgb": 0.182,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "https-proxy-agent",
+      "malicious_dep": "@dev-blinq/cucumber_client",
+      "parent_own_xgb": 0.143,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@emilgroup/changelog-sdk-node",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.869
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@emilgroup/commission-sdk-node",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.604
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@emilgroup/document-uploader",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.751
+    },
+    {
+      "parent": "mime-types",
+      "malicious_dep": "@emilgroup/document-uploader",
+      "parent_own_xgb": 0.337,
+      "dep_own_xgb": 0.751
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@emilgroup/partner-portal-sdk-node",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.505
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@emilgroup/setting-sdk-node",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.795
+    },
+    {
+      "parent": "start-server-and-test",
+      "malicious_dep": "@ensdomains/cypress-metamask",
+      "parent_own_xgb": 0.126,
+      "dep_own_xgb": 0.715
+    },
+    {
+      "parent": "strip-json-comments",
+      "malicious_dep": "@everreal/validate-esmoduleinterop-imports",
+      "parent_own_xgb": 0.108,
+      "dep_own_xgb": 0.505
+    },
+    {
+      "parent": "@tanstack/react-query",
+      "malicious_dep": "@kvytech/medusa-plugin-announcement",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.778
+    },
+    {
+      "parent": "@tanstack/react-query",
+      "malicious_dep": "@kvytech/medusa-plugin-management",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.772
+    },
+    {
+      "parent": "@tanstack/react-query",
+      "malicious_dep": "@kvytech/medusa-plugin-newsletter",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.936
+    },
+    {
+      "parent": "@tanstack/react-query",
+      "malicious_dep": "@kvytech/medusa-plugin-product-reviews",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "ignore",
+      "malicious_dep": "@mastra/agent-builder",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.953
+    },
+    {
+      "parent": "@ai-sdk/openai",
+      "malicious_dep": "@mastra/agent-builder",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.953
+    },
+    {
+      "parent": "@ai-sdk/anthropic",
+      "malicious_dep": "@mastra/agent-builder",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.953
+    },
+    {
+      "parent": "ajv",
+      "malicious_dep": "@mastra/core",
+      "parent_own_xgb": 0.082,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "ignore",
+      "malicious_dep": "@mastra/core",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "tokenx",
+      "malicious_dep": "@mastra/core",
+      "parent_own_xgb": 0.251,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "@standard-schema/spec",
+      "malicious_dep": "@mastra/core",
+      "parent_own_xgb": 0.172,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "strip-json-comments",
+      "malicious_dep": "@mastra/deployer",
+      "parent_own_xgb": 0.108,
+      "dep_own_xgb": 0.986
+    },
+    {
+      "parent": "dockerode",
+      "malicious_dep": "@mastra/docker",
+      "parent_own_xgb": 0.088,
+      "dep_own_xgb": 0.818
+    },
+    {
+      "parent": "pg",
+      "malicious_dep": "@mastra/dsql",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.544
+    },
+    {
+      "parent": "@aws-sdk/types",
+      "malicious_dep": "@mastra/dsql",
+      "parent_own_xgb": 0.08,
+      "dep_own_xgb": 0.544
+    },
+    {
+      "parent": "pg",
+      "malicious_dep": "@mastra/engine",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@mastra/engine",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "@mastra/engine",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "drizzle-orm",
+      "malicious_dep": "@mastra/engine",
+      "parent_own_xgb": 0.112,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "@date-fns/utc",
+      "malicious_dep": "@mastra/engine",
+      "parent_own_xgb": 0.065,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "fast-deep-equal",
+      "malicious_dep": "@mastra/mcp",
+      "parent_own_xgb": 0.083,
+      "dep_own_xgb": 0.968
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@mastra/memory",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "tokenx",
+      "malicious_dep": "@mastra/memory",
+      "parent_own_xgb": 0.251,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "@mastra/next",
+      "malicious_dep": "@mastra/server",
+      "parent_own_xgb": 0.23,
+      "dep_own_xgb": 0.846
+    },
+    {
+      "parent": "sonner",
+      "malicious_dep": "@mastra/playground-ui",
+      "parent_own_xgb": 0.068,
+      "dep_own_xgb": 0.529
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "@mastra/playground-ui",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.529
+    },
+    {
+      "parent": "tailwind-merge",
+      "malicious_dep": "@mastra/react",
+      "parent_own_xgb": 0.095,
+      "dep_own_xgb": 0.907
+    },
+    {
+      "parent": "@aws-sdk/client-s3",
+      "malicious_dep": "@mastra/s3",
+      "parent_own_xgb": 0.107,
+      "dep_own_xgb": 0.885
+    },
+    {
+      "parent": "@mastra/tanstack-start",
+      "malicious_dep": "@mastra/server",
+      "parent_own_xgb": 0.089,
+      "dep_own_xgb": 0.846
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@mastra/twilio",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.968
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@mesadev/saguaro",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.585
+    },
+    {
+      "parent": "yaml",
+      "malicious_dep": "@mesadev/saguaro",
+      "parent_own_xgb": 0.058,
+      "dep_own_xgb": 0.585
+    },
+    {
+      "parent": "yargs",
+      "malicious_dep": "@mesadev/saguaro",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.585
+    },
+    {
+      "parent": "@ai-sdk/openai",
+      "malicious_dep": "@mesadev/saguaro",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.585
+    },
+    {
+      "parent": "@ai-sdk/anthropic",
+      "malicious_dep": "@mesadev/saguaro",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.585
+    },
+    {
+      "parent": "node-addon-api",
+      "malicious_dep": "@postman/final-node-keytar",
+      "parent_own_xgb": 0.377,
+      "dep_own_xgb": 0.503
+    },
+    {
+      "parent": "prebuild-install",
+      "malicious_dep": "@postman/final-node-keytar",
+      "parent_own_xgb": 0.277,
+      "dep_own_xgb": 0.503
+    },
+    {
+      "parent": "iconv-lite",
+      "malicious_dep": "@postman/postman-collection-fork",
+      "parent_own_xgb": 0.165,
+      "dep_own_xgb": 0.53
+    },
+    {
+      "parent": "mime-types",
+      "malicious_dep": "@postman/postman-collection-fork",
+      "parent_own_xgb": 0.337,
+      "dep_own_xgb": 0.53
+    },
+    {
+      "parent": "http-reasons",
+      "malicious_dep": "@postman/postman-collection-fork",
+      "parent_own_xgb": 0.495,
+      "dep_own_xgb": 0.53
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@pradhumngautam/common-app",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.997
+    },
+    {
+      "parent": "p-limit",
+      "malicious_dep": "@quick-start-soft/quick-markdown-image",
+      "parent_own_xgb": 0.119,
+      "dep_own_xgb": 0.55
+    },
+    {
+      "parent": "winston",
+      "malicious_dep": "@quick-start-soft/quick-markdown-image",
+      "parent_own_xgb": 0.278,
+      "dep_own_xgb": 0.55
+    },
+    {
+      "parent": "p-limit",
+      "malicious_dep": "@quick-start-soft/quick-markdown-translator",
+      "parent_own_xgb": 0.119,
+      "dep_own_xgb": 0.521
+    },
+    {
+      "parent": "winston",
+      "malicious_dep": "@quick-start-soft/quick-markdown-translator",
+      "parent_own_xgb": 0.278,
+      "dep_own_xgb": 0.521
+    },
+    {
+      "parent": "ajv",
+      "malicious_dep": "@redhat-cloud-services/hcc-feo-mcp",
+      "parent_own_xgb": 0.082,
+      "dep_own_xgb": 0.775
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@redhat-cloud-services/hcc-feo-mcp",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.775
+    },
+    {
+      "parent": "yaml",
+      "malicious_dep": "@redhat-cloud-services/hcc-feo-mcp",
+      "parent_own_xgb": 0.058,
+      "dep_own_xgb": 0.775
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@redhat-cloud-services/hcc-kessel-mcp",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.574
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@supersurkhet/sdk",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.775
+    },
+    {
+      "parent": "clsx",
+      "malicious_dep": "@tallyui/theme",
+      "parent_own_xgb": 0.173,
+      "dep_own_xgb": 0.735
+    },
+    {
+      "parent": "tailwind-merge",
+      "malicious_dep": "@tallyui/theme",
+      "parent_own_xgb": 0.095,
+      "dep_own_xgb": 0.735
+    },
+    {
+      "parent": "@dnd-kit/core",
+      "malicious_dep": "@teselagen/ui",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.542
+    },
+    {
+      "parent": "@dnd-kit/modifiers",
+      "malicious_dep": "@teselagen/ui",
+      "parent_own_xgb": 0.101,
+      "dep_own_xgb": 0.542
+    },
+    {
+      "parent": "@dnd-kit/sortable",
+      "malicious_dep": "@teselagen/ui",
+      "parent_own_xgb": 0.1,
+      "dep_own_xgb": 0.542
+    },
+    {
+      "parent": "qs",
+      "malicious_dep": "@teselagen/ui",
+      "parent_own_xgb": 0.092,
+      "dep_own_xgb": 0.542
+    },
+    {
+      "parent": "@dnd-kit/utilities",
+      "malicious_dep": "@teselagen/ui",
+      "parent_own_xgb": 0.101,
+      "dep_own_xgb": 0.542
     },
     {
       "parent": "date-fns",
       "malicious_dep": "@uipath/agent.sdk",
-      "parent_own_xgb": 0.141,
-      "dep_own_xgb": 0.862
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.553
     },
     {
-      "parent": "@clack/prompts",
-      "malicious_dep": "airpilot",
-      "parent_own_xgb": 0.292,
-      "dep_own_xgb": 0.795
+      "parent": "@swc/helpers",
+      "malicious_dep": "@uipath/ap-chat",
+      "parent_own_xgb": 0.087,
+      "dep_own_xgb": 0.883
+    },
+    {
+      "parent": "@dnd-kit/core",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "@dnd-kit/sortable",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.1,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "@dnd-kit/utilities",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.101,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "@mui/x-date-pickers",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.293,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "d3-zoom",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.113,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "luxon",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.053,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@uipath/apollo-react",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.679
+    },
+    {
+      "parent": "@dnd-kit/core",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "@dnd-kit/modifiers",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.101,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "@dnd-kit/sortable",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.1,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "@dnd-kit/utilities",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.101,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "@hookform/resolvers",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.228,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "@tanstack/react-table",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.181,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "class-variance-authority",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.088,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "clsx",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.173,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "next-themes",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.055,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "sonner",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.068,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "tailwind-merge",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.095,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "tailwindcss",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.14,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "vaul",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.105,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@uipath/apollo-wind",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.691
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@uipath/vss",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.785
+    },
+    {
+      "parent": "form-data",
+      "malicious_dep": "@voiceflow/openai",
+      "parent_own_xgb": 0.289,
+      "dep_own_xgb": 0.671
+    },
+    {
+      "parent": "pump",
+      "malicious_dep": "@voiceflow/pino-pretty",
+      "parent_own_xgb": 0.1,
+      "dep_own_xgb": 0.625
+    },
+    {
+      "parent": "split2",
+      "malicious_dep": "@voiceflow/pino-pretty",
+      "parent_own_xgb": 0.072,
+      "dep_own_xgb": 0.625
+    },
+    {
+      "parent": "readable-stream",
+      "malicious_dep": "@voiceflow/pino-pretty",
+      "parent_own_xgb": 0.216,
+      "dep_own_xgb": 0.625
+    },
+    {
+      "parent": "strip-json-comments",
+      "malicious_dep": "@voiceflow/pino-pretty",
+      "parent_own_xgb": 0.108,
+      "dep_own_xgb": 0.625
+    },
+    {
+      "parent": "minimist",
+      "malicious_dep": "@voiceflow/tsconfig-paths",
+      "parent_own_xgb": 0.117,
+      "dep_own_xgb": 0.504
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "@zapier/ai-actions-react",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.567
+    },
+    {
+      "parent": "@tanstack/react-query",
+      "malicious_dep": "@zapier/ai-actions-react",
+      "parent_own_xgb": 0.18,
+      "dep_own_xgb": 0.567
+    },
+    {
+      "parent": "get-stream",
+      "malicious_dep": "api",
+      "parent_own_xgb": 0.108,
+      "dep_own_xgb": 0.556
+    },
+    {
+      "parent": "json-schema-traverse",
+      "malicious_dep": "api",
+      "parent_own_xgb": 0.206,
+      "dep_own_xgb": 0.556
     },
     {
       "parent": "date-fns",
       "malicious_dep": "axios-builder",
-      "parent_own_xgb": 0.141,
-      "dep_own_xgb": 0.758
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.971
+    },
+    {
+      "parent": "pg",
+      "malicious_dep": "core",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.844
+    },
+    {
+      "parent": "yargs",
+      "malicious_dep": "create-arnext-app",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.921
+    },
+    {
+      "parent": "pg",
+      "malicious_dep": "db-evo",
+      "parent_own_xgb": 0.124,
+      "dep_own_xgb": 0.575
+    },
+    {
+      "parent": "yargs",
+      "malicious_dep": "db-evo",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.575
     },
     {
       "parent": "object-assign",
-      "malicious_dep": "core-ui",
-      "parent_own_xgb": 0.308,
-      "dep_own_xgb": 0.655
+      "malicious_dep": "grammy-key",
+      "parent_own_xgb": 0.23,
+      "dep_own_xgb": 0.723
     },
     {
-      "parent": "ms",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.276,
-      "dep_own_xgb": 0.681
+      "parent": "vary",
+      "malicious_dep": "grammy-key",
+      "parent_own_xgb": 0.502,
+      "dep_own_xgb": 0.723
     },
     {
-      "parent": "once",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.353,
-      "dep_own_xgb": 0.681
+      "parent": "jest-util",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.948,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "jest-runner",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.983,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "jest-resolve",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.952,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "jest-runtime",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.792,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "jest-haste-map",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.97,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "jest-message-util",
+      "malicious_dep": "jest-electron",
+      "parent_own_xgb": 0.952,
+      "dep_own_xgb": 0.51
+    },
+    {
+      "parent": "acorn",
+      "malicious_dep": "kns-error-code",
+      "parent_own_xgb": 0.07,
+      "dep_own_xgb": 0.978
+    },
+    {
+      "parent": "undici-types",
+      "malicious_dep": "kns-error-code",
+      "parent_own_xgb": 0.046,
+      "dep_own_xgb": 0.978
+    },
+    {
+      "parent": "@aws-sdk/client-s3",
+      "malicious_dep": "leo-auth",
+      "parent_own_xgb": 0.107,
+      "dep_own_xgb": 0.906
+    },
+    {
+      "parent": "@aws-sdk/client-dynamodb",
+      "malicious_dep": "leo-auth",
+      "parent_own_xgb": 0.119,
+      "dep_own_xgb": 0.906
+    },
+    {
+      "parent": "mongodb",
+      "malicious_dep": "leo-connector-mongo",
+      "parent_own_xgb": 0.08,
+      "dep_own_xgb": 0.949
+    },
+    {
+      "parent": "oracledb",
+      "malicious_dep": "leo-connector-oracle",
+      "parent_own_xgb": 0.119,
+      "dep_own_xgb": 0.561
+    },
+    {
+      "parent": "pump",
+      "malicious_dep": "leo-streams",
+      "parent_own_xgb": 0.1,
+      "dep_own_xgb": 0.812
+    },
+    {
+      "parent": "split2",
+      "malicious_dep": "leo-streams",
+      "parent_own_xgb": 0.072,
+      "dep_own_xgb": 0.812
+    },
+    {
+      "parent": "readable-stream",
+      "malicious_dep": "leo-streams",
+      "parent_own_xgb": 0.216,
+      "dep_own_xgb": 0.812
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/mcp",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.968
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/core",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.848
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/react",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.907
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/duckdb",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.705
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/memory",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.97
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/server",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.846
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/tavily",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.792
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/railway",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.773
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/fastembed",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.949
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/stagehand",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.779
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/agent-browser",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.805
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/playground-ui",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.529
+    },
+    {
+      "parent": "mastracode",
+      "malicious_dep": "@mastra/github-signals",
+      "parent_own_xgb": 0.31,
+      "dep_own_xgb": 0.728
+    },
+    {
+      "parent": "zod",
+      "malicious_dep": "medium-common",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.943
+    },
+    {
+      "parent": "date-fns",
+      "malicious_dep": "mobioffice-cli",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.577
+    },
+    {
+      "parent": "@planetscale/database",
+      "malicious_dep": "mobioffice-cli",
+      "parent_own_xgb": 0.483,
+      "dep_own_xgb": 0.577
+    },
+    {
+      "parent": "clsx",
+      "malicious_dep": "react-element-prompt-inspector",
+      "parent_own_xgb": 0.173,
+      "dep_own_xgb": 0.897
+    },
+    {
+      "parent": "tailwind-merge",
+      "malicious_dep": "react-element-prompt-inspector",
+      "parent_own_xgb": 0.095,
+      "dep_own_xgb": 0.897
+    },
+    {
+      "parent": "yargs",
+      "malicious_dep": "rediff",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.533
     },
     {
       "parent": "ignore",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.142,
-      "dep_own_xgb": 0.681
+      "malicious_dep": "serverless-convention",
+      "parent_own_xgb": 0.056,
+      "dep_own_xgb": 0.524
     },
     {
-      "parent": "wrappy",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.812,
-      "dep_own_xgb": 0.681
+      "parent": "find-up",
+      "malicious_dep": "serverless-convention",
+      "parent_own_xgb": 0.214,
+      "dep_own_xgb": 0.524
     },
     {
-      "parent": "mime-db",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.108,
-      "dep_own_xgb": 0.681
+      "parent": "zod",
+      "malicious_dep": "super-commit",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.893
     },
     {
-      "parent": "cli-cursor",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.398,
-      "dep_own_xgb": 0.681
+      "parent": "clsx",
+      "malicious_dep": "tcsp-draw-test",
+      "parent_own_xgb": 0.173,
+      "dep_own_xgb": 0.7
     },
     {
-      "parent": "mime-types",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.396,
-      "dep_own_xgb": 0.681
+      "parent": "tailwind-merge",
+      "malicious_dep": "tcsp-draw-test",
+      "parent_own_xgb": 0.095,
+      "dep_own_xgb": 0.7
     },
     {
-      "parent": "@tybys/wasm-util",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.351,
-      "dep_own_xgb": 0.681
+      "parent": "yargs",
+      "malicious_dep": "ts-imports",
+      "parent_own_xgb": 0.314,
+      "dep_own_xgb": 0.712
     },
     {
-      "parent": "es-define-property",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.851,
-      "dep_own_xgb": 0.681
+      "parent": "zod",
+      "malicious_dep": "tvi-cli",
+      "parent_own_xgb": 0.061,
+      "dep_own_xgb": 0.614
     },
     {
-      "parent": "escape-string-regexp",
-      "malicious_dep": "nx",
-      "parent_own_xgb": 0.388,
-      "dep_own_xgb": 0.681
+      "parent": "jsonc-parser",
+      "malicious_dep": "tvi-cli",
+      "parent_own_xgb": 0.335,
+      "dep_own_xgb": 0.614
+    },
+    {
+      "parent": "@clack/prompts",
+      "malicious_dep": "tvi-cli",
+      "parent_own_xgb": 0.299,
+      "dep_own_xgb": 0.614
+    },
+    {
+      "parent": "iconv-lite",
+      "malicious_dep": "vendor",
+      "parent_own_xgb": 0.165,
+      "dep_own_xgb": 0.795
+    },
+    {
+      "parent": "cli-table",
+      "malicious_dep": "zuper-cli",
+      "parent_own_xgb": 0.207,
+      "dep_own_xgb": 0.983
     }
   ],
   "negatives": [
     {
-      "parent": "@teambit/sidebar",
-      "own_xgb": 0.893
+      "parent": "@intentius/chant-lexicon-aws",
+      "own_xgb": 0.046
     },
     {
-      "parent": "@veryfront/ext-llm-anthropic",
-      "own_xgb": 0.0
-    },
-    {
-      "parent": "@flue/react",
-      "own_xgb": 0.008
-    },
-    {
-      "parent": "@dbeauyat/user-accounts-utils",
+      "parent": "@cs7player/react-lib",
       "own_xgb": 0.001
     },
     {
-      "parent": "@decocms/apps-shopify",
-      "own_xgb": 0.009
+      "parent": "@teambit/scope.models.scope-model",
+      "own_xgb": 0.885
     },
     {
-      "parent": "@teambit/component.testing.mock-components",
-      "own_xgb": 0.849
+      "parent": "@ampcode/cli",
+      "own_xgb": 0.855
     },
     {
-      "parent": "@mindrian_os/cli",
-      "own_xgb": 0.009
+      "parent": "@node-rs/bcrypt-win32-x64-msvc",
+      "own_xgb": 0.032
     },
     {
-      "parent": "@arity-cli/linux-arm64-musl",
+      "parent": "@antadesign/anta",
+      "own_xgb": 0.249
+    },
+    {
+      "parent": "openapi-sdkgen",
+      "own_xgb": 0.007
+    },
+    {
+      "parent": "@trading-gateway/contracts",
       "own_xgb": 0.003
     },
     {
-      "parent": "@yak-io/prismic",
-      "own_xgb": 0.001
+      "parent": "@opencrvs/toolkit",
+      "own_xgb": 0.316
     },
     {
-      "parent": "@anvia/langfuse",
-      "own_xgb": 0.02
+      "parent": "@jupiter-cloud/sdk",
+      "own_xgb": 0.002
     },
     {
-      "parent": "@nexus-state/form-builder-react",
+      "parent": "@mailwoman/annotations",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "@everymatrix/bonus-pagination-limits",
+      "own_xgb": 0.868
+    },
+    {
+      "parent": "@everymatrix/casino-tournaments-ingame-list",
+      "own_xgb": 0.97
+    },
+    {
+      "parent": "@happyvertical/smrt-app-cli",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@gdwhisper/fork-it",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@napi-rs/canvas-darwin-arm64",
+      "own_xgb": 0.052
+    },
+    {
+      "parent": "@arcgis/map-components",
+      "own_xgb": 0.214
+    },
+    {
+      "parent": "@hasna/identities",
+      "own_xgb": 0.016
+    },
+    {
+      "parent": "@arcgis/map-components-react",
+      "own_xgb": 0.335
+    },
+    {
+      "parent": "@kiwa-lab/mcp",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@featureflip/js",
+      "own_xgb": 0.169
+    },
+    {
+      "parent": "@everymatrix/casino-tournaments-filter-controller",
+      "own_xgb": 0.871
+    },
+    {
+      "parent": "@hackolade/keytar-darwin-arm64",
       "own_xgb": 0.135
     },
     {
-      "parent": "@mpgd/adapter-capacitor",
-      "own_xgb": 0.0
+      "parent": "@gpsoftware/jquery-event-calendar",
+      "own_xgb": 0.002
     },
     {
-      "parent": "@teambit/internalize",
+      "parent": "notifyme-csm-mcp",
+      "own_xgb": 0.094
+    },
+    {
+      "parent": "@rebon/cli-win32-x64",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "@sdsrs/code-graph-linux-x64",
+      "own_xgb": 0.024
+    },
+    {
+      "parent": "@bundle-stats/plugin-webpack-validate",
+      "own_xgb": 0.142
+    },
+    {
+      "parent": "ai-stream-utils",
+      "own_xgb": 0.603
+    },
+    {
+      "parent": "hytrax",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@everymatrix/player-gaming-history",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "opencode-plugin-flow",
+      "own_xgb": 0.024
+    },
+    {
+      "parent": "@everymatrix/player-profile-info",
+      "own_xgb": 0.871
+    },
+    {
+      "parent": "@middy/input-output-logger",
+      "own_xgb": 0.206
+    },
+    {
+      "parent": "@datahive/util-indexdb-caching",
+      "own_xgb": 0.473
+    },
+    {
+      "parent": "@bacnh85/pi-plan",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "postinstall-browserify",
+      "own_xgb": 0.372
+    },
+    {
+      "parent": "@vscode/test-electron",
+      "own_xgb": 0.289
+    },
+    {
+      "parent": "@o3r/eslint-plugin",
+      "own_xgb": 0.289
+    },
+    {
+      "parent": "@theia/ai-core-ui",
+      "own_xgb": 0.284
+    },
+    {
+      "parent": "@ethersproject/logger",
+      "own_xgb": 0.054
+    },
+    {
+      "parent": "@arity-cli/win32-x64",
+      "own_xgb": 0.029
+    },
+    {
+      "parent": "@threenative/ir",
+      "own_xgb": 0.235
+    },
+    {
+      "parent": "@datadog/openfeature-node-server",
+      "own_xgb": 0.204
+    },
+    {
+      "parent": "pi-subagent-bridge",
+      "own_xgb": 0.009
+    },
+    {
+      "parent": "wp-mcp-router",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@everymatrix/player-elevate-points-history",
+      "own_xgb": 0.868
+    },
+    {
+      "parent": "@oh-my-pi/pi-tui",
+      "own_xgb": 0.122
+    },
+    {
+      "parent": "@vibecuting/video-project-helper",
+      "own_xgb": 0.012
+    },
+    {
+      "parent": "@m4l-jweb/surface",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@happyvertical/smrt-vitest",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@img/sharp-libvips-linux-s390x",
+      "own_xgb": 0.062
+    },
+    {
+      "parent": "http-response-object",
+      "own_xgb": 0.2
+    },
+    {
+      "parent": "@elementor/editor-documents",
+      "own_xgb": 0.299
+    },
+    {
+      "parent": "eslint-plugin-i18next",
+      "own_xgb": 0.004
+    },
+    {
+      "parent": "@types/react-test-renderer",
+      "own_xgb": 0.004
+    },
+    {
+      "parent": "@img/sharp-libvips-darwin-arm64",
+      "own_xgb": 0.062
+    },
+    {
+      "parent": "@threenative/ui",
+      "own_xgb": 0.217
+    },
+    {
+      "parent": "@happyvertical/smrt-affiliates",
+      "own_xgb": 0.004
+    },
+    {
+      "parent": "@zeerke/ascet-copilot-ui",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@atlisp/mcp",
+      "own_xgb": 0.05
+    },
+    {
+      "parent": "webpack-merge",
+      "own_xgb": 0.026
+    },
+    {
+      "parent": "@djangocfg/typescript-config",
+      "own_xgb": 0.125
+    },
+    {
+      "parent": "winston-transport",
+      "own_xgb": 0.315
+    },
+    {
+      "parent": "pkg-ops-query-moppy-mewls-mahoe-mased",
+      "own_xgb": 0.991
+    },
+    {
+      "parent": "@xnetjs/react",
+      "own_xgb": 0.05
+    },
+    {
+      "parent": "@astryxdesign/vega",
+      "own_xgb": 0.063
+    },
+    {
+      "parent": "@eslint/object-schema",
+      "own_xgb": 0.241
+    },
+    {
+      "parent": "@br-validators/zod",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "vinta-ai-workflows",
+      "own_xgb": 0.059
+    },
+    {
+      "parent": "@pixi/canvas-graphics",
+      "own_xgb": 0.052
+    },
+    {
+      "parent": "@betalyx/facturacion-ec",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "@rudderjs/hash",
+      "own_xgb": 0.871
+    },
+    {
+      "parent": "date-format",
+      "own_xgb": 0.055
+    },
+    {
+      "parent": "@happyvertical/smrt-commerce",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "cybara",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@strangeape/ffmpeg-audio-wasm",
       "own_xgb": 0.245
     },
     {
-      "parent": "next-intl-swc-plugin-extractor",
+      "parent": "@fluentui/react-tag-picker",
+      "own_xgb": 0.237
+    },
+    {
+      "parent": "@elementor/extract-i18n-wordpress-expressions-webpack-plugin",
+      "own_xgb": 0.324
+    },
+    {
+      "parent": "@everymatrix/player-account-self-exclusion-nd",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@argusjs/hash-bcrypt",
+      "own_xgb": 0.296
+    },
+    {
+      "parent": "oci-database",
+      "own_xgb": 0.147
+    },
+    {
+      "parent": "@everymatrix/cashier-transaction-history",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@everymatrix/casino-footer-v2",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@eleboucher/pi-memini",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@arcgis/eslint-config",
+      "own_xgb": 0.203
+    },
+    {
+      "parent": "@config-plugins/react-native-pdf",
+      "own_xgb": 0.426
+    },
+    {
+      "parent": "@mpen/react-external-store",
+      "own_xgb": 0.228
+    },
+    {
+      "parent": "codex-copilot-dx",
+      "own_xgb": 0.057
+    },
+    {
+      "parent": "cjs-module-lexer",
+      "own_xgb": 0.18
+    },
+    {
+      "parent": "mapbox-gl-rain-layer",
+      "own_xgb": 0.16
+    },
+    {
+      "parent": "@ama-mcp/otter",
+      "own_xgb": 0.45
+    },
+    {
+      "parent": "fisis-mcp",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "uncrypto",
+      "own_xgb": 0.213
+    },
+    {
+      "parent": "@everymatrix/casino-game-page",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@web/test-runner-playwright",
+      "own_xgb": 0.289
+    },
+    {
+      "parent": "@actual-app/core",
+      "own_xgb": 0.707
+    },
+    {
+      "parent": "sharp-bmp",
+      "own_xgb": 0.013
+    },
+    {
+      "parent": "romdevtools",
+      "own_xgb": 0.039
+    },
+    {
+      "parent": "@luigi-project/testing-utilities",
       "own_xgb": 0.14
     },
     {
+      "parent": "@sdsrs/code-graph",
+      "own_xgb": 0.032
+    },
+    {
+      "parent": "@cluion/sigil-store-json",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@wyreup/cli",
+      "own_xgb": 0.292
+    },
+    {
+      "parent": "@billkit/core",
+      "own_xgb": 0.007
+    },
+    {
+      "parent": "opentel-mcp",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@mesadev/mesafs-napi-darwin-arm64",
+      "own_xgb": 0.219
+    },
+    {
+      "parent": "@phantomchain/core-database",
+      "own_xgb": 0.208
+    },
+    {
+      "parent": "triple-beam",
+      "own_xgb": 0.219
+    },
+    {
+      "parent": "@happyvertical/smrt-reports",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "merge-stream",
+      "own_xgb": 0.241
+    },
+    {
+      "parent": "node-opcua-local-discovery-server",
+      "own_xgb": 0.179
+    },
+    {
+      "parent": "object-inspect",
+      "own_xgb": 0.069
+    },
+    {
+      "parent": "@fluentui/react-tags",
+      "own_xgb": 0.195
+    },
+    {
+      "parent": "@mustafaj/oxlint",
+      "own_xgb": 0.143
+    },
+    {
+      "parent": "@config-plugins/react-native-webrtc",
+      "own_xgb": 0.372
+    },
+    {
+      "parent": "pause",
+      "own_xgb": 0.631
+    },
+    {
+      "parent": "@everymatrix/player-account-review-frequency",
+      "own_xgb": 0.896
+    },
+    {
+      "parent": "@ama-sdk/swagger-builder",
+      "own_xgb": 0.236
+    },
+    {
+      "parent": "@everymatrix/pam-account-balance-modal",
+      "own_xgb": 0.871
+    },
+    {
+      "parent": "@miaopan/code-windows-x64-baseline",
+      "own_xgb": 0.156
+    },
+    {
+      "parent": "@aws-sdk/credential-provider-sso",
+      "own_xgb": 0.142
+    },
+    {
+      "parent": "@teambit/dev-files",
+      "own_xgb": 0.97
+    },
+    {
+      "parent": "@aws/create-nx-workspace",
+      "own_xgb": 0.099
+    },
+    {
+      "parent": "@node-rs/bcrypt-freebsd-x64",
+      "own_xgb": 0.032
+    },
+    {
+      "parent": "@oh-my-pi/pi-natives-win32-x64",
+      "own_xgb": 0.021
+    },
+    {
+      "parent": "@talismn/crypto",
+      "own_xgb": 0.777
+    },
+    {
+      "parent": "@100xprompt/cli-linux-x64-baseline-musl",
+      "own_xgb": 0.021
+    },
+    {
+      "parent": "@everymatrix/casino-engagement-suite-jackpots-list",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@o3r/components",
+      "own_xgb": 0.272
+    },
+    {
+      "parent": "@ashley-shrok/viewmodel-shell",
+      "own_xgb": 0.043
+    },
+    {
+      "parent": "tabby-paste-image",
+      "own_xgb": 0.001
+    },
+    {
+      "parent": "@estebanivar/vqa-mcp",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@mnemonik/shared",
+      "own_xgb": 0.154
+    },
+    {
+      "parent": "@keystrokehq/keystroke",
+      "own_xgb": 0.017
+    },
+    {
+      "parent": "@miaopan/code-linux-x64-musl",
+      "own_xgb": 0.156
+    },
+    {
+      "parent": "@everymatrix/prize-engine-history",
+      "own_xgb": 0.97
+    },
+    {
+      "parent": "@o3r/pipeline",
+      "own_xgb": 0.431
+    },
+    {
+      "parent": "@strapi/plugin-documentation",
+      "own_xgb": 0.179
+    },
+    {
+      "parent": "s3proxy",
+      "own_xgb": 0.103
+    },
+    {
+      "parent": "@vue/reactivity",
+      "own_xgb": 0.067
+    },
+    {
+      "parent": "@config-plugins/react-native-adjust",
+      "own_xgb": 0.406
+    },
+    {
+      "parent": "forwarded",
+      "own_xgb": 0.313
+    },
+    {
+      "parent": "@stylistic/eslint-plugin-js",
+      "own_xgb": 0.107
+    },
+    {
+      "parent": "@veryfront/ext-parser-babel",
+      "own_xgb": 0.001
+    },
+    {
+      "parent": "@everymatrix/cashier-spinner",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@everymatrix/general-navigation-bar",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "turbine-orm",
+      "own_xgb": 0.095
+    },
+    {
+      "parent": "@teambit/multi-compiler",
+      "own_xgb": 0.952
+    },
+    {
+      "parent": "@ng-zen/cli",
+      "own_xgb": 0.127
+    },
+    {
+      "parent": "livedesk",
+      "own_xgb": 0.001
+    },
+    {
+      "parent": "@puddle/storefront",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@everymatrix/mini-games-lobby",
+      "own_xgb": 0.868
+    },
+    {
+      "parent": "@astryxdesign/lab",
+      "own_xgb": 0.063
+    },
+    {
+      "parent": "@umacloud/cli-linux-arm64",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "napi-build-utils",
+      "own_xgb": 0.247
+    },
+    {
+      "parent": "@putitoutthere/piot-fixture-zzz-js-bundled",
+      "own_xgb": 0.029
+    },
+    {
+      "parent": "@dbml/parse",
+      "own_xgb": 0.284
+    },
+    {
+      "parent": "@7n/mt-darwin-arm64",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "date-format-parse",
+      "own_xgb": 0.231
+    },
+    {
+      "parent": "@regixo/scanner",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "js-serialize",
+      "own_xgb": 0.141
+    },
+    {
+      "parent": "@fluentui/react-slider",
+      "own_xgb": 0.209
+    },
+    {
+      "parent": "@everymatrix/casino-engagement-suite-progress-bar",
+      "own_xgb": 0.505
+    },
+    {
+      "parent": "welkincss",
+      "own_xgb": 0.002
+    },
+    {
+      "parent": "@deepstrike/core-linux-x64-musl",
+      "own_xgb": 0.018
+    },
+    {
+      "parent": "@zolbooo/dummy-postinstall",
+      "own_xgb": 0.205
+    },
+    {
+      "parent": "@theia/ai-ide",
+      "own_xgb": 0.237
+    },
+    {
+      "parent": "@everymatrix/player-account-gaming-limits-history-2-nd",
+      "own_xgb": 0.884
+    },
+    {
+      "parent": "@ama-mcp/github",
+      "own_xgb": 0.45
+    },
+    {
+      "parent": "@sbb-esta/lyne-react-dev",
+      "own_xgb": 0.072
+    },
+    {
+      "parent": "umap-web",
+      "own_xgb": 0.003
+    },
+    {
+      "parent": "@djangocfg/crypto",
+      "own_xgb": 0.063
+    },
+    {
+      "parent": "@xnetjs/storage",
+      "own_xgb": 0.136
+    },
+    {
+      "parent": "zerostarter",
+      "own_xgb": 0.063
+    },
+    {
+      "parent": "pkg-oidc-rev-begum-seifs-cutty-horme",
+      "own_xgb": 0.99
+    },
+    {
+      "parent": "next-intl-swc-plugin-extractor",
+      "own_xgb": 0.218
+    },
+    {
+      "parent": "one-time",
+      "own_xgb": 0.287
+    },
+    {
+      "parent": "@happyvertical/smrt-config",
+      "own_xgb": 0.003
+    },
+    {
       "parent": "proxy-addr",
-      "own_xgb": 0.176
-    },
-    {
-      "parent": "date-arithmetic",
-      "own_xgb": 0.489
-    },
-    {
-      "parent": "@teambit/workspace.ui.workspace-component-card",
-      "own_xgb": 0.893
-    },
-    {
-      "parent": "loadash",
-      "own_xgb": 0.785
+      "own_xgb": 0.069
     }
   ],
   "suspicion_threshold": 0.5
